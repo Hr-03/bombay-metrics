@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "revive-f9123"
+  },
+  "targets": {
+    "revive-f9123": {
+      "hosting": {
+        "revive": [
+          "revive-f9123.web.app"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
