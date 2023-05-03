@@ -65,16 +65,7 @@ import hl from "../Assets/hotLeads.png";
 import drs from "../Assets/doctors.png";
 import emps from "../Assets/employees.png";
 import branches from "../Assets/branch.png";
-import { ResponsivePie } from '@nivo/pie';
-import {
-	Chart,
-	Interval,
-	Tooltip as Ttip,
-	Axis,
-	Coordinate,
-	Interaction,
-	getTheme
-} from 'bizcharts';
+
 
 
 const drawerWidth = 240;
@@ -165,40 +156,6 @@ const StyledMenu = styled((props) => (
       },
     },
   }));
-  
-
-  let data=[
-    {
-      "id": "css",
-      "label": "css",
-      "value": 527,
-      "color": "hsl(309, 70%, 50%)"
-    },
-    {
-      "id": "javascript",
-      "label": "javascript",
-      "value": 94,
-      "color": "hsl(169, 70%, 50%)"
-    },
-    {
-      "id": "hack",
-      "label": "hack",
-      "value": 33,
-      "color": "hsl(87, 70%, 50%)"
-    },
-    {
-      "id": "sass",
-      "label": "sass",
-      "value": 283,
-      "color": "hsl(45, 70%, 50%)"
-    },
-    {
-      "id": "stylus",
-      "label": "stylus",
-      "value": 233,
-      "color": "hsl(197, 70%, 50%)"
-    }
-  ]
   
 
 const Dashboard = () => {
@@ -428,23 +385,6 @@ fetch(menuUrl)
     setOpen6(!open6);
   };
 
-
-  const data2 = [
-		{ item: '事例一', count: 40, percent: 0.4 },
-		{ item: '事例二', count: 21, percent: 0.21 },
-		{ item: '事例三', count: 17, percent: 0.17 },
-		{ item: '事例四', count: 13, percent: 0.13 },
-		{ item: '事例五', count: 9, percent: 0.09 },
-	];
-
-	const cols = {
-		percent: {
-			formatter: val => {
-				val = val * 100 + '%';
-				return val;
-			},
-		},
-	};
 
 
   return (
@@ -1034,34 +974,6 @@ fetch(menuUrl)
           <Col md={4}>
            <Card>
             <p>Lead Sources</p>
-            <Chart height={400} data={data2} scale={cols} autoFit>
-			<Coordinate type="theta" radius={0.75} />
-			<Ttip showTitle={false} />
-			<Axis visible={false} />
-			<Interval
-				position="percent"
-				adjust="stack"
-				color="item"
-				style={{
-					lineWidth: 1,
-					stroke: '#fff',
-				}}
-				label={['count', {
-					content: (data) => {
-						return `${data.item}: ${data.percent * 100}%`;
-					},
-				}]}
-				state={{
-					selected: {
-						style: (t) => {
-							const res = getTheme().geometries.interval.rect.selected.style(t);
-							return { ...res, fill: 'red' }
-						}
-					}
-				}}
-			/>
-			<Interaction type='element-single-selected' />
-		</Chart>
            </Card>
           </Col>
         </Row>

@@ -836,7 +836,7 @@ fetch(menuUrl)
                         onClick={() =>
                           {
                             let enquiryId = cell.row.original.EnquiryID;
-                            sessionStorage.setItem("viewEnq", enquiryId);
+                            sessionStorage.setItem("`viewEnq`", enquiryId);
                             console.log(cell.row.original.EnquiryID);
                             navigate(`/view-enquiry/${enquiryId}`)
                           }
