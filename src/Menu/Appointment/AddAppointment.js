@@ -40,7 +40,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { AiOutlineEye} from "react-icons/ai";
 import { BsSnow} from "react-icons/bs";
 import {FaCheckCircle, FaEdit, FaEye, FaRegEdit} from "react-icons/fa";
-import {MdCall} from "react-icons/md";
+import {MdCall, MdLogout} from "react-icons/md";
 import {HiOutlineTrash,HiFire,HiUserAdd} from "react-icons/hi";
 import {SiMicrosoftexcel} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
@@ -306,6 +306,33 @@ fetch(menuUrl)
     setOpen6(!open6);
   };
 
+
+  const [branch, setBranch] = useState([]);
+  const branchUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+
+  useEffect(() => {
+    fetch(branchUrl)
+      .then((res) => res.json())
+      .then((branchRes) => {
+        console.log(branchRes.Data);
+        setBranch(branchRes.Data);
+      });
+  }, []);
+
+
+
+  const [doctors, setDoctors] = useState([]);
+
+const drsUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetUserList`;
+useEffect(()=>{
+fetch(drsUrl)
+.then((res)=>res.json())
+.then((drs)=>{
+  console.log(drs.Data); 
+  setDoctors(drs.Data);
+})
+},[])
+
     return(
         <>
           <Box sx={{ display: 'flex' }}>
@@ -370,7 +397,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -747,6 +774,8 @@ fetch(menuUrl)
         <Row>
             <Col>
             <p className="af-t">Appointment Form</p>
+            {/* <p className="note-t"><span className="req-f">Note: </span> Fields marked with * are mandatory to fill!</p> */}
+
             <hr />
 
 <Form onSubmit={handleApmtSubmit}>
@@ -757,9 +786,15 @@ fetch(menuUrl)
         <Form.Label>Branch Name</Form.Label>
         <Form.Select aria-label="Default select example" name="ClinicID" onChange={(e)=>handleChange(e)}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      {branch.map((b) => {
+                                return (
+                                  <>
+                                    <option value={b.ClinicID} key={b.ClinicID}>
+                                      {b.ClinicName}
+                                    </option>
+                                  </>
+                                );
+                              })}
     </Form.Select>
       </Form.Group>
                 </Col>
@@ -768,9 +803,16 @@ fetch(menuUrl)
         <Form.Label>Doctor Name</Form.Label>
         <Form.Select aria-label="Default select example" name="UserID" onChange={(e)=>handleChange(e)}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      {
+        doctors && doctors.map((doctors,i)=>{
+          return(
+            <>
+          <option value={doctors?.UserID} key={i}>{doctors?.Name}</option>
+            
+            </>
+          )
+        })
+      }
     </Form.Select>
       </Form.Group>
                 </Col>
@@ -828,9 +870,9 @@ fetch(menuUrl)
         <Form.Label>Gender</Form.Label>
         <Form.Select aria-label="Default select example" name="Gender" onChange={(e)=>handleChange(e)}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+     
     </Form.Select>
       </Form.Group>
                 </Col>

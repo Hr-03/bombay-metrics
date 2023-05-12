@@ -61,6 +61,7 @@ import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
+import { MdLogout } from "react-icons/md";
 
 
 const drawerWidth = 240;
@@ -373,7 +374,7 @@ const branchUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/Get
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>

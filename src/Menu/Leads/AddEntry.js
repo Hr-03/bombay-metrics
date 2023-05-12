@@ -60,6 +60,7 @@ import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
+import { MdLogout } from "react-icons/md";
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -662,7 +663,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -1082,17 +1083,11 @@ fetch(menuUrl)
             </Row>
 
             <Row>
-                <Col lg={3}>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Age</Form.Label>
-        <Form.Control type="number" placeholder="" name="Age" value={data.Age} onChange={(e) => handle(e)}/>
-       
-      </Form.Group>
-                </Col>
+               
 
                 <Col lg={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Date of birth <span className="req-f">*</span></Form.Label>
+        <Form.Label>Date of birth </Form.Label>
         <Form.Control type="date" placeholder="" name="DateOfBirth" value={data.DateOfBirth} onChange={(e) => handle(e)} required/>
        
       </Form.Group>
@@ -1103,8 +1098,8 @@ fetch(menuUrl)
         <Form.Label>Gender</Form.Label>
         <Form.Select aria-label="Default select example" name="Gender" onChange={(e) => handle(e)}>
       <option></option>
-      <option>Male</option>
-      <option>Female</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
 
     </Form.Select>
       </Form.Group>
@@ -1214,7 +1209,7 @@ fetch(menuUrl)
 
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>E-mail ID<span className="req-f">*</span></Form.Label>
+        <Form.Label>E-mail ID</Form.Label>
         <Form.Control type="email" name="Email" value={data.Email} onChange={(e) => handle(e)} required/>
       
       </Form.Group>

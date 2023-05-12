@@ -40,7 +40,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { AiOutlineEye} from "react-icons/ai";
 import { BsSnow} from "react-icons/bs";
 import {FaCheckCircle, FaEye, FaRegEdit} from "react-icons/fa";
-import {MdCall} from "react-icons/md";
+import {MdCall, MdLogout} from "react-icons/md";
 import {HiOutlineTrash,HiFire,HiUserAdd} from "react-icons/hi";
 import {SiMicrosoftexcel} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
@@ -217,7 +217,7 @@ let today=y+"-"+m+"-"+d
         //     header: "Enquiry No.",
         //   },
           {
-            accessorKey: "EnquiryDate",
+            accessorKey: "FollowUpDate",
             header: "Conversation Date",
             Cell:({cell})=>{
               let cdate=cell.getValue()
@@ -372,7 +372,17 @@ useEffect(()=>{
   .then((fupd)=>{
     console.log(fupd.Data);
     setFupDetails(fupd.Data);
+    setFup((pre)=>{
 
+      let fn=fupd.Data[0]?.Name.split(" ")[0];
+      let ln=fupd.Data[0]?.Name.split(" ")[1];
+      return{
+        ...pre,
+        FirstName:fn,
+        LastName:ln
+      }
+    })
+    
   })
 },[])
 
@@ -486,7 +496,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -879,7 +889,7 @@ fetch(menuUrl)
                         </Col>
 
                         <Col md={6}>
-                        <p style={{color:"#ffb5ca",fontWeight:"600"}}>Enquiry Date :<span className="px-2" style={{color:"white",fontWeight:"normal"}}>{fupDetails[0]?.EnquiryDate}</span></p>
+                        <p style={{color:"#ffb5ca",fontWeight:"600"}}>Enquiry Date :<span className="px-2" style={{color:"white",fontWeight:"normal"}}>{fupDetails[0]?.EnquiryDate.split(" ")[0]}</span></p>
                         <p style={{color:"#ffb5ca",fontWeight:"600"}}>Mobile Number :<span className="px-2" style={{color:"white",fontWeight:"normal"}}>{fupDetails[0]?.MobileNo}</span></p>
 
                         </Col>

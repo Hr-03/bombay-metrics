@@ -43,7 +43,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { AiOutlineEye } from "react-icons/ai";
 import { BsSnow } from "react-icons/bs";
 import { FaCheckCircle, FaEye, FaRegEdit } from "react-icons/fa";
-import { MdCall } from "react-icons/md";
+import { MdCall, MdLogout } from "react-icons/md";
 import { HiOutlineTrash, HiFire, HiUserAdd } from "react-icons/hi";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
@@ -335,7 +335,7 @@ function FollowUpEntries() {
 
   const [fupentries, setFupEntries] = useState([]);
 
-  const fentUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetFollowUpList/0/0/0/0/0/0/${User}`;
+  const fentUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetFollowUpList/0/0/0/0/0/0/0/${User}`;
 
   useEffect(() => {
     fetch(fentUrl)
@@ -457,7 +457,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -872,7 +872,7 @@ fetch(menuUrl)
 
                   renderRowActions={({ cell, row, table }) => (
                     <Box sx={{ display: "flex", gap: "1rem" }}>
-                      <Tooltip arrow placement="left" title="Edit">
+                      <Tooltip arrow placement="left" title="follow-up">
                         <IconButton
                           className="edit-btn"
                           // onClick={() => table.setEditingRow(row)}
@@ -888,10 +888,16 @@ fetch(menuUrl)
                           <MdCall />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip arrow placement="right" title="Delete">
+                      <Tooltip arrow placement="right" title="convert">
                         <IconButton
                           color="info"
-                          onClick={() => navigate("/p-cvrt")}
+                          onClick={() => {
+                            let enquiryId = cell.row.original.EnquiryID;
+                            sessionStorage.setItem("convEnqId", enquiryId);
+                            console.log(cell.row.original.EnquiryID);
+
+                            navigate(`/fup-pnt/${enquiryId}`)
+                          }}
                         >
                           <HiUserAdd />
                         </IconButton>
@@ -899,7 +905,13 @@ fetch(menuUrl)
                       <Tooltip arrow placement="left" title="View">
                         <IconButton
                           className="view-btn"
-                          onClick={() => navigate("/fup-view")}
+                          onClick={() => 
+                            {
+                              let enquiryId = cell.row.original.EnquiryID;
+                              sessionStorage.setItem("convEnqId", enquiryId);
+                              console.log(cell.row.original.EnquiryID);
+                              navigate(`/fup-view/:${enquiryId}`)}
+                            }
                         >
                           <AiOutlineEye />
                         </IconButton>

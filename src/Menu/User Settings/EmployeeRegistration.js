@@ -60,6 +60,7 @@ import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
+import { MdLogout } from "react-icons/md";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -174,34 +175,55 @@ function EmployeeRegistration(){
     };
 
 
+  const [getEmp, setGetEmp] = useState([]);
+
+  const getEmpUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetEmployeeDetails/0`;
+useEffect(()=>{
+  fetch(getEmpUrl)
+  .then((res)=>res.json())
+  .then((geteRes)=>{
+    console.log(geteRes.Data);
+    setGetEmp(geteRes.Data)
+  })
+},[])
+
 
     const columns = useMemo(
         () => [
           {
-            accessorKey: "srNo",
-            header: "Sr No.",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+            accessorKey: "UserID",
+            header: "User ID",
+            muiTableHeadCellFilterTextFieldProps: { placeholder: "User ID" },
             
           },
           {
-            accessorKey: "photo",
+            accessorKey: "ProfilePhoto",
             header: "Photo",
+            Cell:({cell})=>{
+              let imurl=cell.getValue();
+
+              return <div>{<img src={imurl?imurl:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
+            }
           },
           {
-            accessorKey: "name",
+            accessorKey: "Name",
             header: "Name",
           },
           {
-            accessorKey: "mobileNumber",
+            accessorKey: "MobileNo",
             header: "Mobile Number",
           },
           {
-            accessorKey: "emailID",
+            accessorKey: "EmailID",
             header: "Email ID",
           },
           {
-            accessorKey: "regDate",
+            accessorKey: "RegistrationDate",
             header: "Reg Date",
+            Cell:({cell})=>{
+              let date=cell.getValue();
+              return <div>{date.split(" ")[0]}</div>
+            }
           },
          
         //   {
@@ -383,7 +405,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -781,7 +803,7 @@ fetch(menuUrl)
 
             <MaterialReactTable
                   columns={columns}
-                  data={data}
+                  data={getEmp}
                   initialState={{ showColumnFilters: true }} //show filters by default
                   
                   muiTableHeadCellFilterTextFieldProps={{
@@ -828,7 +850,7 @@ fetch(menuUrl)
 
 
 
-                    <Button
+                    {/* <Button
                     // color="secondary"
                     className="dr-up-btn mx-2"
                     onClick={() => {
@@ -840,7 +862,7 @@ fetch(menuUrl)
                     variant="contained"
                     >
                     Upload Excel
-                    </Button>
+                    </Button> */}
                     </>
                   )}
                   positionActionsColumn="last"

@@ -35,6 +35,7 @@ import ViewAppointment from './Menu/Appointment/ViewAppointment';
 import TodaysFollowups from './Pages/TodaysFollowups';
 import ViewDoctorProfile from './Menu/User Settings/ViewDoctorProfile';
 import Dashboard from './Pages/Dashboard';
+import ConvertToPatient from './Menu/Leads/ConvertToPatient';
 
 function App() {
   return (
@@ -63,7 +64,7 @@ function App() {
           <Route path="/view-enquiry/:enquiryId" element={<ViewEntry/>} />
           <Route path="/fup-entries" element={<FollowUpEntries/>} />
           <Route path="/fup-details/:enquiryId" element={<FollowupDetails/>} />
-          <Route path="/fup-view" element={<ViewFollowupDetails/>} />
+          <Route path="/fup-view/:enquiryId" element={<ViewFollowupDetails/>} />
           <Route path="/p-cvrt" element={<PatientConversion/>} />
           <Route path="/patients" element={<Patients/>} />
           <Route path="/view-p" element={<ViewPatient/>} />
@@ -73,6 +74,7 @@ function App() {
           <Route path="/view-apmt" element={<ViewAppointment/>} />
           <Route path="/today-fup" element={<TodaysFollowups/>} />
           <Route path="/view-dr" element={<ViewDoctorProfile/>} />
+          <Route path="/fup-pnt/:enquiryId" element={<ConvertToPatient/>} />
 
 
           </Routes>

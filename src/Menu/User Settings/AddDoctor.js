@@ -61,6 +61,8 @@ import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { MdLogout } from "react-icons/md";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -213,19 +215,29 @@ function AddDoctor() {
   };
 
 let newuID=sessionStorage.getItem("newUserId");
+const [speciality, setSpeciality] = useState([]);
 
+const specialityUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetSpecialtyList`;
+    useEffect(()=>{
+      fetch(specialityUrl)
+      .then((res)=>res.json())
+      .then((spRes)=>{
+        console.log(spRes.Data);
+        setSpeciality(spRes.Data);
+      })
+    },[])
 
   const [profInfo, setProfInfo] = useState([])
 
-  const profInfoUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetDocProfInfo/${newuID}`;
+  const profInfoUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetDocProfInfo/${newuID?newuID:0}`;
 
 
   useEffect(()=>{
 fetch(profInfoUrl)
 .then((res)=>res.json())
 .then((pinfo)=>{
-  console.log(pinfo.Data);
-  setProfInfo(pinfo.Data);
+  console.log(pinfo?.Data);
+  setProfInfo(pinfo?.Data);
 })
   },[profInfo])
   const columns = useMemo(
@@ -250,6 +262,10 @@ fetch(profInfoUrl)
       {
         accessorKey: "DegreeProofPhoto",
         header: "Degree Proof",
+        Cell:({cell})=>{
+          let edate=cell.getValue()
+          return <img src={edate} width={150} height={150}/>
+        }
       },
 
       {
@@ -365,6 +381,12 @@ fetch(profInfoUrl)
     console.log(e);
     // setstate662(file);      to add in formdata
     setDegProof(e);
+    // setDegProof((pre)=>{
+    //   return{
+    //     ...pre,
+    //     degProof:e
+    //   }
+    // })
   };
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -564,6 +586,15 @@ fetch(profInfoUrl)
     .then((res)=>res.json())
     .then((drRes)=>{
       console.log(drRes);
+      if(drRes.status===true){
+        Swal.fire({
+          icon:"success",
+          title:"Registered successfully!",
+          timer:2000
+        })
+        navigate("/dr-reg");
+        sessionStorage.removeItem("newUserId");
+      }
     })
   }
 
@@ -841,41 +872,19 @@ fetch(profInfoUrl)
 
   }
 
+//   const [pathofProof, setPathofProof] = useState("");
+//   useEffect(()=>{
+// console.log("path of proof");
+// console.log(pathofProof);
+//   },[])
 
   const submitTab2= async (e)=>{
-    e.preventDefault();
-
-    const fd=new FormData();
-
-    if(degProof){
-
-      fd.append("stream",degProof);
-
-      await axios
-      .post(
-        "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
-        fd,
-        {
-          onUploadProgress: (ProgressEvent) => {
-            console.log(
-              "Upload Progress:" +
-                Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
-                "%"
-            );
-          },
-        }
-      ).then((res)=>{
-        console.log(res.data.data);
-        let degP=res.data.data[0]?.imageurl;
-        setAddDocTab2((pre)=>{
-          return{
-            ...pre,
-            DegreeProofPhoto:degP
-          }
-        })
-      })
+   
 
 
+
+// console.log("below is path");
+//       console.log(addDocTab2);
 
       
 
@@ -886,13 +895,18 @@ fetch(profInfoUrl)
       const Tab2Url=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddDocProfInfo`;
 
 
+      let n={
+        ...addDocTab2,
+        Specialty:addDocTab2.Specialty.toString()
+      }
+
       fetch(Tab2Url,{
         method:"POST",
           headers:{
             Accept: "application/json",
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(addDocTab2)
+          body: JSON.stringify(n)
       })
       .then((res)=>res.json())
       .then((tab2Res)=>{
@@ -908,10 +922,10 @@ fetch(profInfoUrl)
           }
         })
       })
-    }
-    else{
-      alert("please select degree proof file!")
-    }
+    // }
+    // else{
+    //   alert("please select degree proof file!")
+    // }
 
 
 
@@ -921,6 +935,15 @@ fetch(profInfoUrl)
 
 
   }
+
+
+
+
+  useEffect(()=>{
+if(window.location.pathname!="/add-dr"){
+  alert("alert");
+}
+  },[])
 
   return (
     <>
@@ -984,7 +1007,7 @@ fetch(profInfoUrl)
                 }}
                 disableRipple
               >
-                <EditIcon />
+                <MdLogout/>
                 Logout
               </MenuItem>
             </StyledMenu>
@@ -1325,6 +1348,8 @@ fetch(profInfoUrl)
             <Row>
               <Col>
                 <p className="add-dr-t">Add New Doctor</p>
+            <p className="note-t"><span className="req-f">Note: </span> Fields marked with * are mandatory to fill!</p>
+
                 <hr />
 
                 {/* <Row className="p-5">
@@ -1357,7 +1382,7 @@ fetch(profInfoUrl)
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Doctor Type</Form.Label>
+                            <Form.Label>Doctor Type <span className="req-f">*</span></Form.Label>
                             <Form.Select
                               aria-label="Default select example"
                               name="DoctorType"
@@ -1384,7 +1409,7 @@ fetch(profInfoUrl)
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Branch</Form.Label>
+                            <Form.Label>Branch <span className="req-f">*</span></Form.Label>
                             <Form.Select
                               aria-label="Default select example"
                               name="ClinicID"
@@ -1411,7 +1436,7 @@ fetch(profInfoUrl)
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>First Name</Form.Label>
+                            <Form.Label>First Name <span className="req-f">*</span></Form.Label>
                             <Form.Control
                               type="text"
                               placeholder=""
@@ -1425,7 +1450,7 @@ fetch(profInfoUrl)
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Last Name</Form.Label>
+                            <Form.Label>Last Name <span className="req-f">*</span></Form.Label>
                             <Form.Control
                               type="text"
                               placeholder=""
@@ -1439,7 +1464,7 @@ fetch(profInfoUrl)
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Mobile Number</Form.Label>
+                            <Form.Label>Mobile Number <span className="req-f">*</span></Form.Label>
                             <Form.Control
                               type="tel"
                               placeholder=""
@@ -1453,7 +1478,7 @@ fetch(profInfoUrl)
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Email ID</Form.Label>
+                            <Form.Label>Email ID <span className="req-f">*</span></Form.Label>
                             <Form.Control
                               type="email"
                               placeholder=""
@@ -1464,7 +1489,7 @@ fetch(profInfoUrl)
                         </Col>
                       </Row>
                       <Row>
-                        <Col md={3}>
+                        {/* <Col md={3}>
                           <Form.Group
                             className="mb-3"
                             controlId="formBasicEmail"
@@ -1477,7 +1502,7 @@ fetch(profInfoUrl)
                               onChange={handleChange}
                             />
                           </Form.Group>
-                        </Col>
+                        </Col> */}
                         <Col md={3}>
                           <Form.Group
                             className="mb-3"
@@ -1504,9 +1529,9 @@ fetch(profInfoUrl)
                               onChange={handleChange}
                             >
                               <option></option>
-                              <option value="1">One</option>
-                              <option value="2">Two</option>
-                              <option value="3">Three</option>
+                              <option value="Male">Male</option>
+                              <option value="Female">Female</option>
+                              
                             </Form.Select>
                           </Form.Group>
                         </Col>
@@ -1699,7 +1724,7 @@ fetch(profInfoUrl)
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Username</Form.Label>
+                            <Form.Label>Username <span className="req-f">*</span></Form.Label>
                             <Form.Control
                               type="text"
                               placeholder=""
@@ -1714,7 +1739,7 @@ fetch(profInfoUrl)
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>Password <span className="req-f">*</span></Form.Label>
                             <Form.Control
                               type="password"
                               placeholder=""
@@ -1764,26 +1789,10 @@ fetch(profInfoUrl)
                               })}
                             </Form.Select>
                           </Form.Group>
-                        </Col>
 
-                        <Col md={6}>
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formBasicEmail"
-                          >
-                            <Form.Label>University/College/Board</Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder=""
-                              name="BoardOrUniversity"
-                              onChange={handleTab2Change}
-                            />
-                          </Form.Group>
-                        </Col>
 
-                        <Col lg={4}>
                           <Row>
-                            <Col lg={8}>
+                            <Col lg={6}>
                               <Form.Group
                                 className="mb-3"
                                 controlId="formBasicEmail"
@@ -1800,7 +1809,7 @@ fetch(profInfoUrl)
                                 />
                               </Form.Group>
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={3}>
                               {previewUrl62 ? (
                                 previewUrl62 && (
                                   <img
@@ -1821,25 +1830,99 @@ fetch(profInfoUrl)
                                 />
                               )}
                             </Col>
+
+                            {
+                              degProof?
+                              <Col lg={3}>
+                              <Button className="pc-upImg mt-4" onClick={async (e)=>{
+                                 e.preventDefault();
+
+                                 const fd=new FormData();
+                             
+                            
+                             
+                                   fd.append("stream",degProof);
+                             
+                                   await axios
+                                   .post(
+                                     "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+                                     fd,
+                                     {
+                                       onUploadProgress: (ProgressEvent) => {
+                                         console.log(
+                                           "Upload Progress:" +
+                                             Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
+                                             "%"
+                                         );
+                                       },
+                                     }
+                                   ).then((res)=>{
+                                     console.log("axios upload res");
+                                     console.log(res.data.data);
+                                     let degP=res.data.data[0]?.imageurl;
+                             
+                                    //  setPathofProof(degP);
+                                     setAddDocTab2((pre)=>{
+                                       return{
+                                         ...pre,
+                                         DegreeProofPhoto:degP
+                                       }
+                                     })
+                                     
+                             
+                                     // if(res.data.status==="1"){}
+                                   })
+                              }}>Upload image</Button>
+                              </Col>:""
+                            }
+                           
                           </Row>
                         </Col>
+
+                        <Col md={6}>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="formBasicEmail"
+                          >
+                            <Form.Label>University/College/Board</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder=""
+                              name="BoardOrUniversity"
+                              onChange={handleTab2Change}
+                            />
+                          </Form.Group>
+                        </Col>
+
+                        {/* <Col lg={4}> */}
+                        
+                        {/* </Col> */}
                       </Row>
 
                       <Row>
                         <Col lg={6}>
                           <Form.Label>Specialty In?</Form.Label>
                           <Row>
-                            <Col>
+                            {
+                              speciality.map((sp,i)=>{
+                                return(
+                                  <>
+                                    <Col>
                               <Form.Check
                                 aria-label="option 1"
                                 name="Specialty"
-                                value="Skin"
-                                label="Skin"
+                                value={sp?.SpecialtyID}
+                                label={sp?.Specialty}
                                 onChange={handlecheck}
                               />
                             </Col>
+                                  </>
+                                )
+                              })
+                            }
+                          
 
-                            <Col>
+                            {/* <Col>
                               <Form.Check
                                 aria-label="option 1"
                                 name="Specialty"
@@ -1847,10 +1930,10 @@ fetch(profInfoUrl)
                                 label="Hair"
                                 onChange={handlecheck}
                               />
-                            </Col>
+                            </Col> */}
                           </Row>
 
-                          <Row>
+                          {/* <Row>
                             <Col>
                               <Form.Check
                                 aria-label="option 1"
@@ -1872,7 +1955,7 @@ fetch(profInfoUrl)
                                 onChange={handlecheck}
                               />
                             </Col>
-                          </Row>
+                          </Row> */}
                         </Col>
                       </Row>
 

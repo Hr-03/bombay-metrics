@@ -58,6 +58,7 @@ import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
 import { AiOutlineEye } from "react-icons/ai";
+import { MdLogout } from "react-icons/md";
 
 const drawerWidth = 240;
 
@@ -173,33 +174,50 @@ function DoctorRegistration(){
     };
 
 
+   
+
+const [drs, setDrs] = useState([]);
+
+const drUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetDoctorDetails/0`;
+useEffect(()=>{
+fetch(drUrl)
+.then((res)=>res.json())
+.then((getDr)=>{
+  console.log(getDr.Data);
+  setDrs(getDr.Data);
+})
+},[])
 
     const columns = useMemo(
         () => [
           {
-            accessorKey: "srNo",
-            header: "Sr No.",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+            accessorKey: "UserID",
+            header: "User ID",
+            muiTableHeadCellFilterTextFieldProps: { placeholder: "User ID" },
             
           },
           {
-            accessorKey: "Photo",
+            accessorKey: "ProfilePhoto",
             header: "Photo",
+            Cell:({cell})=>{
+              let src=cell.getValue();
+              return <div>{<img src={src?src:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
+            }
           },
           {
             accessorKey: "Name",
             header: "Name",
           },
           {
-            accessorKey: "mobileNumber",
+            accessorKey: "MobileNo",
             header: "Mobile Number",
           },
           {
-            accessorKey: "emailID",
+            accessorKey: "EmailID",
             header: "Email ID",
           },
           {
-            accessorKey: "regDate",
+            accessorKey: "RegistrationDate",
             header: "Reg Date",
           },
          
@@ -384,7 +402,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -782,7 +800,7 @@ fetch(menuUrl)
 
 <MaterialReactTable
                   columns={columns}
-                  data={data}
+                  data={drs}
                   initialState={{ showColumnFilters: true }} //show filters by default
                   
                   muiTableHeadCellFilterTextFieldProps={{
@@ -792,7 +810,7 @@ fetch(menuUrl)
                   enableEditing
                   // onEditingRowSave={handleSaveRowEdits}
                   // onEditingRowCancel={handleCancelRowEdits}
-                  renderRowActions={({ row, table }) => (
+                  renderRowActions={({cell, row, table }) => (
                     <Box sx={{ display: "flex", gap: "1rem" }}>
                       <Tooltip arrow placement="left" title="Edit">
                         <IconButton 
@@ -811,7 +829,7 @@ fetch(menuUrl)
                             let doctorId = cell.row.original.EnquiryID;
                             sessionStorage.setItem("viewDoc", doctorId);
                             console.log(cell.row.original.EnquiryID);
-                            navigate(`/view-dr/${doctorId}`)
+                            // navigate(`/view-dr/${doctorId}`)
                           }
                           }>
                           <AiOutlineEye/>
@@ -844,7 +862,7 @@ fetch(menuUrl)
                      Add New Doctor
                     </Button>
 
-                    <Button
+                    {/* <Button
                     // color="secondary"
                     className="dr-up-btn mx-2"
                     onClick={() => {
@@ -856,7 +874,7 @@ fetch(menuUrl)
                     variant="contained"
                     >
                     Upload Excel
-                    </Button>
+                    </Button> */}
                     </>
                     
                   )}

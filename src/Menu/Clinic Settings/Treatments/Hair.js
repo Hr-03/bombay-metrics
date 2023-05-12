@@ -59,6 +59,7 @@ import report from "../../../Assets/reports.png";
 import calendar from "../../../Assets/calendar.png";
 import Swal from "sweetalert2";
 import { getTTFB } from "web-vitals";
+import { MdLogout } from "react-icons/md";
 
 const drawerWidth = 240;
 
@@ -188,6 +189,7 @@ fetch(getHtUrl)
 .then((getHtRes)=>{
   console.log(getHtRes.Data);
   setGetHt(getHtRes.Data);
+  // console.log(getHt.length);
 })
     },[])
 
@@ -388,7 +390,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>

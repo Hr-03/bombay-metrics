@@ -21,7 +21,6 @@
     "fullcalendar": "^6.1.5",
     "jquery": "^3.6.3",
     "material-react-table": "^1.7.4",
-    "nivo": "^0.31.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",

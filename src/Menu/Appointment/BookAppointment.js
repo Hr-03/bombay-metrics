@@ -40,7 +40,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { AiOutlineEye} from "react-icons/ai";
 import { BsSnow} from "react-icons/bs";
 import {FaCheckCircle, FaEdit, FaEye, FaRegEdit} from "react-icons/fa";
-import {MdCall} from "react-icons/md";
+import {MdCall, MdLogout} from "react-icons/md";
 import {HiOutlineTrash,HiFire,HiUserAdd} from "react-icons/hi";
 import {SiMicrosoftexcel} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
@@ -228,12 +228,16 @@ pnt();
 
     const columns = useMemo(
         () => [
-          {
-            accessorKey: "srNo",
-            header: "Sr No.",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+          // {
+          //   accessorKey: "srNo",
+          //   header: "Sr No.",
+          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+          //   Cell:({cell})=>{
+          //     cell=0;
+          //     return <div>{ce}</div>
+          //   }
             
-          },
+          // },
         //   {
         //     accessorKey: "enquiry",
         //     header: "Enquiry No.",
@@ -243,7 +247,7 @@ pnt();
             header: "Enquiry ID",
           },
           {
-            accessorKey: "name",
+            accessorKey: "Name",
             header: "Name",
           },
           {
@@ -251,8 +255,12 @@ pnt();
             header: "Mobile Number",
           },
           {
-            accessorKey: "AppointmentDateTime",
+            accessorKey: "Date",
             header: "Date",
+            Cell:({cell})=>{
+              let aDate=cell.getValue();
+              return <div>{aDate.split(" ")[0]}</div>
+            }
           },
         //   {
         //     accessorKey: "action",
@@ -402,7 +410,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -781,6 +789,7 @@ fetch(menuUrl)
         <Row>
             <Col>
             <p className="ap-t">Book Appointment</p>
+            
             <hr />
 
            

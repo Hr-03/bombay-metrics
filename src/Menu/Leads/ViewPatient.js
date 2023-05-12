@@ -40,7 +40,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { AiOutlineEye} from "react-icons/ai";
 import { BsSnow} from "react-icons/bs";
 import {FaCheckCircle, FaEdit, FaEye, FaRegEdit} from "react-icons/fa";
-import {MdCall} from "react-icons/md";
+import {MdCall, MdLogout} from "react-icons/md";
 import {HiOutlineTrash,HiFire,HiUserAdd} from "react-icons/hi";
 import {SiMicrosoftexcel} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
@@ -338,7 +338,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>

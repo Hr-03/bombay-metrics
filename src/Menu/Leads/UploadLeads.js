@@ -40,7 +40,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { AiOutlineEye} from "react-icons/ai";
 import { BsSnow} from "react-icons/bs";
 import {FaCheckCircle, FaEdit, FaEye, FaRegEdit} from "react-icons/fa";
-import {MdCall} from "react-icons/md";
+import {MdCall, MdLogout} from "react-icons/md";
 import {HiOutlineTrash,HiFire,HiUserAdd} from "react-icons/hi";
 import {SiMicrosoftexcel} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
@@ -63,6 +63,9 @@ import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
 import * as xlsx from "xlsx";
 import Swal from "sweetalert2";
+import ExampleDoc from "../../Assets/leadFormat.xlsx";
+import {HiDownload} from "react-icons/hi";
+
 
 const drawerWidth = 240;
 
@@ -295,6 +298,18 @@ fetch(menuUrl)
   const columns=useMemo(
     () => [
       {
+        accessorKey: "EnquiryID",
+        header: "Enquiry ID",
+      },
+      {
+        accessorKey: "EnquiryDate",
+        header: "Enquiry Date",
+      },
+      {
+        accessorKey: "IsOrganic",
+        header: "Is Organic",
+      },
+      {
         accessorKey: "ad_id",
         header: "Ad id",
       },
@@ -322,6 +337,59 @@ fetch(menuUrl)
         accessorKey: "form_id",
         header: "Form id",
       },
+      {
+        accessorKey: "form_name",
+        header: "form name",
+      },
+      {
+        accessorKey: "platform",
+        header: "platform",
+      },
+      {
+        accessorKey: "FirstName",
+        header: "FirstName",
+      },
+      {
+        accessorKey: "LastName",
+        header: "LastName",
+      },
+      {
+        accessorKey: "Email_id",
+        header: "Email",
+      },
+      {
+        accessorKey: "Mobile",
+        header: "Mobile",
+      },
+      {
+        accessorKey: "Region",
+        header: "Region",
+      },
+      {
+        accessorKey: "City",
+        header: "City",
+      },
+      {
+        accessorKey: "Clinic",
+        header: "Clinic",
+      },
+      {
+        accessorKey: "Status",
+        header: "Status",
+      },
+      {
+        accessorKey: "post_code",
+        header: "post_code",
+      },
+      {
+        accessorKey: "retailer_item_id",
+        header: "retailer item_id",
+      },
+      {
+        accessorKey: "Comment",
+        header: "Comment",
+      },
+      
       
     ])
 
@@ -390,7 +458,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -827,16 +895,31 @@ let data=JSON.parse(getxl);
                       Swal.fire({
                         icon:"success",
                         title:"Excel uploaded successfully!",
+                        timer:2000,
+                        showConfirmButton: false
 
                       })
 
-                      inputid.reset();
+                      alert(result?.Message);
+
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 2000);
+
+                     
                     }
                   })
                 }}>Click to upload!</Button>
                 </Col>
               )
             }
+
+            <Col>
+            <a href={ExampleDoc} download="Excel Format" target='_blank'>
+   <Button className="xlFormat"><HiDownload fontSize={22} className="me-2" style={{float:"right"}}/>Excel Format</Button>
+</a>
+
+            </Col>
 
            
            </Row>
@@ -927,14 +1010,14 @@ let data=JSON.parse(getxl);
 
            
 
-           <Row className="mt-5">
+           {/* <Row className="mt-5">
                         <Col>
                         <Button variant="" className="add-dr-back">Back</Button>
                         </Col>
                         <Col>
                         <Button variant="" className="add-dr-btn">Submit</Button>
                         </Col>
-                      </Row>
+                      </Row> */}
 
 
 

@@ -57,6 +57,8 @@ import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
+import { MdLogout } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const drawerWidth = 240;
 
@@ -174,21 +176,91 @@ const navigate=useNavigate();
     };
 
 
+    const [addrole, setAddRole] = useState({
+
+     Roles:"",
+      
+     Status:"",
+      
+     CreatedBy:"1",
+      
+     IPAddress:"1"
+      
+      })
+
+
+
+      const handleChange=(e)=>{
+        const newdata={...addrole};
+        newdata[e.target.name]=e.target.value;
+        setAddRole(newdata);
+        console.log(newdata);
+    }
+
+
+
+    const handleSubmitRole=(e)=>{
+      e.preventDefault();
+
+      const roleUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewRoles`;
+
+
+      fetch(roleUrl,{
+        method:"POST",
+          headers:{
+            Accept: "application/json",
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(addrole)
+      })
+      .then((res)=>res.json())
+      .then((rRes)=>{
+        console.log(rRes);
+        if(rRes.Status===true){
+          Swal.fire({
+            icon:"success",
+            title:"Added Successfully!",
+            timer:2000,
+            showConfirmButton:false
+          })
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }
+      })
+    }
+
+    
+
+    const [viewRole, setViewRole] = useState([]);
+
+const getRoleUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetViewRoleList/0/0`;
+    useEffect(()=>{
+fetch(getRoleUrl)
+.then((res)=>res.json())
+.then((roleRes)=>{
+  console.log(roleRes.Data);
+  setViewRole(roleRes.Data);
+})
+    },[])
+
+
 
     const columns = useMemo(
         () => [
           {
-            accessorKey: "srNo",
+            accessorKey: "RoleID",
             header: "Sr No.",
             muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
             
           },
           {
-            accessorKey: "roleName",
+            accessorKey: "Roles",
             header: "Role Name",
           },
           {
-            accessorKey: "status",
+            accessorKey: "Status",
             header: "Status",
           },
         //   {
@@ -243,7 +315,19 @@ const navigate=useNavigate();
           {
             srNo: 2,
             roleName: "Owner",
-            status:"Inactive"
+            status:"Active"
+            
+          },
+          {
+            srNo: 3,
+            roleName: "Doctor",
+            status:"Active"
+            
+          },
+          {
+            srNo: 4,
+            roleName: "Patient",
+            status:"Active"
             
           },
          
@@ -370,7 +454,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -768,7 +852,7 @@ fetch(menuUrl)
 
             <MaterialReactTable
                   columns={columns}
-                  data={data}
+                  data={viewRole}
                   initialState={{ showColumnFilters: true }} //show filters by default
                   
                   muiTableHeadCellFilterTextFieldProps={{
@@ -825,16 +909,16 @@ fetch(menuUrl)
         <Form>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Role Name</Form.Label>
-        <Form.Control type="text" placeholder="" />
+        <Form.Control type="text" placeholder="" name="Roles" onChange={handleChange}/>
         
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Status</Form.Label>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" name="Status" onChange={handleChange}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+  
     </Form.Select>
         
       </Form.Group>
@@ -844,7 +928,7 @@ fetch(menuUrl)
           <Button variant="" onClick={handleCloseAddRole} className="back-btn me-5">
           Cancel
           </Button>
-          <Button variant="" onClick={handleCloseAddRole} className="sub-role">
+          <Button variant="" onClick={handleSubmitRole} className="sub-role">
             Submit
           </Button>
         </Modal.Footer>

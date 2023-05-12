@@ -57,6 +57,9 @@ import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
+import { MdLogout } from "react-icons/md";
+import { BsCheck, BsCheckCircle } from "react-icons/bs";
+import { RxCrossCircled } from "react-icons/rx";
 
 const drawerWidth = 240;
 
@@ -174,47 +177,81 @@ function AccessPermission(){
     };
 
 
+    const [aPList, setAPList] = useState([]);
+
+
+    const getApUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetAccessPermissionList`;
+
+    useEffect(()=>{
+      fetch(getApUrl)
+      .then((res)=>res.json())
+      .then((apRes)=>{
+        console.log(apRes.Data);
+        setAPList(apRes.Data);
+      })
+    },[])
+
 
     const columns = useMemo(
         () => [
-          {
-            accessorKey: "srNo",
-            header: "Sr No.",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+          // {
+          //   accessorKey: "srNo",
+          //   header: "Sr No.",
+          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
             
-          },
+          // },
           {
-            accessorKey: "role",
+            accessorKey: "Roles",
             header: "Role",
           },
           {
-            accessorKey: "menu",
+            accessorKey: "MenuName",
             header: "Menu",
           },
           {
-            accessorKey: "add",
+            accessorKey: "Adds",
             header: "Add",
+            Cell:({cell})=>{
+              let a=cell.getValue();
+              return(
+              a==="True"?<BsCheckCircle fontSize={30} color="#00df00"/>:<RxCrossCircled fontSize={35} color="red"/>
+            )          }
           },
           {
-            accessorKey: "edit",
+            accessorKey: "Edits",
             header: "Edit",
+            Cell:({cell})=>{
+              let a=cell.getValue();
+              return(
+              a==="True"?<BsCheckCircle fontSize={30} color="#00df00"/>:<RxCrossCircled fontSize={35} color="red"/>
+            )          }
           },
           {
-            accessorKey: "delete",
+            accessorKey: "Deletes",
             header: "Delete",
+            Cell:({cell})=>{
+              let a=cell.getValue();
+              return(
+              a==="True"?<BsCheckCircle fontSize={30} color="#00df00"/>:<RxCrossCircled fontSize={35} color="red"/>
+            )          }
           },
           {
-            accessorKey: "view",
+            accessorKey: "Views",
             header: "view",
+            Cell:({cell})=>{
+              let a=cell.getValue();
+              return(
+              a==="True"?<BsCheckCircle fontSize={30} color="#00df00"/>:<RxCrossCircled fontSize={35} color="red"/>
+            )          }
           },
           {
-            accessorKey: "download",
+            accessorKey: "Download",
             header: "Download",
             Cell:({cell})=>{
-                let a=cell.getValue();
-                return(
-                a==="unChecked"?<img src="https://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
-              )          }
+              let a=cell.getValue();
+              return(
+              a==="True"?<BsCheckCircle fontSize={30} color="#00df00"/>:<RxCrossCircled fontSize={35} color="red"/>
+            )          }
           },
         //   {
         //     accessorKey: "address",
@@ -399,7 +436,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -797,7 +834,7 @@ fetch(menuUrl)
 
             <MaterialReactTable
                   columns={columns}
-                  data={data}
+                  data={aPList}
                   initialState={{ showColumnFilters: true }} //show filters by default
                   
                   muiTableHeadCellFilterTextFieldProps={{

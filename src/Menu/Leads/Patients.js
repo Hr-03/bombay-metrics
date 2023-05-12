@@ -40,7 +40,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { AiOutlineEye} from "react-icons/ai";
 import { BsSnow} from "react-icons/bs";
 import {FaCheckCircle, FaEdit, FaEye, FaRegEdit} from "react-icons/fa";
-import {MdCall} from "react-icons/md";
+import {MdCall, MdLogout} from "react-icons/md";
 import {HiOutlineTrash,HiFire,HiUserAdd} from "react-icons/hi";
 import {SiMicrosoftexcel} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
@@ -176,43 +176,57 @@ function Patients(){
     };
 
 
+    const [patients, setPatients] = useState([]);
+
+    const pUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetPatientList`;
+    
+    useEffect(()=>{
+       fetch(pUrl)
+       .then((res)=>res.json())
+       .then((pnt)=>{
+        console.log(pnt?.Data);
+        setPatients(pnt?.Data);
+
+       })
+    },[])
+
 
     const columns = useMemo(
         () => [
-          {
-            accessorKey: "srNo",
-            header: "Sr No.",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+          // {
+          //   accessorKey: "#",
+          //   header: "Sr No.",
+          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
             
-          },
+          // },
         //   {
         //     accessorKey: "enquiry",
         //     header: "Enquiry No.",
         //   },
           {
-            accessorKey: "patientNo.",
-            header: "Patient No.",
+            accessorKey: "`PatientID`",
+            header: "Patient ID",
           },
          
           {
-            accessorKey: "formNo.",
+            accessorKey: "FormNo",
             header: "Form No.",
           },
           {
-            accessorKey: "name",
+            accessorKey: "Name",
             header: "Name",
           },
           {
-            accessorKey: "mobileNumber",
+            accessorKey: "Mobile",
             header: "Mobile Number",
           },
           {
-            accessorKey: "regDate",
+            accessorKey: "RegistrationDate",
             header: "Reg Date",
            
           },
           {
-            accessorKey: "clinic",
+            accessorKey: "ClinicName",
             header: "Clinic",
            
           },
@@ -364,7 +378,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -762,7 +776,7 @@ fetch(menuUrl)
 
             <MaterialReactTable
                   columns={columns}
-                  data={data}
+                  data={patients}
                   
                   initialState={{ showColumnFilters: true }} //show filters by default
                   
@@ -771,6 +785,8 @@ fetch(menuUrl)
                     variant: "outlined",
                     
                   }}
+                  enableRowNumbers="original"
+
                   enableEditing
                   // onEditingRowSave={handleSaveRowEdits}
                   // onEditingRowCancel={handleCancelRowEdits}
@@ -816,7 +832,7 @@ fetch(menuUrl)
                       onClick={() => {
                         // setCreateModalOpen(true);
                         // handleShowAddRole();
-                        navigate("/add-entry")
+                        navigate("/p-cvrt")
                       
                       }}
                       variant="contained"
@@ -827,7 +843,7 @@ fetch(menuUrl)
 
 
 
-<Button
+{/* <Button
                       // color="secondary"
                       className="up-btn mx-2"
                       onClick={() => {
@@ -839,7 +855,7 @@ fetch(menuUrl)
                       variant="contained"
                     >
                      Upload Excel <SiMicrosoftexcel color="#33c481" className="mx-2 mx-lg-2 exl" fontSize={20}/>
-                    </Button>
+                    </Button> */}
                     </>
                   )}
                   positionActionsColumn="last"

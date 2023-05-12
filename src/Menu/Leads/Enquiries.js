@@ -58,6 +58,7 @@ import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
+import { MdLogout } from "react-icons/md";
 
 const drawerWidth = 240;
 
@@ -184,6 +185,7 @@ const enquiryUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/Ge
       .then((enqs)=>{
         console.log(enqs.Data);
         setEnquiryList(enqs.Data);
+        console.log(enquiryList.length);
       })
     },[])
 
@@ -411,7 +413,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>

@@ -65,6 +65,7 @@ import hl from "../Assets/hotLeads.png";
 import drs from "../Assets/doctors.png";
 import emps from "../Assets/employees.png";
 import branches from "../Assets/branch.png";
+import { MdLogout } from 'react-icons/md';
 
 
 
@@ -451,7 +452,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -894,8 +895,8 @@ fetch(menuUrl)
         </Row>
 
 
-        <Row>
-          <Col md={8}>
+        <Row className="mt-4">
+          <Col md={7}>
           <Row>
             <Col md={4}>
             <Card className="p-3 me-0 me-md-5">
@@ -903,13 +904,13 @@ fetch(menuUrl)
                 <Col>
 
                   <Row>
-                    <Col md={3}>
+                    <Col md={4}>
                     
                 <Card>
                   <img src={drs} alt="" srcset="" width={50} height={50} className="m-auto mt-2 mb-2"/>
                 </Card>
                     </Col>
-                    <Col md={9}>
+                    <Col md={8}>
                     <p>20</p>
                     </Col>
                   </Row>
@@ -927,13 +928,13 @@ fetch(menuUrl)
                 <Col>
 
                   <Row>
-                    <Col md={3}>
+                    <Col md={4}>
                     
                 <Card>
                   <img src={drs} alt="" srcset="" width={50} height={50} className="m-auto mt-2 mb-2"/>
                 </Card>
                     </Col>
-                    <Col md={9}>
+                    <Col md={8}>
                     <p>20</p>
                     </Col>
                   </Row>
@@ -951,13 +952,13 @@ fetch(menuUrl)
                 <Col>
 
                   <Row>
-                    <Col md={3}>
+                    <Col md={4}>
                     
                 <Card>
                   <img src={drs} alt="" srcset="" width={50} height={50} className="m-auto mt-2 mb-2"/>
                 </Card>
                     </Col>
-                    <Col md={9}>
+                    <Col md={8}>
                     <p>20</p>
                     </Col>
                   </Row>
@@ -971,9 +972,10 @@ fetch(menuUrl)
             </Col>
           </Row>
           </Col>
-          <Col md={4}>
+          <Col md={5}>
            <Card>
             <p>Lead Sources</p>
+            
            </Card>
           </Col>
         </Row>

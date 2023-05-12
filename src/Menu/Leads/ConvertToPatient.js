@@ -1,5 +1,5 @@
-import React,{useState,useEffect} from "react";
-import "../../Styles/Menu/Leads/PatientConversion.css";
+import React,{useState,useEffect} from 'react';
+import "../../Styles/Menu/Leads/ConvertToPatient.css";
 import { styled, useTheme,alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -153,451 +153,553 @@ const StyledMenu = styled((props) => (
     },
   }));
 
-function PatientConversion(){
 
-  const [data, setData] = useState({
-    FormNo:"",
-    FirstName:"",
-    LastName:"",
-    Occupation:"",
-    EnquiryDate:"",
-    DateOfBirth:"",
-    Gender:"",
-    Address1:"",
-    Address2:"",
-    CityID:"",
-    StatesID:"",
-    CountryID:"",
-    Pincode:"0",
-    TelephoneNo:"",
-    MobileNo:"",
-    Email:"",
-    ClinicID:"",
-    EnquirySourceID:"",
+const ConvertToPatient = () => {
+
+    const [data, setData] = useState({
+        FormNo:"",
+        FirstName:"",
+        LastName:"",
+        Occupation:"",
+        EnquiryDate:"",
+        DateOfBirth:"",
+        Gender:"",
+        Address1:"",
+        Address2:"",
+        CityID:"",
+        StatesID:"",
+        CountryID:"",
+        Pincode:"0",
+        TelephoneNo:"",
+        MobileNo:"",
+        Email:"",
+        ClinicID:"",
+        EnquirySourceID:"",
+        
+        PatientPhoto:"",
+       
+        FamilyDoctorName:"",
+        DrAddress:"",
+        DrTelephoneNo:"",
+        SufferingFrom:[],
+        OngoingMedicine:"",
+        Menses:"",
+        IsPregnant:"",
+        Delivery:"",
+        HairIssue:[],
+        Since:"",
+        PreviousTreatment:"",
+        TreatmentExplanation:"",
+        objDiet:[],
+        WaterIntake:"",
+        SleepDuration:"",
+        Stress:"",
+        Profession:"",
+        Designation:"",
+        OfficeHours:"",
+        ReasonOfWeightloss:"",
+        MaritalStatus:"",
+        Actions:"null",
+        CreatedBy:"1",
+        IPAddress:"0"
+        
+      })
     
-    PatientPhoto:"",
-   
-    FamilyDoctorName:"",
-    DrAddress:"",
-    DrTelephoneNo:"",
-    SufferingFrom:[],
-    OngoingMedicine:"",
-    Menses:"",
-    IsPregnant:"",
-    Delivery:"",
-    HairIssue:"",
-    Since:"",
-    PreviousTreatment:"",
-    TreatmentExplanation:"",
-    objDiet:[],
-    WaterIntake:"",
-    SleepDuration:"",
-    Stress:"",
-    Profession:"",
-    Designation:"",
-    OfficeHours:"",
-    ReasonOfWeightloss:"",
-    MaritalStatus:"",
-    Actions:"null",
-    CreatedBy:"1",
-    IPAddress:"0"
-    
-  })
-
-  
-    const navigate=useNavigate();
-    const [createModalOpen, setCreateModalOpen] = useState(false);
-
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-  
-    const handleDrawerOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleDrawerClose = () => {
-      setOpen(false);
-    };
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const op = Boolean(anchorEl);
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
+      
 
 
-  const [currentTab, setCurrentTab] = useState(0);
+      let Role=sessionStorage.getItem("RoleId");
+
+      let User=Role==="1"?0:sessionStorage.getItem("UserId");
+
+      let enqId=sessionStorage.getItem("convEnqId");
 
 
+      const [fupentries, setFupEntries] = useState([]);
 
-
-
-
-
-  const [inputList, setInputList] = useState([{ Meal: "", DietDetails: "" }]);
-
-
-
-  // handle input change
-  const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...inputList];
-
-
-    list[index][name] = value;
-    setInputList(list);
-    console.log(inputList);
-    setData((pre)=>{
-      return{
-        ...pre,
-        objDiet:inputList
-      }
-    })
-
-//     inputList.map((meal,i)=>{
-//       let a=[];
-
-//       a.push(meal.firstName);
-
-// console.log(a);
-//     }) 
-
-    // console.log();
-  };
-
-
-
-  // handle click event of the Remove button
-  const handleRemoveClick = index => {
-    const list = [...inputList];
-    list.splice(index, 1);
-    setInputList(list);
-  };
-
-  // handle click event of the Add button
-  const handleAddClick = () => {
-    setInputList([...inputList, { Meal: "", DietDetails: "" }]);
-  };
-
-const [profile, setProfile] = useState(null);
-
-  const handleProfile = (file) => {
-   
-    console.log(file);
-    setProfile(file);
-  };
-
-
-
-  const submitProfile= async (e)=>{
-    e.preventDefault();
-
-    const fd = new FormData();
-
-    fd.append("stream", profile);
-
-    await axios
-      .post(
-        "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
-        fd,
-        {
-          onUploadProgress: (ProgressEvent) => {
-            console.log(
-              "Upload Progress:" +
-                Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
-                "%"
-            );
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        let imgPath = res.data.data[0].imageurl;
-        setData((pre) => {
-          return { ...pre, PatientPhoto: imgPath };
-        });
-
-        console.log(data);
-      });
-  }
-
-
-
-  const [menuList, setMenuList] = useState([]);
-
-
-    const menuUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetMenuAccess/1`;
-  useEffect(()=>{
-fetch(menuUrl)
-.then((res)=>res.json())
-.then((list)=>{
-  console.log(list.Data);
-  setMenuList(list.Data);
-})
-  },[])
-
-
-  const handlecheck = (e) => {
-    const { value, checked } = e.target;
-
-    // Case 1 : The user checks the box
-    if (checked) {
-      setData((pre) => {
-        return {
-          ...pre,
-          SufferingFrom: [...pre.SufferingFrom, value],
-        };
-      });
-    }
-
-    // Case 2 : The user unchecks the box
-    else {
-      setData((pre) => {
-        return {
-          ...pre,
-          SufferingFrom: pre.SufferingFrom.filter((e) => e !== value),
-        };
-      });
-    }
-
-    console.log(data);
-  };
-
-
-  const [checked, setChecked] = useState({
-    isSelCCountry: false,
-    isSelPCountry: false,
-    isSelCState: false,
-    isSelPState: false,
-    isSelCCity: false,
-    isSelPCity: false,
-  });
-
-  const [countries, setCountries] = useState({
-    currentCountries: [],
-  });
-  const [states, setStates] = useState({
-    currentStates: [],
-  });
-  const [cities, setCities] = useState({
-    currentCities: [],
-  });
-
-
-  const getStates = async (countryId, cORp) => {
-    let url = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
-    let state = await (await fetch(url)).json();
-    console.log(state.Data);
-    if (cORp === "current") {
-      setStates({
-        ...states,
-        currentStates: state.Data,
-      });
-    }
-  };
-  
-  const getCities = async (stateId, cORp) => {
-    let url = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
-    let city = await (await fetch(url)).json();
-    console.log(city.Data);
-    if (cORp === "current") {
-      setCities({
-        ...cities,
-        currentCities: city.Data,
-      });
-    }
-  };
-  
-  const getCountries = async () => {
-    let url = "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetCountryList";
-    let country = await (await fetch(url)).json();
-    console.log(country.Data.slice(0, 2));
-    setCountries({
-      ...countries,
-      currentCountries: country.Data,
-      // permCountries: country.Data.slice(0, 2),
-    });
-  }
-  //   $(function(){
-  //     var dtToday = new Date();
-   
-  //     var month = dtToday.getMonth() + 1;
-  //     var day = dtToday.getDate();
-  //     var year = dtToday.getFullYear();
-  //     if(month < 10)
-  //         month = '0' + month.toString();
-  //     if(day < 10)
-  //      day = '0' + day.toString();
-  //     var maxDate = year + '-' + month + '-' + day;
-  //     $('#inputdate').attr('min', maxDate);
-  // });
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  useEffect(()=>{
-  getCountries();
-  },[])
-
-
-  const [branch, setBranch] = useState([]);
-  const branchUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+  const fentUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetFollowUpList/0/0/0/0/0/0/${User}`;
 
   useEffect(() => {
-    fetch(branchUrl)
+    fetch(fentUrl)
       .then((res) => res.json())
-      .then((branchRes) => {
-        console.log(branchRes.Data);
-        setBranch(branchRes.Data);
+      .then((entry) => {
+        console.log(entry.Data);
+        setFupEntries(entry.Data);
+       
       });
   }, []);
 
 
 
-  const [enqSource, setEnqSource] = useState([]);
 
-const enqSourceUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
-useEffect(()=>{
-fetch(enqSourceUrl)
-.then((res)=>res.json())
-.then((enqS)=>{
-  console.log(enqS.Data);
-  setEnqSource(enqS.Data);
-})
-},[])
+  const [getenqDet, setGetEnqDet] = useState([]);
 
+  const getDetUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetLeadsToPatientDetails/${enqId}`;
 
-  const handleChange=(e)=>{
-    const newdata={...data};
-    newdata[e.target.name]=e.target.value;
-    setData(newdata);
-    console.log(newdata);
+  useEffect(()=>{
+    fetch(getDetUrl)
+    .then((res)=>res.json())
+    .then((detRes)=>{
+      console.log(detRes.Data);
+      setGetEnqDet(detRes.Data);
 
+      let em=detRes.Data[0]?.EnquiryDate.split(".")[1];
+      let ed=detRes.Data[0]?.EnquiryDate.split(".")[0];
+      let ey=detRes.Data[0]?.EnquiryDate.split(".")[2];
 
-    switch (e.target.name) {
-      case "CountryID": {
-        setChecked((preData) => {
-          return {
-            ...preData,
-            isSelCCountry: true,
-            isSelCState: false,
-            isSelCCity: false,
-          };
-        });
-        getStates(e.target.value, "current");
-        setCities((preData) => {
-          return {
-            ...preData,
-            currentCities: [],
-          };
-        });
-        setData((preData) => {
-          return {
-            ...preData,
-            // CurrentCountryId: e.target.value,
-            // CurrentStateId: "",
-            // CurrentCityId: "",
-          };
-        });
-        break;
-      }
-      case "StatesID": {
-        setChecked((preData) => {
-          return { ...preData, isSelCState: true, isSelCCity: false };
-        });
-        getCities(e.target.value, "current");
-        setData((preData) => {
-          return {
-            ...preData,
-            // CurrentCityId: "",
-          };
-        });
-        break;
-      }
-      case "CityID": {
-        setChecked((preData) => {
-          return { ...preData, isSelCCity: true };
-        });
-        break;
-      }
-    }
-}
+      let arr=[em,ed,ey].join('/');
 
+      console.log(arr);
 
-
-const handleSubmitPatient=(e)=>{
-  e.preventDefault();
-
-  const addPUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewPatient`;
-
-  fetch(addPUrl,{
-    method:"POST",
-          headers:{
-            Accept: "application/json",
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-  })
-  .then((res)=>res.json())
-  .then((pRes)=>{
-    console.log(pRes);
-    if(pRes.Status===true){
-      Swal.fire({
-        icon:"success",
-        title:"Added successfully!",
-        timer:2000,
-        showConfirmButton:false
+      setData((pre)=>{
+        return{
+          ...pre,
+          FirstName:detRes.Data[0].FirstName,
+          LastName:detRes.Data[0].LastName,
+          DateOfBirth:detRes.Data[0]?.BirthDate,
+          Address1:detRes.Data[0]?.Address1,
+          Address2:detRes.Data[0]?.Address2,
+          CityID:detRes.Data[0]?.CityId,
+          ClinicID:detRes.Data[0]?.ClinicID,
+          CountryID:detRes.Data[0]?.CountryId,
+          Email:detRes.Data[0]?.Email,
+          EnquiryDate:arr.split(" ")[0],
+          EnquirySourceID:detRes.Data[0]?.EnquirySourceID,
+          Gender:detRes.Data[0]?.Gender,
+          MobileNo:detRes.Data[0]?.MobileNo,
+          Occupation:detRes.Data[0]?.Occupation,
+          Pincode:detRes.Data[0]?.Pincode,
+          StatesID:detRes.Data[0]?.StatesId,
+          TelephoneNo:detRes.Data[0]?.TelephoneNo
+        }
       })
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+    })
+  },[])
+
+
+        const navigate=useNavigate();
+        const [createModalOpen, setCreateModalOpen] = useState(false);
+    
+        const theme = useTheme();
+        const [open, setOpen] = React.useState(false);
+      
+        const handleDrawerOpen = () => {
+          setOpen(true);
+        };
+      
+        const handleDrawerClose = () => {
+          setOpen(false);
+        };
+        const [anchorEl, setAnchorEl] = React.useState(null);
+        const op = Boolean(anchorEl);
+        const handleClick = (event) => {
+          setAnchorEl(event.currentTarget);
+        };
+        const handleClose = () => {
+          setAnchorEl(null);
+        };
+    
+    
+      const [currentTab, setCurrentTab] = useState(0);
+    
+    
+    
+    
+    
+    
+    
+      const [inputList, setInputList] = useState([{ Meal: "", DietDetails: "" }]);
+    
+    
+    
+      // handle input change
+      const handleInputChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...inputList];
+    
+    
+        list[index][name] = value;
+        setInputList(list);
+        console.log(inputList);
+        setData((pre)=>{
+          return{
+            ...pre,
+            objDiet:inputList
+          }
+        })
+    
+    //     inputList.map((meal,i)=>{
+    //       let a=[];
+    
+    //       a.push(meal.firstName);
+    
+    // console.log(a);
+    //     }) 
+    
+        // console.log();
+      };
+    
+    
+    
+      // handle click event of the Remove button
+      const handleRemoveClick = index => {
+        const list = [...inputList];
+        list.splice(index, 1);
+        setInputList(list);
+      };
+    
+      // handle click event of the Add button
+      const handleAddClick = () => {
+        setInputList([...inputList, { Meal: "", DietDetails: "" }]);
+      };
+    
+    const [profile, setProfile] = useState(null);
+    
+      const handleProfile = (file) => {
+       
+        console.log(file);
+        setProfile(file);
+      };
+    
+    
+    
+      const submitProfile= async (e)=>{
+        e.preventDefault();
+    
+        const fd = new FormData();
+    
+        fd.append("stream", profile);
+    
+        await axios
+          .post(
+            "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+            fd,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                console.log(
+                  "Upload Progress:" +
+                    Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
+                    "%"
+                );
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            let imgPath = res.data.data[0].imageurl;
+            setData((pre) => {
+              return { ...pre, PatientPhoto: imgPath };
+            });
+    
+            console.log(data);
+          });
+      }
+    
+    
+    
+      const [menuList, setMenuList] = useState([]);
+    
+    
+        const menuUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetMenuAccess/1`;
+      useEffect(()=>{
+    fetch(menuUrl)
+    .then((res)=>res.json())
+    .then((list)=>{
+      console.log(list.Data);
+      setMenuList(list.Data);
+    })
+      },[])
+    
+    
+      const handlecheck = (e) => {
+        const { value, checked } = e.target;
+    
+        // Case 1 : The user checks the box
+        if (checked) {
+          setData((pre) => {
+            return {
+              ...pre,
+              SufferingFrom: [...pre.SufferingFrom, value],
+            };
+          });
+        }
+    
+        // Case 2 : The user unchecks the box
+        else {
+          setData((pre) => {
+            return {
+              ...pre,
+              SufferingFrom: pre.SufferingFrom.filter((e) => e !== value),
+            };
+          });
+        }
+    
+        console.log(data);
+      };
+
+
+      const handlecheck1 = (e) => {
+        const { value, checked } = e.target;
+    
+        // Case 1 : The user checks the box
+        if (checked) {
+          setData((pre) => {
+            return {
+              ...pre,
+              HairIssue: [...pre.HairIssue, value],
+            };
+          });
+        }
+    
+        // Case 2 : The user unchecks the box
+        else {
+          setData((pre) => {
+            return {
+              ...pre,
+              HairIssue: pre.HairIssue.filter((e) => e !== value),
+            };
+          });
+        }
+    
+        console.log(data);
+      };
+    
+    
+      const [checked, setChecked] = useState({
+        isSelCCountry: false,
+        isSelPCountry: false,
+        isSelCState: false,
+        isSelPState: false,
+        isSelCCity: false,
+        isSelPCity: false,
+      });
+    
+      const [countries, setCountries] = useState({
+        currentCountries: [],
+      });
+      const [states, setStates] = useState({
+        currentStates: [],
+      });
+      const [cities, setCities] = useState({
+        currentCities: [],
+      });
+    
+    
+      const getStates = async (countryId, cORp) => {
+        let url = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+        let state = await (await fetch(url)).json();
+        console.log(state.Data);
+        if (cORp === "current") {
+          setStates({
+            ...states,
+            currentStates: state.Data,
+          });
+        }
+      };
+      
+      const getCities = async (stateId, cORp) => {
+        let url = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+        let city = await (await fetch(url)).json();
+        console.log(city.Data);
+        if (cORp === "current") {
+          setCities({
+            ...cities,
+            currentCities: city.Data,
+          });
+        }
+      };
+      
+      const getCountries = async () => {
+        let url = "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetCountryList";
+        let country = await (await fetch(url)).json();
+        console.log(country.Data.slice(0, 2));
+        setCountries({
+          ...countries,
+          currentCountries: country.Data,
+          // permCountries: country.Data.slice(0, 2),
+        });
+      }
+      //   $(function(){
+      //     var dtToday = new Date();
+       
+      //     var month = dtToday.getMonth() + 1;
+      //     var day = dtToday.getDate();
+      //     var year = dtToday.getFullYear();
+      //     if(month < 10)
+      //         month = '0' + month.toString();
+      //     if(day < 10)
+      //      day = '0' + day.toString();
+      //     var maxDate = year + '-' + month + '-' + day;
+      //     $('#inputdate').attr('min', maxDate);
+      // });
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      useEffect(()=>{
+      getCountries();
+      },[])
+    
+    
+      const [branch, setBranch] = useState([]);
+      const branchUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+    
+      useEffect(() => {
+        fetch(branchUrl)
+          .then((res) => res.json())
+          .then((branchRes) => {
+            console.log(branchRes.Data);
+            setBranch(branchRes.Data);
+          });
+      }, []);
+    
+    
+    
+      const [enqSource, setEnqSource] = useState([]);
+    
+    const enqSourceUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
+    useEffect(()=>{
+    fetch(enqSourceUrl)
+    .then((res)=>res.json())
+    .then((enqS)=>{
+      console.log(enqS.Data);
+      setEnqSource(enqS.Data);
+    })
+    },[])
+    
+    
+      const handleChange=(e)=>{
+        const newdata={...data};
+        newdata[e.target.name]=e.target.value;
+        setData(newdata);
+        console.log(newdata);
+    
+    
+        switch (e.target.name) {
+          case "CountryID": {
+            setChecked((preData) => {
+              return {
+                ...preData,
+                isSelCCountry: true,
+                isSelCState: false,
+                isSelCCity: false,
+              };
+            });
+            getStates(e.target.value, "current");
+            setCities((preData) => {
+              return {
+                ...preData,
+                currentCities: [],
+              };
+            });
+            setData((preData) => {
+              return {
+                ...preData,
+                // CurrentCountryId: e.target.value,
+                // CurrentStateId: "",
+                // CurrentCityId: "",
+              };
+            });
+            break;
+          }
+          case "StatesID": {
+            setChecked((preData) => {
+              return { ...preData, isSelCState: true, isSelCCity: false };
+            });
+            getCities(e.target.value, "current");
+            setData((preData) => {
+              return {
+                ...preData,
+                // CurrentCityId: "",
+              };
+            });
+            break;
+          }
+          case "CityID": {
+            setChecked((preData) => {
+              return { ...preData, isSelCCity: true };
+            });
+            break;
+          }
+        }
     }
-  })
-}
+    
+    
+    
+    const handleSubmitPatient=(e)=>{
+      e.preventDefault();
+    
+      const addPUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewPatient`;
+    
+      fetch(addPUrl,{
+        method:"POST",
+              headers:{
+                Accept: "application/json",
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+      })
+      .then((res)=>res.json())
+      .then((pRes)=>{
+        console.log(pRes);
+        if(pRes.Status===true){
+          Swal.fire({
+            icon:"success",
+            title:"Added successfully!",
+            timer:2000,
+            showConfirmButton:false
+          })
+    
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }
+      })
+    }
+    
+      const [open1, setOpen1] = React.useState(false);
+    
+      const handleMenuClick = () => {
+        setOpen1(!open1);
+      };
+      const [open2, setOpen2] = React.useState(false);
+    
+      const handleCsClick = () => {
+        setOpen2(!open2);
+      };
+      
+      const [open3, setOpen3] = React.useState(false);
+    
+      const handleTreatClick = () => {
+        setOpen3(!open3);
+      };
+      const [open4, setOpen4] = React.useState(false);
+    
+      const handleUserClick = () => {
+        setOpen4(!open4);
+      };
+      const [open5, setOpen5] = React.useState(false);
+    
+      const handleLpClick = () => {
+        setOpen5(!open5);
+      };
+      const [open6, setOpen6] = React.useState(false);
+    
+      const handleApClick = () => {
+        setOpen6(!open6);
+      };
 
-  const [open1, setOpen1] = React.useState(false);
 
-  const handleMenuClick = () => {
-    setOpen1(!open1);
-  };
-  const [open2, setOpen2] = React.useState(false);
 
-  const handleCsClick = () => {
-    setOpen2(!open2);
-  };
-  
-  const [open3, setOpen3] = React.useState(false);
-
-  const handleTreatClick = () => {
-    setOpen3(!open3);
-  };
-  const [open4, setOpen4] = React.useState(false);
-
-  const handleUserClick = () => {
-    setOpen4(!open4);
-  };
-  const [open5, setOpen5] = React.useState(false);
-
-  const handleLpClick = () => {
-    setOpen5(!open5);
-  };
-  const [open6, setOpen6] = React.useState(false);
-
-  const handleApClick = () => {
-    setOpen6(!open6);
-  };
-
-    return(
-        <>
-         <Box sx={{ display: 'flex' }}>
+  return (
+   <>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} className="navigBar">
           <Toolbar>
@@ -1064,7 +1166,7 @@ const handleSubmitPatient=(e)=>{
                             </Col>
                             <Col lg={6} className="px-0 pe-0 pe-lg-2">
                             
-        <Form.Control type="text" placeholder="" name="FormNo" onChange={handleChange}/>
+        <Form.Control type="text" placeholder="" name="FormNo" value={data?.FormNo} onChange={handleChange}/>
                             </Col>
                         </Row>
         
@@ -1101,7 +1203,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>First Name</Form.Label>
-        <Form.Control type="text" placeholder="" name="FirstName" onChange={handleChange}/>
+        <Form.Control type="text" placeholder="" name="FirstName" value={data?.FirstName} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1109,21 +1211,21 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Last Name</Form.Label>
-        <Form.Control type="text" placeholder="" name="LastName" onChange={handleChange}/>
+        <Form.Control type="text" placeholder="" name="LastName" value={data?.LastName} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Occupation</Form.Label>
-        <Form.Control type="text" placeholder="" name="Occupation" onChange={handleChange}/>
+        <Form.Control type="text" placeholder="" name="Occupation" value={data?.Occupation} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enquiry Date</Form.Label>
-        <Form.Control type="date" placeholder=""  name="EnquiryDate" onChange={handleChange}/>
+        <Form.Control type="date" placeholder=""  name="EnquiryDate" value={data?.EnquiryDate} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1142,7 +1244,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Date of birth</Form.Label>
-        <Form.Control type="date" placeholder="" name="DateOfBirth" onChange={handleChange}/>
+        <Form.Control type="date" placeholder="" name="DateOfBirth" value={data?.DateOfBirth} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1150,7 +1252,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Gender</Form.Label>
-        <Form.Select aria-label="Default select example" name="Gender" onChange={handleChange}> 
+        <Form.Select aria-label="Default select example" name="Gender" value={data?.Gender} onChange={handleChange}> 
       <option></option>
       <option value="Male">Male</option>
       <option value="Female">Female</option>
@@ -1165,7 +1267,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={6}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Address Line 1</Form.Label>
-        <Form.Control as="textarea" rows={2} placeholder="" name="Address1" onChange={handleChange}/>
+        <Form.Control as="textarea" rows={2} placeholder="" name="Address1" value={data?.Address1} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1173,7 +1275,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={6}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Address Line 2</Form.Label>
-        <Form.Control as="textarea" rows={2} placeholder="" name="Address2" onChange={handleChange}/>
+        <Form.Control as="textarea" rows={2} placeholder="" name="Address2" value={data?.Address2} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1184,7 +1286,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Country</Form.Label>
-        <Form.Select aria-label="Default select example" name="CountryID" onChange={handleChange}>
+        <Form.Select aria-label="Default select example" name="CountryID" value={data?.CountryID} onChange={handleChange}>
       <option></option>
       {
         countries.currentCountries && countries.currentCountries.map((country)=>{
@@ -1205,7 +1307,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>State</Form.Label>
-        <Form.Select aria-label="Default select example" name="StatesID" onChange={handleChange}>
+        <Form.Select aria-label="Default select example" name="StatesID" value={data?.StatesID} onChange={handleChange}>
       <option></option>
       {
         states.currentStates && states.currentStates.map((state)=>{
@@ -1226,7 +1328,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>City</Form.Label>
-        <Form.Select aria-label="Default select example" name="CityID" onChange={handleChange}>
+        <Form.Select aria-label="Default select example" name="CityID" value={data?.CityID} onChange={handleChange}>
       <option></option>
       {
         cities.currentCities && cities.currentCities.map((city)=>{
@@ -1246,7 +1348,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Telephone No.</Form.Label>
-        <Form.Control type="tel" placeholder="" name="TelephoneNo" onChange={handleChange}/>
+        <Form.Control type="tel" placeholder="" name="TelephoneNo" value={data?.TelephoneNo} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1259,7 +1361,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Mobile No.</Form.Label>
-        <Form.Control type="tel" placeholder="" name="MobileNo" onChange={handleChange}/>
+        <Form.Control type="tel" placeholder="" name="MobileNo" value={data?.MobileNo} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1269,7 +1371,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>E-mail ID</Form.Label>
-        <Form.Control type="email" placeholder="" name="Email" onChange={handleChange}/>
+        <Form.Control type="email" placeholder="" name="Email" value={data?.Email} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1279,7 +1381,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Clinic Name</Form.Label>
-        <Form.Select aria-label="Default select example" name="ClinicID" onChange={handleChange}>
+        <Form.Select aria-label="Default select example" name="ClinicID" value={data?.ClinicID} onChange={handleChange}>
       <option></option>
       {branch.map((b) => {
                                 return (
@@ -1300,7 +1402,7 @@ const handleSubmitPatient=(e)=>{
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enquiry Source</Form.Label>
-        <Form.Select aria-label="Default select example" name="EnquirySourceID" onChange={handleChange}>
+        <Form.Select aria-label="Default select example" name="EnquirySourceID" value={data?.EnquirySourceID} onChange={handleChange}>
       <option></option>
       {
 
@@ -1424,12 +1526,26 @@ enqSource && enqSource.map((enqs)=>{
                           <Col md={4}>
                           <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Hair fall/ Dandruff/ Itching :</Form.Label>
-        <Form.Select aria-label="Default select example" name="HairIssue" onChange={handleChange}>
+        {/* <Form.Select aria-label="Default select example" name="HairIssue" onChange={handleChange}>
       <option></option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
-    </Form.Select>
+    </Form.Select> */}
+<Row>
+  <Col>
+  <Form.Check type="checkbox" name="HairIssue" onChange={handlecheck1} label="Hair fall" value="Hair fall"/>
+  
+  </Col>
+  <Col>
+  <Form.Check type="checkbox" name="HairIssue" onChange={handlecheck1} label="Dandruff" value="Dandruff"/>
+  
+  </Col>
+  <Col>
+  <Form.Check type="checkbox" name="HairIssue" onChange={handlecheck1} label="Itching" value="Itching"/>
+  
+  </Col>
+</Row>
        
       </Form.Group>
                           </Col>
@@ -1798,8 +1914,8 @@ enqSource && enqSource.map((enqs)=>{
        </Card>
       </Main>
     </Box>
-        </>
-    );
+   </>
+  )
 }
 
-export default PatientConversion;
+export default ConvertToPatient

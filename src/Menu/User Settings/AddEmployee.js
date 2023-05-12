@@ -60,6 +60,10 @@ import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
+import { MdLogout } from "react-icons/md";
+import axios from "axios";
+import Swal from "sweetalert2";
+
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -176,6 +180,183 @@ function AddEmployee(){
 
 
 
+    const [addEmp, setAddEmp] = useState({
+      FirstName:"",
+      LastName:"",
+      Designation:"",
+      Gender:"",
+      BirthDate:"",
+      Nationality:"",
+      ClinicID:"",
+      MobileNo:"",
+      Email:"",
+      Address1:"",
+      Address2:"",
+      CityId:"",
+      StatesId:"",
+      CountryId:"",
+      Pincode:"",
+      PersonalPhoto:"",
+      JoiningDate:"",
+      username:"",
+      Passwords:"",
+      CreatedBy:"1",
+      IPAddress:"1"
+    })
+
+
+
+
+
+    const [checked, setChecked] = useState({
+      isSelCCountry: false,
+      isSelPCountry: false,
+      isSelCState: false,
+      isSelPState: false,
+      isSelCCity: false,
+      isSelPCity: false,
+    });
+  
+    const [countries, setCountries] = useState({
+      currentCountries: [],
+    });
+    const [states, setStates] = useState({
+      currentStates: [],
+    });
+    const [cities, setCities] = useState({
+      currentCities: [],
+    });
+  
+    const getStates = async (countryId, cORp) => {
+      let url = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+      let state = await (await fetch(url)).json();
+      console.log(state.Data);
+      if (cORp === "current") {
+        setStates({
+          ...states,
+          currentStates: state.Data,
+        });
+      }
+    };
+  
+    const getCities = async (stateId, cORp) => {
+      let url = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+      let city = await (await fetch(url)).json();
+      console.log(city.Data);
+      if (cORp === "current") {
+        setCities({
+          ...cities,
+          currentCities: city.Data,
+        });
+      }
+    };
+  
+    const getCountries = async () => {
+      let url =
+        "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetCountryList";
+      let country = await (await fetch(url)).json();
+      console.log(country.Data.slice(0, 2));
+      setCountries({
+        ...countries,
+        currentCountries: country.Data,
+        // permCountries: country.Data.slice(0, 2),
+      });
+    };
+  
+    useEffect(() => {
+      getCountries();
+    }, []);
+  
+    const handleChange = (e) => {
+      const newdata = { ...addEmp };
+      newdata[e.target.name] = e.target.value;
+      setAddEmp(newdata);
+      console.log(newdata);
+  
+      switch (e.target.name) {
+        case "CountryId": {
+          setChecked((preData) => {
+            return {
+              ...preData,
+              isSelCCountry: true,
+              isSelCState: false,
+              isSelCCity: false,
+            };
+          });
+          getStates(e.target.value, "current");
+          setCities((preData) => {
+            return {
+              ...preData,
+              currentCities: [],
+            };
+          });
+          setData((preData) => {
+            return {
+              ...preData,
+              // CurrentCountryId: e.target.value,
+              // CurrentStateId: "",
+              // CurrentCityId: "",
+            };
+          });
+          break;
+        }
+        case "StatesId": {
+          setChecked((preData) => {
+            return { ...preData, isSelCState: true, isSelCCity: false };
+          });
+          getCities(e.target.value, "current");
+          setData((preData) => {
+            return {
+              ...preData,
+              // CurrentCityId: "",
+            };
+          });
+          break;
+        }
+        case "CityId": {
+          setChecked((preData) => {
+            return { ...preData, isSelCCity: true };
+          });
+          break;
+        }
+      }
+    };
+
+
+
+
+    const handleSubmit=(e)=>{
+      e.preventDefault();
+
+
+      const addEmpUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewEmployee`;
+
+      fetch(addEmpUrl,{
+        method:"POST",
+        headers:{
+          Accept: "application/json",
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(addEmp)
+      })
+      .then((res)=>res.json())
+      .then((empRes)=>{
+        console.log(empRes);
+
+        if(empRes.status===true){
+          Swal.fire({
+            icon:"success",
+            title:"Added successfully!",
+            timer:2000,
+            showConfirmButton:false
+          })
+
+         navigate("/emp-reg")
+        }
+      })
+    }
+  
+  
     const columns = useMemo(
         () => [
           {
@@ -275,6 +456,9 @@ function AddEmployee(){
         []
       );
 
+      const [empPhoto, setEmpPhoto] = useState(null);
+
+
 
   const [previewUrl1, setPreviewUrl1] = useState("");
 
@@ -284,6 +468,7 @@ function AddEmployee(){
     setPreviewUrl1(URL.createObjectURL(e));
     console.log(e);
     // setstate662(file);      to add in formdata
+    setEmpPhoto(e);
   };
   
   
@@ -301,6 +486,34 @@ fetch(menuUrl)
   setMenuList(list.Data);
 })
   },[])
+
+
+
+  const [designation, setDesignation] = useState([]);
+
+  const desigUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetDesignationList`;
+
+  useEffect(()=>{
+    fetch(desigUrl)
+    .then((res)=>res.json())
+    .then((desRes)=>{
+      console.log(desRes.Data);
+      setDesignation(desRes.Data);
+    })
+  },[])
+
+
+  const [branch, setBranch] = useState([]);
+  const branchUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+
+  useEffect(() => {
+    fetch(branchUrl)
+      .then((res) => res.json())
+      .then((branchRes) => {
+        console.log(branchRes.Data);
+        setBranch(branchRes.Data);
+      });
+  }, []);
 
   const [open1, setOpen1] = React.useState(false);
 
@@ -397,7 +610,7 @@ fetch(menuUrl)
                 <MenuItem onClick={()=>{
           navigate("/")
         }} disableRipple>
-          <EditIcon />
+          <MdLogout/>
           Logout
         </MenuItem>
             </StyledMenu>
@@ -780,24 +993,30 @@ fetch(menuUrl)
             <hr />
            
 
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Row>
-                    <Col md={3}>
+                    {/* <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Employee No.</Form.Label>
-        <Form.Control type="text" placeholder="" />
+        <Form.Control type="text" placeholder="" name=""/>
        
       </Form.Group>
-                    </Col>
+                    </Col> */}
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Branch</Form.Label>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" name="ClinicID" onChange={handleChange}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      {branch.map((b) => {
+                                return (
+                                  <>
+                                    <option value={b.ClinicID} key={b.ClinicID}>
+                                      {b.ClinicName}
+                                    </option>
+                                  </>
+                                );
+                              })}
     </Form.Select>
        
       </Form.Group>
@@ -805,11 +1024,17 @@ fetch(menuUrl)
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Designation</Form.Label>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" name="Designation" onChange={handleChange}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+     {
+      designation.map((d,i)=>{
+        return(
+          <>
+          <option value={d?.DesignationID}>{d?.Designation}</option>
+          </>
+        )
+      })
+     }
     </Form.Select>
        
       </Form.Group>
@@ -817,33 +1042,7 @@ fetch(menuUrl)
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Date</Form.Label>
-        <Form.Control type="date" placeholder="" />
-       
-      </Form.Group>
-                    </Col>
-                </Row>
-
-                <Row>
-                <Col md={3}>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>First Name</Form.Label>
-        <Form.Control type="text" placeholder="" />
-       
-      </Form.Group>
-                    </Col>
-
-                    <Col md={3}>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Last Name</Form.Label>
-        <Form.Control type="text" placeholder="" />
-       
-      </Form.Group>
-                    </Col>
-
-                    <Col md={3}>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Mobile Number</Form.Label>
-        <Form.Control type="tel" placeholder="" />
+        <Form.Control type="date" placeholder="" name="JoiningDate" onChange={handleChange}/>
        
       </Form.Group>
                     </Col>
@@ -852,7 +1051,7 @@ fetch(menuUrl)
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email ID</Form.Label>
-        <Form.Control type="email" placeholder="" />
+        <Form.Control type="email" placeholder="" name="Email" onChange={handleChange}/>
        
       </Form.Group>
                     </Col>
@@ -860,32 +1059,62 @@ fetch(menuUrl)
                 </Row>
 
                 <Row>
+                <Col md={3}>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control type="text" placeholder="" name="FirstName" onChange={handleChange}/>
+       
+      </Form.Group>
+                    </Col>
+
                     <Col md={3}>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control type="text" placeholder="" name="LastName" onChange={handleChange}/>
+       
+      </Form.Group>
+                    </Col>
+
+                    <Col md={3}>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Mobile Number</Form.Label>
+        <Form.Control type="tel" placeholder="" name="MobileNo" onChange={handleChange}/>
+       
+      </Form.Group>
+                    </Col>
+
+                    <Col md={3}>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Date of birth</Form.Label>
+        <Form.Control type="date" placeholder="" name="BirthDate" onChange={handleChange}/>
+       
+      </Form.Group>
+                    </Col>
+                   
+
+                </Row>
+
+                <Row>
+                    {/* <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Age</Form.Label>
         <Form.Control type="number" placeholder="" />
        
       </Form.Group>
-                    </Col>
+                    </Col> */}
 
 
-                    <Col md={3}>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Date of birth</Form.Label>
-        <Form.Control type="date" placeholder="" />
-       
-      </Form.Group>
-                    </Col>
+                   
 
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Gender</Form.Label>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" name="Gender" onChange={handleChange}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+     
     </Form.Select>
        
       </Form.Group>
@@ -895,11 +1124,11 @@ fetch(menuUrl)
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Nationality</Form.Label>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" name="Nationality" onChange={handleChange}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      <option value="Indian">Indian</option>
+ 
+     
     </Form.Select>
        
       </Form.Group>
@@ -912,14 +1141,14 @@ fetch(menuUrl)
                     <Col md={6}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Address Line 1</Form.Label>
-        <Form.Control as="textarea" rows={2} placeholder="" />
+        <Form.Control as="textarea" rows={2} placeholder="" name="Address1" onChange={handleChange}/>
        
       </Form.Group>
                     </Col>
                     <Col md={6}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Address Line 2</Form.Label>
-        <Form.Control as="textarea" rows={2} placeholder="" />
+        <Form.Control as="textarea" rows={2} placeholder="" name="Address2" onChange={handleChange}/>
        
       </Form.Group>
                     </Col>
@@ -931,11 +1160,21 @@ fetch(menuUrl)
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Country</Form.Label>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" name="CountryId" onChange={handleChange}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      {countries.currentCountries &&
+                                countries.currentCountries.map((country) => {
+                                  return (
+                                    <>
+                                      <option
+                                        value={country?.CountryId}
+                                        key={country?.CountryId}
+                                      >
+                                        {country?.CountryName}
+                                      </option>
+                                    </>
+                                  );
+                                })}
     </Form.Select>
        
       </Form.Group>
@@ -945,11 +1184,21 @@ fetch(menuUrl)
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>State</Form.Label>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" name="StatesId" onChange={handleChange}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      {states.currentStates &&
+                                states.currentStates.map((state) => {
+                                  return (
+                                    <>
+                                      <option
+                                        value={state?.StateId}
+                                        key={state?.StateId}
+                                      >
+                                        {state?.StateName}
+                                      </option>
+                                    </>
+                                  );
+                                })}
     </Form.Select>
        
       </Form.Group>
@@ -959,11 +1208,21 @@ fetch(menuUrl)
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>City</Form.Label>
-        <Form.Select aria-label="Default select example">
+        <Form.Select aria-label="Default select example" name="CityId" onChange={handleChange}>
       <option></option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
+      {cities.currentCities &&
+                                cities.currentCities.map((city) => {
+                                  return (
+                                    <>
+                                      <option
+                                        value={city?.CityID}
+                                        key={city?.CityID}
+                                      >
+                                        {city?.CityName}
+                                      </option>
+                                    </>
+                                  );
+                                })}
     </Form.Select>
        
       </Form.Group>
@@ -973,7 +1232,7 @@ fetch(menuUrl)
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Area Pin Code</Form.Label>
-        <Form.Control type="number" placeholder="" />
+        <Form.Control type="number" placeholder="" name="Pincode" onChange={handleChange}/>
 
        
       </Form.Group>
@@ -983,8 +1242,8 @@ fetch(menuUrl)
                 <Row>
                     <Col lg={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>User name</Form.Label>
-        <Form.Control type="text" placeholder="" />
+        <Form.Label>Username</Form.Label>
+        <Form.Control type="text" placeholder="" name="username" onChange={handleChange}/>
 
        
       </Form.Group>
@@ -994,7 +1253,7 @@ fetch(menuUrl)
                     <Col lg={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="" />
+        <Form.Control type="password" placeholder="" name="Passwords" onChange={handleChange}/>
 
        
       </Form.Group>
@@ -1005,11 +1264,41 @@ fetch(menuUrl)
         <Row>
             <Col lg={5}>
             
-        <Form.Control type="file" placeholder=""  onChange={(e)=>handleFile1(e.target.files[0])}/>
+        <Form.Control type="file" placeholder="" name="PersonalPhoto"  onChange={(e)=>handleFile1(e.target.files[0])}/>
             </Col>
 
             <Col lg={3}>
-            <Button variant="" className="emp-img-up mx-3">Upload Image</Button>
+            <Button variant="" className="emp-img-up mx-3" onClick={async (e)=>{
+             e.preventDefault();
+
+             const fd = new FormData();
+         
+             fd.append("stream", empPhoto);
+         
+             await axios
+               .post(
+                 "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+                 fd,
+                 {
+                   onUploadProgress: (ProgressEvent) => {
+                     console.log(
+                       "Upload Progress:" +
+                         Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
+                         "%"
+                     );
+                   },
+                 }
+               )
+               .then((res) => {
+                 console.log(res.data);
+                 let imgPath = res.data.data[0].imageurl;
+                 setAddEmp((pre) => {
+                   return { ...pre, PersonalPhoto: imgPath };
+                 });
+                }
+                )
+                 console.log(addEmp);
+            }}>Upload Image</Button>
             </Col>
 
 
@@ -1045,7 +1334,7 @@ fetch(menuUrl)
 
                 <Row className="text-center mt-4">
                     <Col>
-                    <Button variant="" className="emp-sub">Submit</Button>
+                    <Button variant="" className="emp-sub" type="submit">Submit</Button>
                     </Col>
                 </Row>
             </Form>
