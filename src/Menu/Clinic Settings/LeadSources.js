@@ -195,11 +195,11 @@ fetch(getSlUrl)
   },[])
   const columns = useMemo(
     () => [
-      {
-        accessorKey: "LeadSourceID",
-        header: "Sr No.",
-        muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
-      },
+      // {
+      //   accessorKey: "LeadSourceID",
+      //   header: "Sr No.",
+      //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+      // },
       {
         accessorKey: "LeadSource",
         header: "Enquiry Source Name",
@@ -753,6 +753,8 @@ fetch(getSlUrl)
                         <IconButton
                           className="edit-btn"
                           onClick={() => table.setEditingRow(row)}
+                        disabled
+
                         >
                           <FaRegEdit />
                         </IconButton>
@@ -761,6 +763,8 @@ fetch(getSlUrl)
                         <IconButton
                           color="error"
                           // onClick={() => handleDeleteRow(row)}
+                        disabled
+
                         >
                           <HiOutlineTrash />
                         </IconButton>
@@ -838,7 +842,7 @@ fetch(getSlUrl)
                             if (lsRes.Status === true) {
                               Swal.fire({
                                 icon: "success",
-                                title: "Treatment added successfully!",
+                                title: "Lead source added successfully!",
                                 timer: 2000,
                                 showConfirmButton: false,
                               });

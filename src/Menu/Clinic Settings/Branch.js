@@ -198,7 +198,9 @@ const branchUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/Get
     fetch(branchUrl)
     .then((res)=>res.json())
     .then((branch)=>{
+      
       console.log(branch.Data);
+      
       setBranchList(branch.Data);
 
     })
@@ -770,13 +772,16 @@ const branchUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/Get
                       <Tooltip arrow placement="left" title="Edit">
                         <IconButton 
                         className="edit-btn"
-                        onClick={() => table.setEditingRow(row)}>
+                        // onClick={() => table.setEditingRow(row)}
+                        disabled
+                        >
                           <FaRegEdit/>
                         </IconButton>
                       </Tooltip>
                       <Tooltip arrow placement="right" title="Delete">
                         <IconButton
                           color="error"
+                          disabled
                     
                         >
                           <HiOutlineTrash/>

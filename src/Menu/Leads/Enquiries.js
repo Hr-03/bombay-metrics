@@ -826,7 +826,10 @@ fetch(menuUrl)
                       <Tooltip arrow placement="left" title="Edit">
                         <IconButton 
                         className="edit-btn"
-                        onClick={() => table.setEditingRow(row)}>
+                        onClick={() => table.setEditingRow(row)}
+                        disabled
+                        
+                        >
                           <FaRegEdit/>
                         </IconButton>
                       </Tooltip>
@@ -838,7 +841,7 @@ fetch(menuUrl)
                         onClick={() =>
                           {
                             let enquiryId = cell.row.original.EnquiryID;
-                            sessionStorage.setItem("`viewEnq`", enquiryId);
+                            sessionStorage.setItem("viewEnq", enquiryId);
                             console.log(cell.row.original.EnquiryID);
                             navigate(`/view-enquiry/${enquiryId}`)
                           }
@@ -852,6 +855,8 @@ fetch(menuUrl)
                         <IconButton
                           color="error"
                           // onClick={() => handleDeleteRow(row)}
+                        disabled
+
                         >
                           <HiOutlineTrash/>
                         </IconButton>

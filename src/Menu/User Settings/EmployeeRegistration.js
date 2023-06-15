@@ -190,12 +190,12 @@ useEffect(()=>{
 
     const columns = useMemo(
         () => [
-          {
-            accessorKey: "UserID",
-            header: "User ID",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "User ID" },
+          // {
+          //   accessorKey: "UserID",
+          //   header: "User ID",
+          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "User ID" },
             
-          },
+          // },
           {
             accessorKey: "ProfilePhoto",
             header: "Photo",
@@ -818,7 +818,9 @@ fetch(menuUrl)
                       <Tooltip arrow placement="left" title="Edit">
                         <IconButton 
                         className="edit-btn"
-                        onClick={() => table.setEditingRow(row)}>
+                        onClick={() => table.setEditingRow(row)}
+                        disabled
+                        >
                           <FaRegEdit/>
                         </IconButton>
                       </Tooltip>
@@ -826,6 +828,8 @@ fetch(menuUrl)
                         <IconButton
                           color="error"
                           // onClick={() => handleDeleteRow(row)}
+                        disabled
+
                         >
                           <HiOutlineTrash/>
                         </IconButton>

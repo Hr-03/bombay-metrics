@@ -33,7 +33,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Avatar,Tooltip } from "@mui/material";
-import { Card, Col, Row ,Modal,Form} from "react-bootstrap";
+import { Card, Col, Row ,Modal,Form, Table} from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 // import "../../index.css";
 import { Delete, Edit } from "@mui/icons-material";
@@ -177,6 +177,22 @@ const ViewDoctorProfile = () => {
     };
 
 
+    
+    let UserID=sessionStorage.getItem("viewDoc");
+
+    const [profile, setProfile] = useState([]);
+
+    const proUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetDoctorProfile/0/${UserID}`;
+
+    useEffect(()=>{
+        fetch(proUrl)
+        .then((res)=>res.json())
+        .then((pRes)=>{
+          console.log(pRes.Data);
+          setProfile(pRes.Data);
+        })
+    },[])
+
     const columns = useMemo(
         () => [
           {
@@ -240,9 +256,9 @@ const ViewDoctorProfile = () => {
           {
             srNo: 1,
             // enquiry: "001",
-            Degree:"Doctor of Medicine (MD)",
-            University:"K. J. Somaiya Medical College & Research Centre",
-            DegreeProof:<img src="https://wallpaperaccess.com/full/1285952.jpg" width={150} height={150}/>
+            Degree:profile[0]?.Degree,
+            University:profile[0]?.BoardOrUniversity,
+            DegreeProof:<img src={profile[0]?.DegreeProofPhoto?profile[0]?.DegreeProofPhoto:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150}/>
             // enquiryDate:"09 Feb 2023",
             
            
@@ -768,23 +784,23 @@ fetch(menuUrl)
                 <Card style={{borderColor:"#825AA5"}}>
                 <Row className="m-3">
                     <Col lg={2}>
-       <Avatar alt="Travis Howard" src="/static/images/avatar/1.jpg" className="m-auto ava-img mt-4"/>
-                    <p className="text-center m-4">Dr Pankti Tutwala</p>
+       <Avatar alt="Travis Howard" src={profile[0]?.PersonalPhoto} className="m-auto ava-img mt-4"/>
+                    <p className="text-center m-4">Dr {profile[0]?.Name}</p>
                     </Col>
                     <Col lg={5}>
-                    <p className="mb-5 dt-lbl">Doctor Type :</p>
-                    <p className="mb-5 dt-lbl">Mobile Number :</p>
-                    <p className="mb-5 dt-lbl">Email ID :</p>
-                    <p className="mb-5 dt-lbl">Address :</p>
-                    <p className="mb-5 dt-lbl">Branch :</p>
+                    <p className="mb-5 dt-lbl">Doctor Type : <span style={{fontWeight:"normal"}}>{profile[0]?.DoctorType}</span></p>
+                    <p className="mb-5 dt-lbl">Mobile Number :<span style={{fontWeight:"normal"}}>{profile[0]?.MobileNo}</span></p>
+                    <p className="mb-5 dt-lbl">Email ID :<span style={{fontWeight:"normal"}}>{profile[0]?.Email}</span></p>
+                    <p className="mb-5 dt-lbl">Address :<span style={{fontWeight:"normal"}}>{profile[0]?.Address}</span></p>
+                    <p className="mb-5 dt-lbl">Branch :<span style={{fontWeight:"normal"}}>{profile[0]?.Branch}</span></p>
                     </Col>
 
                     <Col lg={5}>
-                    <p className="mb-5 dt-lbl">Age :</p>
-                    <p className="mb-5 dt-lbl">Date of birth :</p>
-                    <p className="mb-5 dt-lbl">Gender :</p>
-                    <p className="mb-5 dt-lbl">In time :</p>
-                    <p className="mb-5 dt-lbl">Out time :</p>
+                    {/* <p className="mb-5 dt-lbl">Age :{profile[0]?.DoctorType}</p> */}
+                    <p className="mb-5 dt-lbl">Date of birth :<span style={{fontWeight:"normal"}}>{profile[0]?.BirthDate}</span></p>
+                    <p className="mb-5 dt-lbl">Gender :<span style={{fontWeight:"normal"}}>{profile[0]?.Gender}</span></p>
+                    <p className="mb-5 dt-lbl">In time :<span style={{fontWeight:"normal"}}>{profile[0]?.InTime}</span></p>
+                    <p className="mb-5 dt-lbl">Out time :<span style={{fontWeight:"normal"}}>{profile[0]?.OutTime}</span></p>
 
                     </Col>
                 </Row>
@@ -805,7 +821,7 @@ fetch(menuUrl)
                         <Col>
                         <p className="dt-lbl">Degree :</p>
                         
-                        <MaterialReactTable
+                        {/* <MaterialReactTable
                   columns={columns}
                   data={data}
                   
@@ -818,7 +834,27 @@ fetch(menuUrl)
                 //   }}
                
                 
-                />
+                /> */}
+
+
+
+
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Degree</th>
+                      <th>University/College/Board</th>
+                      <th>Degree Proof</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{profile[0]?.Degree}</td>
+                      <td>{profile[0]?.BoardOrUniversity}</td>
+                      <td><img src={profile[0]?.DegreeProofPhoto?profile[0]?.DegreeProofPhoto:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150}/></td>
+                    </tr>
+                  </tbody>
+                </Table>
                         </Col>
                     </Row>
                     <Row className='mt-4'>
@@ -852,19 +888,19 @@ fetch(menuUrl)
                 <Card className="p-4" style={{borderColor:"#825AA5"}}>
                     <Row>
                       <Col md={6}>
-                      <p>Aadhaar Card Number :</p>
+                      <p>Aadhaar Card Number : {profile[0]?.AadharCardNumber}</p>
                       <Row>
                         <Col md={8}>
-                      <img src="https://wallpaperaccess.com/full/1285952.jpg" alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
+                      <img src={profile[0]?.AadharCardPhoto} alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
                         
                         </Col>
                       </Row>
                       </Col>
                       <Col md={6}>
-                      <p>Pan Card Number :</p>
+                      <p>Pan Card Number :{profile[0]?.PanCard}</p>
                       <Row>
                         <Col md={8}>
-                      <img src="https://wallpaperaccess.com/full/1285952.jpg" alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
+                      <img src={profile[0]?.PanCardPhoto} alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
                         
                         </Col>
                       </Row>
@@ -872,19 +908,19 @@ fetch(menuUrl)
                     </Row>
                     <Row>
                       <Col md={6}>
-                      <p>Registration Number :</p>
+                      <p>Registration Number :{profile[0]?.RegistrationNumber}</p>
                       <Row>
                         <Col md={8}>
-                      <img src="https://wallpaperaccess.com/full/1285952.jpg" alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
+                      <img src={profile[0]?.RegistrationPhoto} alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
                         
                         </Col>
                       </Row>
                       </Col>
                       <Col md={6}>
-                      <p>Indemnity Number: </p>
+                      <p>Indemnity Number: {profile[0]?.IndemnityProofNumber}</p>
                       <Row>
                         <Col md={8}>
-                      <img src="https://wallpaperaccess.com/full/1285952.jpg" alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
+                      <img src={profile[0]?.IndemnityProofPhoto} alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
                         
                         </Col>
                       </Row>

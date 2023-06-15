@@ -63,7 +63,7 @@ import userGearIcon from "../../Assets/userGear.png";
 import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
-import calendar from "../../Assets/calendar.png";
+import calendarap from "../../Assets/calendar.png";
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -256,22 +256,22 @@ const eventsUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/Get
 
 
 
-//   useEffect(()=>{
-// fetch(eventsUrl)
-// .then((res)=>res.json())
-// .then((eves)=>{
-//   console.log(eves.Data);
-//   setEvents(eves.Data);
+  useEffect(()=>{
+fetch(eventsUrl)
+.then((res)=>res.json())
+.then((eves)=>{
+  console.log(eves.Data);
+  setEvents(eves.Data);
 
-//   // events.find(a=>{
-//   //   let aDT=a.AppointmentDateTime.split(" ")[0];
+  // events.find(a=>{
+  //   let aDT=a.AppointmentDateTime.split(" ")[0];
 
-//   //   a.AppointmentDateTime=aDT;
-//   // })
+  //   a.AppointmentDateTime=aDT;
+  // })
 
-//   console.log(events);
-// })
-//   },[])
+  // console.log(events);
+})
+  },[])
 
 
   const dateClickHandler=(e)=>{
@@ -659,7 +659,7 @@ const eventsUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/Get
             navigate("/appmnt");
             }}>
                     <ListItemIcon>
-                  <img src={calendar} alt="" srcset="" />
+                  <img src={calendarap} alt="" srcset="" />
                     </ListItemIcon>
                     <ListItemText primary={menuList[6]?.MenuName}/>
         {open6 ? <ExpandLess /> : <ExpandMore />}
@@ -735,10 +735,10 @@ const eventsUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/Get
              ref={calendar}
             //  allDayMaintainDuration="false"
             //  defaultAllDay="false"
-            allDay="false"
+            // allDay="false"
         defaultView="dayGridMonth"
         header={{
-          left: "prev,next",
+          left: "prev,next,today",
           center: "title",
           right: "dayGridMonth,timeGridWeek,timeGridDay"
         }}

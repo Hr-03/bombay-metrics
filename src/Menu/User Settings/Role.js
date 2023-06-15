@@ -249,12 +249,12 @@ fetch(getRoleUrl)
 
     const columns = useMemo(
         () => [
-          {
-            accessorKey: "RoleID",
-            header: "Sr No.",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+          // {
+          //   accessorKey: "RoleID",
+          //   header: "Sr No.",
+          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
             
-          },
+          // },
           {
             accessorKey: "Roles",
             header: "Role Name",
@@ -867,7 +867,10 @@ fetch(menuUrl)
                       <Tooltip arrow placement="left" title="Edit">
                         <IconButton 
                         className="edit-btn"
-                        onClick={() => table.setEditingRow(row)}>
+                        onClick={() => table.setEditingRow(row)}
+                        disabled
+                        
+                        >
                           <FaRegEdit/>
                         </IconButton>
                       </Tooltip>
@@ -875,6 +878,9 @@ fetch(menuUrl)
                         <IconButton
                           color="error"
                           // onClick={() => handleDeleteRow(row)}
+
+                        disabled
+
                         >
                           <HiOutlineTrash/>
                         </IconButton>

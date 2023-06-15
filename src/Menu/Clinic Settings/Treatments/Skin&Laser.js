@@ -201,11 +201,11 @@ fetch(getSlUrl)
 
     const columns = useMemo(
         () => [
-          {
-            accessorKey: "TreatmentID",
-            header: "Treatment ID",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Treatment ID" },
-          },
+          // {
+          //   accessorKey: "TreatmentID",
+          //   header: "Treatment ID",
+          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Treatment ID" },
+          // },
           {
             accessorKey: "Treatment",
             header: "Treatment Name",
@@ -793,7 +793,10 @@ fetch(getSlUrl)
                       <Tooltip arrow placement="left" title="Edit">
                         <IconButton 
                         className="edit-btn"
-                        onClick={() => table.setEditingRow(row)}>
+                        onClick={() => table.setEditingRow(row)}
+                        disabled
+                        
+                        >
                           <FaRegEdit/>
                         </IconButton>
                       </Tooltip>
@@ -801,6 +804,8 @@ fetch(getSlUrl)
                         <IconButton
                           color="error"
                           // onClick={() => handleDeleteRow(row)}
+                        disabled
+
                         >
                           <HiOutlineTrash/>
                         </IconButton>

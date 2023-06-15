@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "revive-f9123"
+    "default": "revive-938f8"
   },
   "targets": {
-    "revive-f9123": {
+    "revive-938f8": {
       "hosting": {
-        "revive": [
-          "revive-f9123.web.app"
+        "Revive": [
+          "revive.web.app"
         ]
       }
     }

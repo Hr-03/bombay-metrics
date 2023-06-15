@@ -183,8 +183,11 @@ let y=date.getFullYear();
 
 let today=y+"-"+m+"-"+d
 
+let EnqId=sessionStorage.getItem("EnqId");
+
+
     const [fup, setFup] = useState({
-      EnquiryID:"1",
+      EnquiryID:EnqId,
       FirstName:"",
       LastName:"",
       ConversationDetails:"",
@@ -362,7 +365,6 @@ fetch(modeUrl)
 
 const [fupDetails, setFupDetails] = useState([]);
 
-let EnqId=sessionStorage.getItem("EnqId");
 
 const fupdUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetFollowupDetails/${EnqId}`;
 
@@ -1018,7 +1020,7 @@ fetch(menuUrl)
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>First Name</Form.Label>
+        <Form.Label>First Name  <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="FirstName" value={fup.FirstName} onChange={(e)=>handleChange(e)}/>
        
       </Form.Group>
@@ -1027,7 +1029,7 @@ fetch(menuUrl)
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Last Name</Form.Label>
+        <Form.Label>Last Name <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="LastName" value={fup.LastName} onChange={(e)=>handleChange(e)}/>
        
       </Form.Group>
@@ -1035,7 +1037,7 @@ fetch(menuUrl)
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Next Follow Up Date</Form.Label>
+        <Form.Label>Next Follow Up Date <span className="req-f">*</span></Form.Label>
         <Form.Control type="date" placeholder="" name="NextFollowUpDate" value={fup.NextFollowUpDate} onChange={(e)=>handleChange(e)}/>
       
       </Form.Group>
@@ -1046,7 +1048,7 @@ fetch(menuUrl)
 
                 <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Status</Form.Label>
+        <Form.Label>Status <span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="FollowUpStatus" onChange={(e)=>handleChange(e)}>
       <option></option>
       {
@@ -1068,7 +1070,7 @@ fetch(menuUrl)
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Follow Up Mode</Form.Label>
+        <Form.Label>Follow Up Mode <span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="FollowUpMode" onChange={(e)=>handleChange(e)}>
       <option></option>
       {
@@ -1089,7 +1091,7 @@ fetch(menuUrl)
           
                     <Col md={6}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Conversation Details</Form.Label>
+        <Form.Label>Conversation Details <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="ConversationDetails" value={fup.ConversationDetails} onChange={(e)=>handleChange(e)}/>
       
       </Form.Group>
@@ -1105,7 +1107,7 @@ fetch(menuUrl)
                 <Row>
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Interest Level</Form.Label>
+        <Form.Label>Interest Level <span className="req-f">*</span></Form.Label>
         <Row>
             <Col>
             
@@ -1125,7 +1127,7 @@ fetch(menuUrl)
                     </Col>
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Remarks</Form.Label>
+        <Form.Label>Remarks <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="Remarks" value={fup.Remarks} onChange={(e)=>handleChange(e)}/>
       
       </Form.Group>

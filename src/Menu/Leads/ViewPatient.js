@@ -33,7 +33,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Avatar,Tooltip } from "@mui/material";
-import { Card, Col, Row ,Modal,Form} from "react-bootstrap";
+import { Card, Col, Row ,Modal,Form, Table} from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 // import "../../index.css";
 import { Delete, Edit } from "@mui/icons-material";
@@ -62,7 +62,7 @@ import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
 
-const drawerWidth = window.innerWidth;
+const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -175,6 +175,21 @@ function ViewPatient(){
       setAnchorEl(null);
     };
 
+
+let patientId=sessionStorage.getItem("viewpnt");
+    const [profile, setProfile] = useState([]);
+
+    const pUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetPatientDetails/${patientId}`;
+
+      useEffect(()=>{
+        fetch(pUrl)
+        .then((res)=>res.json())
+        .then((pRes)=>{
+          console.log(pRes.Data);
+          setProfile(pRes.Data);
+        })
+      },[])
+    
 
     const columns = useMemo(
         () => [
@@ -726,20 +741,20 @@ fetch(menuUrl)
                 <Card>
                 <Row className="m-3">
                     <Col lg={2}>
-       <Avatar alt="Travis Howard" src="/static/images/avatar/1.jpg" className="m-auto ava-img mt-4"/>
-                    <p className="text-center m-4">Sneha Gaikwad</p>
+       <Avatar alt={profile[0]?.Name} src={profile[0]?.PatientPhoto} className="m-auto ava-img mt-4"/>
+                    <p className="text-center m-4">{profile[0]?.Name}</p>
                     </Col>
                     <Col lg={5}>
-                    <p className="mb-5 dt-lbl">Gender :</p>
-                    <p className="mb-5 dt-lbl">Mobile Number :</p>
-                    <p className="mb-5 dt-lbl">Email ID :</p>
-                    <p className="mb-5 dt-lbl">Address :</p>
+                    <p className="mb-5 dt-lbl">Gender :<span style={{fontWeight:"normal"}}>{profile[0]?.Gender}</span></p>
+                    <p className="mb-5 dt-lbl">Mobile Number :<span style={{fontWeight:"normal"}}>{profile[0]?.MobileNo}</span></p>
+                    <p className="mb-5 dt-lbl">Email ID :<span style={{fontWeight:"normal"}}>{profile[0]?.Email}</span></p>
+                    <p className="mb-5 dt-lbl">Address :<span style={{fontWeight:"normal"}}>{profile[0]?.Address}</span></p>
                     </Col>
 
                     <Col lg={5}>
-                    <p className="mb-5 dt-lbl">Age :</p>
-                    <p className="mb-5 dt-lbl">Date of birth :</p>
-                    <p className="mb-5 dt-lbl">Occupation :</p>
+                    {/* <p className="mb-5 dt-lbl">Age :</p> */}
+                    <p className="mb-5 dt-lbl">Date of birth :<span style={{fontWeight:"normal"}}>{profile[0]?.BirthDate.split(" ")[0]}</span></p>
+                    <p className="mb-5 dt-lbl">Occupation :<span style={{fontWeight:"normal"}}>{profile[0]?.Occupation}</span></p>
                     </Col>
                 </Row>
                 </Card>
@@ -752,26 +767,26 @@ fetch(menuUrl)
                 <Card className="p-4">
                     <Row>
                         <Col xs={12} lg={6}>
-                        <p className="dt-lbl">Family Doctor’s Name :</p>
+                        <p className="dt-lbl">Family Doctor’s Name :<span style={{fontWeight:"normal"}}>{profile[0]?.FamilyDoctorName}</span></p>
                         </Col>
                         <Col xs={12} lg={6}>
-                        <p className="dt-lbl">Phone/Telephone Number :</p>
+                        <p className="dt-lbl">Phone/Telephone Number :<span style={{fontWeight:"normal"}}>{profile[0]?.DrTelephoneNo}</span></p>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                        <p className="dt-lbl">Address :</p>
+                        <p className="dt-lbl">Address :<span style={{fontWeight:"normal"}}>{profile[0]?.DrAddress}</span></p>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                        <p className="dt-lbl">Have you suffered or suffering  from any of the following :</p>
+                        <p className="dt-lbl"> Suffering  from :<span style={{fontWeight:"normal"}}>{profile[0]?.SufferingFrom[0]}</span></p>
                         </Col>
                     </Row>
 
                     <Row>
                         <Col>
-                        <p className="dt-lbl">List of Medicine you are taking currently, if any :</p>
+                        <p className="dt-lbl">List of Medicine you are taking currently, if any :<span style={{fontWeight:"normal"}}>{profile[0]?.OngoingMedicine}</span></p>
                         </Col>
                     </Row>
 
@@ -780,32 +795,32 @@ fetch(menuUrl)
                         <p style={{whiteSpace:""}} className="dt-lbl">If Women Patient :</p>
                         </Col>
                         <Col lg={3}>
-                        <p className="mx-0 mx-lg-3 dt-lblsub">Menses:</p>
+                        <p className="mx-0 mx-lg-3 dt-lblsub">Menses:<span style={{fontWeight:"normal"}}>{profile[0]?.Menses}</span></p>
                         </Col>
                         <Col lg={3}>
-                        <p className="dt-lblsub">Are you Pregnant:</p>
+                        <p className="dt-lblsub">Are you Pregnant:<span style={{fontWeight:"normal"}}>{profile[0]?.IsPregnant==="True"?"Yes":"No"}</span></p>
                         </Col>
                         <Col lg={4}>
-                        <p className="dt-lblsub">Delivery:</p>
+                        <p className="dt-lblsub">Delivery:<span style={{fontWeight:"normal"}}>{profile[0]?.Delivery}</span></p>
                         </Col>
                     </Row>
 
 
                     <Row>
                         <Col xs={12} lg={4}>
-                        <p className="dt-lbl">Hair fall/ Dandruff/ Itching :</p>
+                        <p className="dt-lbl">Hair fall/ Dandruff/ Itching :<span style={{fontWeight:"normal"}}>{profile[0]?.HairIssue[0]}</span></p>
                         </Col>
                         <Col xs={12} lg={4}>
-                        <p className="dt-lblsub">Since</p>
+                        <p className="dt-lblsub">Since:<span style={{fontWeight:"normal"}}>{profile[0]?.Since.split(" ")[0]}</span></p>
                         </Col>
                         <Col xs={12} lg={4}>
-                        <p className="dt-lblsub">Treatment Done Anywhere?</p>
+                        <p className="dt-lblsub">Treatment Done Anywhere? <span style={{fontWeight:"normal"}}>{profile[0]?.PreviousTreatment}</span></p>
                         </Col>
                     </Row>
 
                     <Row>
                         <Col>
-                        <p className="dt-lbl">Treatment Explanation :</p>
+                        <p className="dt-lbl">Treatment Explanation :<span style={{fontWeight:"normal"}}>{profile[0]?.TreatmentExplanation}</span></p>
                         </Col>
                     </Row>
 
@@ -815,7 +830,7 @@ fetch(menuUrl)
                         <p className="dt-lbl">Diet :</p>
                         </Col>
                         <Col>
-                        <MaterialReactTable
+                        {/* <MaterialReactTable
                   columns={columns}
                   data={data}
                   
@@ -828,7 +843,32 @@ fetch(menuUrl)
                 //   }}
                
                 
-                />
+                /> */}
+
+
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Meal</th>
+                      <th>Diet</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      profile[0]?.objDiet?.map((d,i)=>{
+                        return(
+                          <>
+                          
+                    <tr>
+                      <td>{d?.Meal}</td>
+                      <td>{d?.DietDetails}</td>
+                    </tr>
+                          </>
+                        )
+                      })
+                    }
+                  </tbody>
+                </Table>
                         </Col>
                     </Row>
                 </Card>
@@ -842,22 +882,22 @@ fetch(menuUrl)
                 <Card className="p-4">
                     <Row>
                         <Col xs={12} lg={3}>
-                        <p className="dt-lbl">Marital Status :</p>
-                        <p className="dt-lbl">Profession :</p>
-                        <p className="dt-lbl">Reason for weight loss :</p>
+                        <p className="dt-lbl">Marital Status : <span style={{fontWeight:"normal"}}>{profile[0]?.MaritalStatus}</span></p>
+                        <p className="dt-lbl">Profession : <span style={{fontWeight:"normal"}}>{profile[0]?.Profession}</span></p>
+                        <p className="dt-lbl">Reason for weight loss :<span style={{fontWeight:"normal"}}>{profile[0]?.ReasonOfWeightloss}</span></p>
                         </Col>
 
                         <Col xs={12} lg={3}>
-                        <p className="dt-lbl">Water Intake (Day) :</p>
-                        <p className="dt-lbl">Designation :</p>
+                        <p className="dt-lbl">Water Intake (Day) :<span style={{fontWeight:"normal"}}>{profile[0]?.WaterIntake} ltrs</span></p>
+                        <p className="dt-lbl">Designation :<span style={{fontWeight:"normal"}}>{profile[0]?.Designation}</span></p>
                         </Col>
                         
                         <Col xs={12} lg={3}>
-                        <p className="dt-lbl">Sleep Duration :</p>
-                        <p className="dt-lbl">Timing :</p>
+                        <p className="dt-lbl">Sleep Duration :<span style={{fontWeight:"normal"}}>{profile[0]?.SleepDuration} hrs.</span></p>
+                        <p className="dt-lbl">Timing :<span style={{fontWeight:"normal"}}>{profile[0]?.OfficeHours}</span></p>
                         </Col>
                         <Col xs={12} lg={3}>
-                        <p className="dt-lbl">Stress :</p>
+                        <p className="dt-lbl">Stress :<span style={{fontWeight:"normal"}}>{profile[0]?.Stress}</span></p>
                         </Col>
                     </Row>
                 </Card>

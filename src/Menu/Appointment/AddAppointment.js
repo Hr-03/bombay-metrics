@@ -154,18 +154,20 @@ const StyledMenu = styled((props) => (
 
 function AddAppointment(){
   let enquiryId=sessionStorage.getItem("bookEnqId");
+  let Mobile=sessionStorage.getItem("bookmbl");
+  let Name=sessionStorage.getItem("bookname");
   const [appointment, setAppointment] = useState({
     ClinicID:"",
     UserID:"",
     AppointmentNo:"",
     EnquiryID:enquiryId,
     AppointmentDateTime:"",
-    FirstName:"",
-    LastName:"",
+    FirstName:Name.split(" ")[0],
+    LastName:Name.split(" ")[1],
     DateOfBirth:"",
     Age:"",
     Gender:"",
-    MobileNo:"",
+    MobileNo:Mobile,
     TelephoneNo:"",
     Email:"",
     PatientID:"0",
@@ -450,7 +452,7 @@ fetch(drsUrl)
                   </ListItem>
                   
 
-
+                
                   {/* <ListItem disablePadding> */}
                   <ListItemButton onClick={handleMenuClick}>
         <ListItemIcon>
@@ -713,7 +715,7 @@ fetch(drsUrl)
                   </ListItemButton>
                   <Collapse in={open6} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/book-apmt")}>
+        <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/appmnt")}>
           <ListItemIcon>
             <img src="" alt="" srcset="" />
           </ListItemIcon>
@@ -836,14 +838,14 @@ fetch(drsUrl)
                 <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>First Name</Form.Label>
-        <Form.Control type="text" placeholder="" name="FirstName" onChange={(e)=>handleChange(e)}/>
+        <Form.Control type="text" placeholder="" name="FirstName" value={appointment?.FirstName} onChange={(e)=>handleChange(e)}/>
    
       </Form.Group>                 
                 </Col>
                 <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Last Name</Form.Label>
-        <Form.Control type="text" placeholder="" name="LastName" onChange={(e)=>handleChange(e)}/>
+        <Form.Control type="text" placeholder="" name="LastName" value={appointment?.LastName} onChange={(e)=>handleChange(e)}/>
    
       </Form.Group>                 
                 </Col>
@@ -854,18 +856,15 @@ fetch(drsUrl)
    
       </Form.Group>                 
                 </Col>
-                <Col md={3}>
+                {/* <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Age</Form.Label>
         <Form.Control type="number" placeholder="" name="Age" onChange={(e)=>handleChange(e)}/>
    
       </Form.Group>                 
-                </Col>
-            </Row>
+                </Col> */}
 
-
-            <Row>
-                <Col md={3}>
+<Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Gender</Form.Label>
         <Form.Select aria-label="Default select example" name="Gender" onChange={(e)=>handleChange(e)}>
@@ -876,11 +875,16 @@ fetch(drsUrl)
     </Form.Select>
       </Form.Group>
                 </Col>
+            </Row>
+
+
+            <Row>
+               
 
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Mobile Number</Form.Label>
-        <Form.Control type="tel" placeholder="" name="MobileNo" onChange={(e)=>handleChange(e)}/>
+        <Form.Control type="tel" placeholder="" name="MobileNo" value={appointment?.MobileNo} onChange={(e)=>handleChange(e)}/>
    
       </Form.Group>    
                 </Col>

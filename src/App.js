@@ -36,6 +36,9 @@ import TodaysFollowups from './Pages/TodaysFollowups';
 import ViewDoctorProfile from './Menu/User Settings/ViewDoctorProfile';
 import Dashboard from './Pages/Dashboard';
 import ConvertToPatient from './Menu/Leads/ConvertToPatient';
+import Invoice from './Pages/Invoice';
+import AddTreatments from './Pages/AddTreatments';
+import AddCollection from './Pages/AddCollection';
 
 function App() {
   return (
@@ -67,14 +70,17 @@ function App() {
           <Route path="/fup-view/:enquiryId" element={<ViewFollowupDetails/>} />
           <Route path="/p-cvrt" element={<PatientConversion/>} />
           <Route path="/patients" element={<Patients/>} />
-          <Route path="/view-p" element={<ViewPatient/>} />
+          <Route path="/view-p/:patientId" element={<ViewPatient/>} />
           <Route path="/up-leads" element={<UploadLeads/>} />
           <Route path="/appmnt" element={<BookAppointment/>} />
           <Route path="/book-apmt/:enqId" element={<AddAppointment/>} />
           <Route path="/view-apmt" element={<ViewAppointment/>} />
           <Route path="/today-fup" element={<TodaysFollowups/>} />
-          <Route path="/view-dr" element={<ViewDoctorProfile/>} />
+          <Route path="/view-dr/:UserID" element={<ViewDoctorProfile/>} />
           <Route path="/fup-pnt/:enquiryId" element={<ConvertToPatient/>} />
+          <Route path="/invoice" element={<Invoice/>} />
+          <Route path="/add-treatment" element={<AddTreatments/>} />
+          <Route path="/add-collection" element={<AddCollection/>} />
 
 
           </Routes>

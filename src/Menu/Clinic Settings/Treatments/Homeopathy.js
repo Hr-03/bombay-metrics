@@ -195,12 +195,12 @@ const navigate=useNavigate();
 
     const columns = useMemo(
         () => [
-          {
-            accessorKey: "TreatmentID",
-            header: "Treatment ID",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Treatment ID" },
+          // {
+          //   accessorKey: "TreatmentID",
+          //   header: "Treatment ID",
+          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Treatment ID" },
             
-          },
+          // },
           {
             accessorKey: "Treatment",
             header: "Treatment Name",
@@ -790,7 +790,10 @@ fetch(menuUrl)
                                     <Tooltip arrow placement="left" title="Edit">
                                       <IconButton 
                                       className="edit-btn"
-                                      onClick={() => table.setEditingRow(row)}>
+                                      onClick={() => table.setEditingRow(row)}
+                        disabled
+                                      
+                                      >
                                         <FaRegEdit/>
                                       </IconButton>
                                     </Tooltip>
@@ -798,6 +801,8 @@ fetch(menuUrl)
                                       <IconButton
                                         color="error"
                                         // onClick={() => handleDeleteRow(row)}
+                        disabled
+
                                       >
                                         <HiOutlineTrash/>
                                       </IconButton>

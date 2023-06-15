@@ -44,7 +44,7 @@ function Login() {
         console.log(newdata);
     }
 
-    const logUrl="https://www.orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/VerifyLogin";
+    const logUrl="https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/VerifyLogin";
 
 
 
@@ -67,7 +67,7 @@ function Login() {
         }).then((res)=>res.json()).then((resp)=>{
     setLoading(false)
 
-          console.log(resp.Data);
+          console.log(resp);
           if(resp.status===true){
             sessionStorage.setItem("RoleId",resp.Data[0]?.RoleID);
             sessionStorage.setItem("UserId",resp.Data[0]?.UserID);

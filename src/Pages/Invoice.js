@@ -1,5 +1,5 @@
-import React,{useState,useMemo,useEffect} from "react";
-import "../../Styles/Menu/User Settings/DoctorRegistration.css";
+import React,{useState,useEffect,useMemo} from 'react';
+import "../Styles/Invoice.css";
 import { styled, useTheme,alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -20,8 +20,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import CloseIcon from '@mui/icons-material/Close';
-import "../../Components/Sidebar.css";
-import logo from "../../Assets/logo.png";
+import "../Components/Sidebar.css";
+import logo from "../Assets/logo.png";
 import { HelpOutlineOutlined, NotificationsNoneOutlined } from "@mui/icons-material";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -33,14 +33,14 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Avatar,Tooltip } from "@mui/material";
-import { Card, Col, Row ,Modal,Form,Table} from "react-bootstrap";
+import { Card, Col, Row ,Modal,Form, Table} from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 // import "../../index.css";
 import { Delete, Edit } from "@mui/icons-material";
-import {FaCheckCircle, FaEye, FaRegEdit} from "react-icons/fa";
+import {FaCheckCircle, FaRegEdit} from "react-icons/fa";
 import {HiOutlineTrash} from "react-icons/hi";
 import {useNavigate} from "react-router-dom";
-import dashIcon from "../../Assets/Dashboard.png";
+import dashIcon from "../Assets/Dashboard.png";
 // import ListItemIcon from '@mui/material/ListItemIcon';
 // import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -50,15 +50,17 @@ import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
-import menuIcon from "../../Assets/Vector.png";
-import gearIcon from "../../Assets/gear.png";
-import userGearIcon from "../../Assets/userGear.png";
-import cliGearIcon from "../../Assets/cset.png";
-import lp from "../../Assets/lp.png";
-import report from "../../Assets/reports.png";
-import calendar from "../../Assets/calendar.png";
-import { AiOutlineEye } from "react-icons/ai";
-import { MdLogout } from "react-icons/md";
+import menuIcon from "../Assets/Vector.png";
+import gearIcon from "../Assets/gear.png";
+import userGearIcon from "../Assets/userGear.png";
+import cliGearIcon from "../Assets/cset.png";
+import lp from "../Assets/lp.png";
+import report from "../Assets/reports.png";
+import calendar from "../Assets/calendar.png";
+import { MdLogout } from 'react-icons/md';
+import { BsPlus } from 'react-icons/bs';
+import { ReactSearchAutocomplete } from 'react-search-autocomplete';
+
 
 const drawerWidth = 240;
 
@@ -148,9 +150,11 @@ const StyledMenu = styled((props) => (
       },
     },
   }));
+  
 
 
-function DoctorRegistration(){
+const Invoice = () => {
+
     const navigate=useNavigate();
     const [createModalOpen, setCreateModalOpen] = useState(false);
 
@@ -174,53 +178,68 @@ function DoctorRegistration(){
     };
 
 
-   
-
-const [drs, setDrs] = useState([]);
-
-const drUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetDoctorDetails/0`;
-useEffect(()=>{
-fetch(drUrl)
-.then((res)=>res.json())
-.then((getDr)=>{
-  console.log(getDr.Data);
-  setDrs(getDr.Data);
-})
-},[])
 
     const columns = useMemo(
         () => [
-          // {
-          //   accessorKey: "UserID",
-          //   header: "User ID",
-          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "User ID" },
+        //   {
+        //     accessorKey: "srNo",
+        //     header: "Sr No.",
+        //     muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
             
-          // },
-          {
-            accessorKey: "ProfilePhoto",
-            header: "Photo",
-            Cell:({cell})=>{
-              let src=cell.getValue();
-              return <div>{<img src={src?src:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
-            }
-          },
+        //   },
           {
             accessorKey: "Name",
             header: "Name",
           },
           {
+            accessorKey: "EnquiryFor",
+            header: "Enquiry For",
+          },
+          {
+            accessorKey: "EnquiryType",
+            header: "Enquiry Type",
+          },
+          {
+            accessorKey: "EnquiryDate",
+            header: "Enquiry Date",
+            Cell:({cell})=>{
+                let ed=cell.getValue()
+                return(
+                    <>
+                    <div>{ed.split(" ")[0]}</div>
+                    </>
+                )
+            }
+          },
+          {
             accessorKey: "MobileNo",
-            header: "Mobile Number",
+            header: "Mobile No.",
           },
           {
-            accessorKey: "EmailID",
-            header: "Email ID",
+            accessorKey: "SourceType",
+            header: "Source",
           },
           {
-            accessorKey: "RegistrationDate",
-            header: "Reg Date",
+            accessorKey: "FollowUpDate",
+            header: "FollowUp Date",
+            Cell:({cell})=>{
+                let fd=cell.getValue()
+                return(
+                    <>
+                    <div>{fd.split(" ")[0]}</div>
+                    </>
+                )
+            }
           },
-         
+        //   {
+        //     accessorKey: "download",
+        //     header: "Download",
+        //     Cell:({cell})=>{
+        //         let a=cell.getValue();
+        //         return(
+        //         a==="unChecked"?<img src="https://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+        //       )          }
+        //   },
         //   {
         //     accessorKey: "address",
         //     header: "Address",
@@ -266,31 +285,54 @@ fetch(drUrl)
        
           {
             srNo: 1,
-            Photo: <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width={150} height={120}/>,
-            Name:"Dr. Pankti",
-            mobileNumber:"95261663263",
-            emailID:"panktitutwala@gmail.com",
-            regDate:"16/02/2023",
-            // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+            role: "Admin",
+            menu:"Clinic Settings",
+            add:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            edit:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            delete:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
            
           },
           {
             srNo: 2,
-            Photo: <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width={150} height={120}/>,
-            Name:"Dr. Bhavik Tutwala",
-            mobileNumber:"95261663263",
-            emailID:"bhaviktutwala@gmail.com",
-            regDate:"16/02/2023",
-            // view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
-            // download:"unChecked"
+            role: "Doctor",
+            menu:"User Settings",
+            add:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            edit:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            delete:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+            download:"unChecked"
             
           },
          
         ],
         []
       );
-      
+
+
+
+      const [todaysFollowup, setTodaysFollowup] = useState([]);
+
+
+      let Role=sessionStorage.getItem("RoleId");
+
+      let User=Role==="1"?0:sessionStorage.getItem("UserId")
+
+
+      const tfUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetTodaysFollowupList/${User}`
+
+
+      useEffect(()=>{
+        fetch(tfUrl)
+        .then((res)=>res.json())
+        .then((tf)=>{
+            console.log(tf.Data);
+            setTodaysFollowup(tf.Data);
+        })
+      },[])
+
+
 
 
       const [menuList, setMenuList] = useState([]);
@@ -338,9 +380,50 @@ fetch(menuUrl)
     setOpen6(!open6);
   };
 
-    return(
-        <>
-         <Box sx={{ display: 'flex' }}>
+  const [inputList, setInputList] = useState([{ TreatmentName: "", Price: "" ,PaidAmount:"",InvoiceAmount:"",Discount:"",Total:""}]);
+
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+
+
+    list[index][name] = value;
+    setInputList(list);
+    console.log(inputList);
+    // setData((pre)=>{
+    //   return{
+    //     ...pre,
+    //     objDiet:inputList
+    //   }
+    // })
+
+//     inputList.map((meal,i)=>{
+//       let a=[];
+
+//       a.push(meal.firstName);
+
+// console.log(a);
+//     }) 
+
+    // console.log();
+  };
+
+
+  const handleRemoveClick = index => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+
+  // handle click event of the Add button
+  const handleAddClick = () => {
+    setInputList([...inputList, { TreatmentName: "", Price: "" ,PaidAmount:"",InvoiceAmount:"",Discount:"",Total:""}]);
+  };
+
+
+  return (
+   <>
+       <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} className="navigBar">
           <Toolbar>
@@ -778,124 +861,154 @@ fetch(menuUrl)
         </Drawer>
       <Main open={open}>
         <DrawerHeader />
-       <Card className="m-1 mt-3 dr-crd p-3">
+       <Card className="m-1 mt-3 ap-crd p-3">
         <Row>
             <Col>
-            <p className="dr-t">Doctor Registration</p>
+            <p className="ap-t">Generate Invoice</p>
             <hr />
+            {/* <Form> */}
+                <Row>
+                    <Col md={3}>
+                    <Form.Label>Patient name</Form.Label>
 
-            {/* <Row className="p-5">
-                <Col>
-                <p className="text-center hpathy-nodata mb-1">No Data available</p>
-                <p className="text-center hpathy-add-t">Click on add new to add treatments</p>
+<ReactSearchAutocomplete
+// items={items}
+fuseOptions={{ keys: ["Name"] }}
+// necessary, otherwise the results will be blank
+resultStringKeyName="Name"
+/>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Doctor Name</Form.Label>
+                        <Form.Select aria-label="Default select example" style={{padding:"0.55rem"}}>
+      <option></option>
+      <option value="1">One</option>
+      
+    </Form.Select>
+                    </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Clinic Name</Form.Label>
+                        <Form.Select aria-label="Default select example" style={{padding:"0.55rem"}}>
+      <option></option>
+      <option value="1">One</option>
+      
+    </Form.Select>
+                    </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Date</Form.Label>
+                       <Form.Control type='date' style={{padding:"0.55rem"}}/>
+                    </Form.Group>
+                    </Col>
+                </Row>
 
-                    <Row className="text-center mt-5">
-                        <Col>
-                        
-                <Button variant="" className="hpathy-btn">Add New</Button>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row> */}
+                <p className='mt-4' style={{fontSize:"18px",fontWeight:"500",color:"#CC758E"}}>Treatment</p>
 
-<MaterialReactTable
-                  columns={columns}
-                  data={drs}
-                  initialState={{ showColumnFilters: true }} //show filters by default
-                  
-                  muiTableHeadCellFilterTextFieldProps={{
-                    sx: { m: "0.5rem 0", width: "100%" },
-                    variant: "outlined",
-                  }}
-                  enableEditing
-                  // onEditingRowSave={handleSaveRowEdits}
-                  // onEditingRowCancel={handleCancelRowEdits}
-                  renderRowActions={({cell, row, table }) => (
-                    <Box sx={{ display: "flex", gap: "1rem" }}>
-                      <Tooltip arrow placement="left" title="Edit">
-                        <IconButton 
-                        className="edit-btn"
-                        onClick={() => table.setEditingRow(row)}
-                        disabled
-                        
-                        >
-                          <FaRegEdit/>
-                        </IconButton>
-                      </Tooltip>
+                {inputList.map((x, i) => {
+        return (
+            <>
+                <Row className=''>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Treatment Name</Form.Label>
+                        <Form.Select aria-label="Default select example" name='TreatmentName' onChange={e => handleInputChange(e, i)}>
+      <option></option>
+      <option value="">One</option>
+      
+    </Form.Select>
+                    </Form.Group>
+                    </Col>
+
+                    <Col md={2}>
+                    <Form.Group>
+                        <Form.Label>Price</Form.Label>
+                       <Form.Control type='number' disabled name='Price' onChange={e => handleInputChange(e, i)}/>
+                    </Form.Group>
+                    </Col>
+                    <Col md={2}>
+                    <Form.Group>
+                        <Form.Label>Paid Amount</Form.Label>
+                       <Form.Control type='number' disabled name='PaidAmount' onChange={e => handleInputChange(e, i)}/>
+                    </Form.Group>
+                    </Col>
+                    <Col md={2}>
+                    <Form.Group>
+                        <Form.Label>Invoice Amount</Form.Label>
+                       <Form.Control type='number' name='InvoiceAmount' onChange={e => handleInputChange(e, i)}/>
+                    </Form.Group>
+                    </Col>
+                    <Col md={1}>
+                    <Form.Group>
+                        <Form.Label>Discount</Form.Label>
+                       <Form.Control type='number' name='Discount' onChange={e => handleInputChange(e, i)}/>
+                    </Form.Group>
+                    </Col>
+                    <Col md={2}>
+                    <Form.Group>
+                        <Form.Label>Total</Form.Label>
+                       <Form.Control type='number' name='Total' onChange={e => handleInputChange(e, i)}/>
+                    </Form.Group>
+                    </Col>
+                    <Col>
+          
+          {inputList.length !== 1 && <Button
+            className="mr10"
+            onClick={() => handleRemoveClick(i)}>Remove</Button>}
+      </Col>
+                </Row>
+
+                <Row className='mt-3'>
+                    <Col>
+                    {inputList.length - 1 === i &&<Button variant='' className='addT' onClick={handleAddClick}><BsPlus fontSize={30}/> Add Treatment</Button>}
+                    </Col>
+                </Row>
+                </>
+                )
+                })}
+            {/* </Form> */}
+            <hr />
+           
+         <Table>
+            <thead>
+                <tr>
+                    <th className='invTh'>Total Amount</th>
+                    <th className='invTh'>Invoice Amt(Current)</th>
+                    <th className='invTh'>Invoice Amt(Previous)</th>
+                    <th className='invTh'>Total Discount</th>
+                    <th className='invTh'>Total Paid Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td className='invTh'></td>
+                    <td className='invTh'></td>
+                    <td className='invTh'></td>
+                    <td className='invTh'></td>
+                    <td className='invTh'></td>
+                </tr>
+            </tbody>
+         </Table>
 
 
-                      <Tooltip arrow placement="left" title="view">
-                        <IconButton 
-                        className="view-btn"
-                        onClick={() =>
-                          {
-                            let UserID = cell.row.original.UserID;
-                            sessionStorage.setItem("viewDoc", UserID);
-                            console.log(cell.row.original.UserID);
-                            navigate(`/view-dr/${UserID}`)
-                          }
-                          }>
-                          <AiOutlineEye/>
-                        </IconButton>
-                      </Tooltip>
-
-                      <Tooltip arrow placement="right" title="Delete">
-                        <IconButton
-                          color="error"
-                          // onClick={() => handleDeleteRow(row)}
-                        disabled
-
-                        >
-                          <HiOutlineTrash/>
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  )}
-                  renderTopToolbarCustomActions={() => (
-                    <>
-                    <Button
-                      // color="secondary"
-                      className="dr-btn"
-                      onClick={() => {
-                        // setCreateModalOpen(true);
-                        // handleShowAddRole();
-                        navigate("/add-dr")
-                      
-                      }}
-                      variant="contained"
-                    >
-                     Add New Doctor
-                    </Button>
-
-                    {/* <Button
-                    // color="secondary"
-                    className="dr-up-btn mx-2"
-                    onClick={() => {
-                    // setCreateModalOpen(true);
-                    // handleShowAddRole();
-                    // navigate("/add-access")
-
-                    }}
-                    variant="contained"
-                    >
-                    Upload Excel
-                    </Button> */}
-                    </>
-                    
-                  )}
-                  
-                  positionActionsColumn="last"
-                  />
-
+<Row>
+    <Col>
+    <Button variant='' className='genIn p-2'>Generate Invoice</Button>
+    </Col>
+    <Col>
+    <Button variant='' className='addColl p-2' onClick={()=>navigate("/add-collection")}>Add Collection</Button>
+    </Col>
+</Row>
             </Col>
         </Row>
-
        </Card>
       </Main>
     </Box>
-        </>
-    );
+   </>
+  )
 }
 
-
-export default DoctorRegistration;
+export default Invoice

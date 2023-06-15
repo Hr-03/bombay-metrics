@@ -1,5 +1,5 @@
-import React,{useState,useMemo,useEffect} from "react";
-import "../../Styles/Menu/User Settings/DoctorRegistration.css";
+import React,{useState,useEffect,useMemo} from 'react';
+import "../Styles/AddCollection.css";
 import { styled, useTheme,alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -20,8 +20,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import CloseIcon from '@mui/icons-material/Close';
-import "../../Components/Sidebar.css";
-import logo from "../../Assets/logo.png";
+import "../Components/Sidebar.css";
+import logo from "../Assets/logo.png";
 import { HelpOutlineOutlined, NotificationsNoneOutlined } from "@mui/icons-material";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -33,14 +33,14 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Avatar,Tooltip } from "@mui/material";
-import { Card, Col, Row ,Modal,Form,Table} from "react-bootstrap";
+import { Card, Col, Row ,Modal,Form, Table} from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 // import "../../index.css";
 import { Delete, Edit } from "@mui/icons-material";
-import {FaCheckCircle, FaEye, FaRegEdit} from "react-icons/fa";
+import {FaCheckCircle, FaRegEdit} from "react-icons/fa";
 import {HiOutlineTrash} from "react-icons/hi";
 import {useNavigate} from "react-router-dom";
-import dashIcon from "../../Assets/Dashboard.png";
+import dashIcon from "../Assets/Dashboard.png";
 // import ListItemIcon from '@mui/material/ListItemIcon';
 // import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -50,15 +50,16 @@ import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
-import menuIcon from "../../Assets/Vector.png";
-import gearIcon from "../../Assets/gear.png";
-import userGearIcon from "../../Assets/userGear.png";
-import cliGearIcon from "../../Assets/cset.png";
-import lp from "../../Assets/lp.png";
-import report from "../../Assets/reports.png";
-import calendar from "../../Assets/calendar.png";
-import { AiOutlineEye } from "react-icons/ai";
-import { MdLogout } from "react-icons/md";
+import menuIcon from "../Assets/Vector.png";
+import gearIcon from "../Assets/gear.png";
+import userGearIcon from "../Assets/userGear.png";
+import cliGearIcon from "../Assets/cset.png";
+import lp from "../Assets/lp.png";
+import report from "../Assets/reports.png";
+import calendar from "../Assets/calendar.png";
+import { MdLogout } from 'react-icons/md';
+import { BsPlus } from 'react-icons/bs';
+import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 
 const drawerWidth = 240;
 
@@ -148,9 +149,8 @@ const StyledMenu = styled((props) => (
       },
     },
   }));
-
-
-function DoctorRegistration(){
+  
+const AddCollection = () => {
     const navigate=useNavigate();
     const [createModalOpen, setCreateModalOpen] = useState(false);
 
@@ -174,53 +174,68 @@ function DoctorRegistration(){
     };
 
 
-   
-
-const [drs, setDrs] = useState([]);
-
-const drUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetDoctorDetails/0`;
-useEffect(()=>{
-fetch(drUrl)
-.then((res)=>res.json())
-.then((getDr)=>{
-  console.log(getDr.Data);
-  setDrs(getDr.Data);
-})
-},[])
 
     const columns = useMemo(
         () => [
-          // {
-          //   accessorKey: "UserID",
-          //   header: "User ID",
-          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "User ID" },
+        //   {
+        //     accessorKey: "srNo",
+        //     header: "Sr No.",
+        //     muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
             
-          // },
-          {
-            accessorKey: "ProfilePhoto",
-            header: "Photo",
-            Cell:({cell})=>{
-              let src=cell.getValue();
-              return <div>{<img src={src?src:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
-            }
-          },
+        //   },
           {
             accessorKey: "Name",
             header: "Name",
           },
           {
+            accessorKey: "EnquiryFor",
+            header: "Enquiry For",
+          },
+          {
+            accessorKey: "EnquiryType",
+            header: "Enquiry Type",
+          },
+          {
+            accessorKey: "EnquiryDate",
+            header: "Enquiry Date",
+            Cell:({cell})=>{
+                let ed=cell.getValue()
+                return(
+                    <>
+                    <div>{ed.split(" ")[0]}</div>
+                    </>
+                )
+            }
+          },
+          {
             accessorKey: "MobileNo",
-            header: "Mobile Number",
+            header: "Mobile No.",
           },
           {
-            accessorKey: "EmailID",
-            header: "Email ID",
+            accessorKey: "SourceType",
+            header: "Source",
           },
           {
-            accessorKey: "RegistrationDate",
-            header: "Reg Date",
+            accessorKey: "FollowUpDate",
+            header: "FollowUp Date",
+            Cell:({cell})=>{
+                let fd=cell.getValue()
+                return(
+                    <>
+                    <div>{fd.split(" ")[0]}</div>
+                    </>
+                )
+            }
           },
-         
+        //   {
+        //     accessorKey: "download",
+        //     header: "Download",
+        //     Cell:({cell})=>{
+        //         let a=cell.getValue();
+        //         return(
+        //         a==="unChecked"?<img src="https://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+        //       )          }
+        //   },
         //   {
         //     accessorKey: "address",
         //     header: "Address",
@@ -266,31 +281,54 @@ fetch(drUrl)
        
           {
             srNo: 1,
-            Photo: <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width={150} height={120}/>,
-            Name:"Dr. Pankti",
-            mobileNumber:"95261663263",
-            emailID:"panktitutwala@gmail.com",
-            regDate:"16/02/2023",
-            // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+            role: "Admin",
+            menu:"Clinic Settings",
+            add:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            edit:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            delete:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
            
           },
           {
             srNo: 2,
-            Photo: <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width={150} height={120}/>,
-            Name:"Dr. Bhavik Tutwala",
-            mobileNumber:"95261663263",
-            emailID:"bhaviktutwala@gmail.com",
-            regDate:"16/02/2023",
-            // view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
-            // download:"unChecked"
+            role: "Doctor",
+            menu:"User Settings",
+            add:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            edit:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            delete:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+            download:"unChecked"
             
           },
          
         ],
         []
       );
-      
+
+
+
+      const [todaysFollowup, setTodaysFollowup] = useState([]);
+
+
+      let Role=sessionStorage.getItem("RoleId");
+
+      let User=Role==="1"?0:sessionStorage.getItem("UserId")
+
+
+      const tfUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetTodaysFollowupList/${User}`
+
+
+      useEffect(()=>{
+        fetch(tfUrl)
+        .then((res)=>res.json())
+        .then((tf)=>{
+            console.log(tf.Data);
+            setTodaysFollowup(tf.Data);
+        })
+      },[])
+
+
 
 
       const [menuList, setMenuList] = useState([]);
@@ -338,9 +376,21 @@ fetch(menuUrl)
     setOpen6(!open6);
   };
 
-    return(
-        <>
-         <Box sx={{ display: 'flex' }}>
+  const [collection, setCollection] = useState({
+    paymentMode:""
+  })
+
+  
+  const handleChange=(e)=>{
+    const newdata={...data};
+    newdata[e.target.name]=e.target.value;
+    setCollection(newdata);
+    console.log(newdata);
+}
+
+  return (
+   <>
+     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} className="navigBar">
           <Toolbar>
@@ -778,124 +828,315 @@ fetch(menuUrl)
         </Drawer>
       <Main open={open}>
         <DrawerHeader />
-       <Card className="m-1 mt-3 dr-crd p-3">
+       <Card className="m-1 mt-3 ap-crd p-3">
         <Row>
             <Col>
-            <p className="dr-t">Doctor Registration</p>
+            <p className="ap-t">Add Collection</p>
             <hr />
+          
+            <Form>
+                <Row>
+                    <Col md={3}>
+                    <Form.Label>Patient name</Form.Label>
 
-            {/* <Row className="p-5">
-                <Col>
-                <p className="text-center hpathy-nodata mb-1">No Data available</p>
-                <p className="text-center hpathy-add-t">Click on add new to add treatments</p>
+<ReactSearchAutocomplete
+// items={items}
+fuseOptions={{ keys: ["Name"] }}
+// necessary, otherwise the results will be blank
+resultStringKeyName="Name"
+/>
+                    </Col>
+                </Row>
+                <Row className='mt-3'>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Invoice No.</Form.Label>
+                        <Form.Select aria-label="Default select example">
+      <option></option>
+      <option value="1">One</option>
+      
+    </Form.Select>
+                    </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Amount</Form.Label>
+                       <Form.Control type='number' disabled/>
+                    </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Discount</Form.Label>
+                        <Form.Control type='number' disabled/>
 
-                    <Row className="text-center mt-5">
-                        <Col>
-                        
-                <Button variant="" className="hpathy-btn">Add New</Button>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row> */}
+                    </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Pending Amount</Form.Label>
+                        <Form.Control type='number'/>
 
-<MaterialReactTable
-                  columns={columns}
-                  data={drs}
-                  initialState={{ showColumnFilters: true }} //show filters by default
-                  
-                  muiTableHeadCellFilterTextFieldProps={{
-                    sx: { m: "0.5rem 0", width: "100%" },
-                    variant: "outlined",
-                  }}
-                  enableEditing
-                  // onEditingRowSave={handleSaveRowEdits}
-                  // onEditingRowCancel={handleCancelRowEdits}
-                  renderRowActions={({cell, row, table }) => (
-                    <Box sx={{ display: "flex", gap: "1rem" }}>
-                      <Tooltip arrow placement="left" title="Edit">
-                        <IconButton 
-                        className="edit-btn"
-                        onClick={() => table.setEditingRow(row)}
-                        disabled
-                        
-                        >
-                          <FaRegEdit/>
-                        </IconButton>
-                      </Tooltip>
+                    </Form.Group>
+                    </Col>
+
+                </Row>
+
+                <Row className='mt-3'>
+                    <Col md={3}>
+                    <Form.Group>
+                        <Form.Label>Payment Mode</Form.Label>
+                        <Form.Select aria-label="Default select example" name="paymentMode" onChange={handleChange}>
+      <option></option>
+      <option value="Cash">Cash</option>
+      <option value="Cheque">Cheque</option>
+      <option value="UPI">UPI</option>
+      <option value="Netbanking">Netbanking</option>
+      <option value="Debit/Credit">Debit/Credit card</option>
+      
+    </Form.Select>
+                    </Form.Group>
+                    </Col>
+                </Row>
 
 
-                      <Tooltip arrow placement="left" title="view">
-                        <IconButton 
-                        className="view-btn"
-                        onClick={() =>
-                          {
-                            let UserID = cell.row.original.UserID;
-                            sessionStorage.setItem("viewDoc", UserID);
-                            console.log(cell.row.original.UserID);
-                            navigate(`/view-dr/${UserID}`)
-                          }
-                          }>
-                          <AiOutlineEye/>
-                        </IconButton>
-                      </Tooltip>
+{
+    collection?.paymentMode==="Cash"?<Row className='mt-3' id='cash'>
+    <Col md={3}>
+    <Form.Group>
+        <Form.Label>Total Paid Amount</Form.Label>
+        <Form.Control type='number'/>
 
-                      <Tooltip arrow placement="right" title="Delete">
-                        <IconButton
-                          color="error"
-                          // onClick={() => handleDeleteRow(row)}
-                        disabled
+    </Form.Group>
+    </Col>
+</Row>:""
+}
+                
 
-                        >
-                          <HiOutlineTrash/>
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  )}
-                  renderTopToolbarCustomActions={() => (
-                    <>
-                    <Button
-                      // color="secondary"
-                      className="dr-btn"
-                      onClick={() => {
-                        // setCreateModalOpen(true);
-                        // handleShowAddRole();
-                        navigate("/add-dr")
-                      
-                      }}
-                      variant="contained"
-                    >
-                     Add New Doctor
-                    </Button>
+                {/* ---------------------------cheque */}
+{
+    collection?.paymentMode==="Cheque"?<Row className='mt-3' id='cheque'>
+    <Col md={2}>
+    <Form.Group>
+        <Form.Label>Bank Name</Form.Label>
+        <Form.Control type='text'/>
 
-                    {/* <Button
-                    // color="secondary"
-                    className="dr-up-btn mx-2"
-                    onClick={() => {
-                    // setCreateModalOpen(true);
-                    // handleShowAddRole();
-                    // navigate("/add-access")
+    </Form.Group>
+    </Col>
+    <Col md={2}>
+    <Form.Group>
+        <Form.Label>Branch Name</Form.Label>
+        <Form.Control type='text'/>
 
-                    }}
-                    variant="contained"
-                    >
-                    Upload Excel
-                    </Button> */}
-                    </>
-                    
-                  )}
-                  
-                  positionActionsColumn="last"
-                  />
+    </Form.Group>
+    </Col>
+    <Col md={2}>
+    <Form.Group>
+        <Form.Label>IFSC Code</Form.Label>
+        <Form.Control type='text'/>
 
+    </Form.Group>
+    </Col>
+    <Col md={2}>
+    <Form.Group>
+        <Form.Label>Cheque No.</Form.Label>
+        <Form.Control type='text'/>
+
+    </Form.Group>
+    </Col>
+    <Col md={2}>
+    <Form.Group>
+        <Form.Label>Cheque Amount</Form.Label>
+        <Form.Control type='number'/>
+
+    </Form.Group>
+    </Col>
+    <Col md={2}>
+    <Form.Group>
+        <Form.Label>Cheque Date</Form.Label>
+        <Form.Control type='date'/>
+
+    </Form.Group>
+    </Col>
+    <Row className='mt-3'>
+        <Col md={2}>
+        <Form.Group>
+        <Form.Label>Total Paid Amount</Form.Label>
+        <Form.Control type='number'/>
+
+    </Form.Group>
+        </Col>
+    </Row>
+</Row>:""
+}
+                
+
+                {
+collection?.paymentMode==="UPI"?    <Row className='mt-3' id='upi' >
+<Col>
+<Form.Group>
+    <Form.Label>Bank Name</Form.Label>
+    <Form.Control type='text'/>
+
+</Form.Group>
+</Col>
+<Col>
+<Form.Group>
+    <Form.Label>Branch Name</Form.Label>
+    <Form.Control type='text'/>
+
+</Form.Group>
+</Col>
+<Col>
+<Form.Group>
+    <Form.Label>Transaction ID</Form.Label>
+    <Form.Control type='text'/>
+
+</Form.Group>
+</Col>
+<Col>
+<Form.Group>
+    <Form.Label>UTR NO</Form.Label>
+    <Form.Control type='text'/>
+
+</Form.Group>
+</Col>
+<Col>
+<Form.Group>
+    <Form.Label>Transaction Date</Form.Label>
+    <Form.Control type='date'/>
+
+</Form.Group>
+</Col>
+
+<Row className='mt-3'>
+    <Col md={2}>
+    <Form.Group>
+    <Form.Label>Total Paid Amount</Form.Label>
+    <Form.Control type='number'/>
+
+</Form.Group>
+    </Col>
+</Row>
+</Row>:""
+                }
+
+
+
+         {
+            collection?.paymentMode==="Netbanking"?<Row className='mt-3' id='netb' >
+            <Col md={3}>
+            <Form.Group>
+                                <Form.Label>Bank Name</Form.Label>
+                                <Form.Control type='text'/>
+        
+                            </Form.Group>
             </Col>
-        </Row>
+            <Col md={3}>
+            <Form.Group>
+                                <Form.Label>Branch Name</Form.Label>
+                                <Form.Control type='text'/>
+        
+                            </Form.Group>
+            </Col>
+            <Col md={3}>
+            <Form.Group>
+                                <Form.Label>Reference ID</Form.Label>
+                                <Form.Control type='text'/>
+        
+                            </Form.Group>
+            </Col>
+            <Col md={3}>
+            <Form.Group>
+                                <Form.Label>Transaction Date</Form.Label>
+                                <Form.Control type='date'/>
+        
+                            </Form.Group>
+            </Col>
+        
+            <Row className='mt-3'>
+                                <Col md={3}>
+                                <Form.Group>
+                                <Form.Label>Total Paid Amount</Form.Label>
+                                <Form.Control type='number'/>
+        
+                            </Form.Group>
+                                </Col>
+                            </Row>
+        </Row>:""
+         }   
 
-       </Card>
-      </Main>
-    </Box>
-        </>
-    );
+
+
+
+{
+    collection?.paymentMode==="Debit/Credit"?<Row className='mt-3' id='dc'>
+    <Col>
+    <Form.Group>
+    <Form.Label>Debit/Credit Card No.</Form.Label>
+    <Form.Control type='number'/>
+
+</Form.Group>
+    </Col>
+    <Col>
+    <Form.Group>
+    <Form.Label>Bank Name</Form.Label>
+    <Form.Control type='text'/>
+
+</Form.Group>
+    </Col>
+    <Col>
+    <Form.Group>
+    <Form.Label>Branch Name</Form.Label>
+    <Form.Control type='text'/>
+
+</Form.Group>
+    </Col>
+    <Col>
+    <Form.Group>
+    <Form.Label>Reference ID</Form.Label>
+    <Form.Control type='text'/>
+
+</Form.Group>
+    </Col>
+    <Col>
+    <Form.Group>
+    <Form.Label>Transaction Date</Form.Label>
+    <Form.Control type='date'/>
+
+</Form.Group>
+    </Col>
+    <Row className='mt-3'>
+    <Col md={2}>
+    <Form.Group>
+    <Form.Label>Total Paid Amount</Form.Label>
+    <Form.Control type='number'/>
+
+</Form.Group>
+    </Col>
+</Row>
+</Row>:""
 }
 
 
-export default DoctorRegistration;
+
+<Row>
+    <Col>
+    <Button variant='' className='genIn p-2'>Save</Button>
+    </Col>
+    <Col>
+    <Button variant=''  className='addColl p-2'>Print</Button>
+    </Col>
+</Row>
+
+            </Form>
+
+            </Col>
+        </Row>
+       </Card>
+      </Main>
+    </Box>
+   </>
+  )
+}
+
+export default AddCollection

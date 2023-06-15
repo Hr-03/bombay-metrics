@@ -63,7 +63,9 @@ text-transform: capitalize !important;
 }
 
 
-
+.swal2-icon.swal2-warning.swal2-icon-show .swal2-icon-content{
+    overflow: hidden !important;
+}
 
 /* .add-dr-nxt{
     background-color: #825AA5 !important;
@@ -73,6 +75,13 @@ text-transform: capitalize !important;
   font-weight: 500;
 } */
 
+.cnotxt{
+    display: none;
+}
+.cno:user-invalid .cnotxt{
+color: red;
+display: block;
+}
 
 @media screen and (max-width:768px) {
     .add-dr-t{

@@ -36,7 +36,7 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Avatar, Tooltip } from "@mui/material";
-import { Card, Col, Row, Modal, Form, Table, Tabs, Tab } from "react-bootstrap";
+import { Card, Col, Row, Modal, Form, Table, Tabs, Tab,Spinner } from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 // import "../../index.css";
 import { Delete, Edit } from "@mui/icons-material";
@@ -178,6 +178,7 @@ function AddEmployee(){
       setAnchorEl(null);
     };
 
+    const [Progress1, setProgress1] = useState(null);
 
 
     const [addEmp, setAddEmp] = useState({
@@ -322,7 +323,9 @@ function AddEmployee(){
       }
     };
 
-
+    let addressPattern = /[^a-zA-Z0-9 .,]/;
+    let mobilePattern = /[^0-9]/;
+    let namePattern = /[^a-zA-Z ]/;
 
 
     const handleSubmit=(e)=>{
@@ -330,6 +333,47 @@ function AddEmployee(){
 
 
       const addEmpUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewEmployee`;
+
+
+      if(addEmp?.ClinicID==="" || addEmp?.Designation==="" || addEmp?.JoiningDate==="" || addEmp?.FirstName==="" || addEmp?.LastName==="" || addEmp.MobileNo==="" || addEmp?.Gender==="" || addEmp?.username==="" || addEmp?.Passwords===""){
+        Swal.fire({
+        icon:"warning",
+        titleText:"Please fill all the fields marked with red * !"
+        })
+      }else if(addEmp.FirstName.match(namePattern) || addEmp.LastName.match(namePattern)){
+        Swal.fire({
+          icon:"warning",
+          titleText:"Name should contain alphabets only!"
+        })
+      }
+      else if(addEmp.MobileNo.length>10){
+        Swal.fire({
+          icon:"warning",
+          titleText:"Mobile no. cannot be more than 10 digits!"
+        })
+      }
+      else if(addEmp.MobileNo.length<10){
+        Swal.fire({
+          icon:"warning",
+          titleText:"Mobile no. cannot be less than 10 digits!"
+        })
+      }
+      else if(addEmp.MobileNo.match(mobilePattern)){
+        Swal.fire({
+          icon:"warning",
+          titleText:"Mobile no. should contain only digits!"
+        })
+      }
+      else if(addEmp.Address1.match(addressPattern) || addEmp.Address2.match(addressPattern)){
+        Swal.fire({
+          icon:"warning",
+          titleText:"Address should not contain special characters like !@# etc!",
+          text:"Only . and , allowed"
+        })
+      }
+      else{
+
+
 
       fetch(addEmpUrl,{
         method:"POST",
@@ -354,6 +398,9 @@ function AddEmployee(){
          navigate("/emp-reg")
         }
       })
+
+    }
+
     }
   
   
@@ -1005,7 +1052,7 @@ fetch(menuUrl)
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Branch</Form.Label>
+        <Form.Label>Branch <span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="ClinicID" onChange={handleChange}>
       <option></option>
       {branch.map((b) => {
@@ -1023,7 +1070,7 @@ fetch(menuUrl)
                     </Col>
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Designation</Form.Label>
+        <Form.Label>Designation <span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="Designation" onChange={handleChange}>
       <option></option>
      {
@@ -1041,7 +1088,7 @@ fetch(menuUrl)
                     </Col>
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Date</Form.Label>
+        <Form.Label>Date <span className="req-f">*</span></Form.Label>
         <Form.Control type="date" placeholder="" name="JoiningDate" onChange={handleChange}/>
        
       </Form.Group>
@@ -1061,7 +1108,7 @@ fetch(menuUrl)
                 <Row>
                 <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>First Name</Form.Label>
+        <Form.Label>First Name <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="FirstName" onChange={handleChange}/>
        
       </Form.Group>
@@ -1069,7 +1116,7 @@ fetch(menuUrl)
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Last Name</Form.Label>
+        <Form.Label>Last Name <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="LastName" onChange={handleChange}/>
        
       </Form.Group>
@@ -1077,7 +1124,7 @@ fetch(menuUrl)
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Mobile Number</Form.Label>
+        <Form.Label>Mobile Number<span className="req-f">*</span></Form.Label>
         <Form.Control type="tel" placeholder="" name="MobileNo" onChange={handleChange}/>
        
       </Form.Group>
@@ -1109,7 +1156,7 @@ fetch(menuUrl)
 
                     <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Gender</Form.Label>
+        <Form.Label>Gender <span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="Gender" onChange={handleChange}>
       <option></option>
       <option value="Male">Male</option>
@@ -1242,7 +1289,7 @@ fetch(menuUrl)
                 <Row>
                     <Col lg={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Username</Form.Label>
+        <Form.Label>Username <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="username" onChange={handleChange}/>
 
        
@@ -1252,7 +1299,7 @@ fetch(menuUrl)
 
                     <Col lg={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Password</Form.Label>
+        <Form.Label>Password <span className="req-f">*</span></Form.Label>
         <Form.Control type="password" placeholder="" name="Passwords" onChange={handleChange}/>
 
        
@@ -1281,6 +1328,9 @@ fetch(menuUrl)
                  fd,
                  {
                    onUploadProgress: (ProgressEvent) => {
+                    setProgress1(
+                      Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100)
+                    )
                      console.log(
                        "Upload Progress:" +
                          Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
@@ -1295,10 +1345,22 @@ fetch(menuUrl)
                  setAddEmp((pre) => {
                    return { ...pre, PersonalPhoto: imgPath };
                  });
+
+                 if(res.data.status==="1"){
+                  setProgress1(null);
+
+                  Swal.fire({
+                    icon:'success',
+                    title:"Uploaded successfully!"
+                  })
+                 }
                 }
                 )
                  console.log(addEmp);
-            }}>Upload Image</Button>
+            }}>Upload Image</Button><span>{Progress1 &&
+              // <ProgressBar variant="success" className="m-2 mx-0" now={Progress} label={`${Progress}%`} min={0} max={100} style={{width:`${Progress}%`}}/>
+              <Spinner animation="border" id="spin5"/>
+              }</span>
             </Col>
 
 

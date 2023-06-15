@@ -235,7 +235,7 @@ fetch(menuUrl)
     .then((res)=>res.json())
     .then((viewRes)=>{
       console.log(viewRes.Data);
-      setView(viewRes.Data);
+      setView(viewRes?.Data);
     })
   },[])
 

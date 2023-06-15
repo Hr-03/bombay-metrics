@@ -33,7 +33,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Avatar,Tooltip } from "@mui/material";
-import { Card, Col, Row ,Modal,Form, Tabs, Tab, InputGroup} from "react-bootstrap";
+import { Card, Col, Row ,Modal,Form, Tabs, Tab, InputGroup,Spinner} from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 // import "../../index.css";
 import { Delete, Edit } from "@mui/icons-material";
@@ -185,7 +185,7 @@ function PatientConversion(){
     Menses:"",
     IsPregnant:"",
     Delivery:"",
-    HairIssue:"",
+    HairIssue:[],
     Since:"",
     PreviousTreatment:"",
     TreatmentExplanation:"",
@@ -232,6 +232,7 @@ function PatientConversion(){
 
 
 
+  const [Progress1, setProgress1] = useState(null);
 
 
 
@@ -304,6 +305,10 @@ const [profile, setProfile] = useState(null);
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
+            setProgress1(
+              Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100)
+
+            )
             console.log(
               "Upload Progress:" +
                 Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
@@ -319,6 +324,14 @@ const [profile, setProfile] = useState(null);
           return { ...pre, PatientPhoto: imgPath };
         });
 
+        if(res.data.status==="1"){
+          setProgress1(null);
+
+          Swal.fire({
+            icon:"success",
+            title:"Uploaded Successfully!",
+          })
+        }
         console.log(data);
       });
   }
@@ -358,6 +371,39 @@ fetch(menuUrl)
         return {
           ...pre,
           SufferingFrom: pre.SufferingFrom.filter((e) => e !== value),
+        };
+      });
+    }
+
+    console.log(data);
+  };
+
+
+
+
+
+
+
+
+  const handlecheck1 = (e) => {
+    const { value, checked } = e.target;
+
+    // Case 1 : The user checks the box
+    if (checked) {
+      setData((pre) => {
+        return {
+          ...pre,
+          HairIssue: [...pre.HairIssue, value],
+        };
+      });
+    }
+
+    // Case 2 : The user unchecks the box
+    else {
+      setData((pre) => {
+        return {
+          ...pre,
+          HairIssue: pre.HairIssue.filter((e) => e !== value),
         };
       });
     }
@@ -529,13 +575,94 @@ fetch(enqSourceUrl)
       }
     }
 }
+let addressPattern = /[^a-zA-Z0-9 .,]/;
+let mobilePattern = /[^0-9]/;
+let namePattern = /[^a-zA-Z ]/;
 
+const handleTab1=(e)=>{
+  if(data.FormNo==="" || data.FirstName==="" || data.LastName==="" || data.EnquiryDate==="" || data.Gender==="" || data.MobileNo==="" || data.ClinicID==="" || data.EnquirySourceID===""){
+    Swal.fire({
+      icon:"warning",
+      titleText:"PLease fill all the fields marked with red * !"
+    })
+  }else if(data.FirstName.match(namePattern) || data.LastName.match(namePattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Name should conatain alphabets only!"
+    })
+  }
+  else if(data.MobileNo.length>10){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. cannot be more than 10 digits!",
+      // text:"xsdscs"
+    })
+  }
+  else if(data.MobileNo.length<10){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. cannot be less than 10 digits!",
+      // text:"xsdscs"
+    })
+  }
+  else if(data.MobileNo.match(mobilePattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. should contain only digits!"
+    })
+  }
+  else if(data.Address1.match(addressPattern) || data.Address2.match(addressPattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Address should not contain special characters like !@# etc!",
+      text:"Only . and , allowed"
+    })
+  }
+  else{
+    setCurrentTab(prev=>prev+1);
+  }
+}
 
 
 const handleSubmitPatient=(e)=>{
   e.preventDefault();
 
   const addPUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewPatient`;
+
+
+  if(data.SufferingFrom===[]){
+    
+    setData((pre)=>{
+      return{
+        ...pre,
+        SufferingFrom:[""]
+      }
+    })
+
+    console.log("checking suffering");
+  }
+  else if(data.HairIssue===[]){
+    setData((pre)=>{
+      return{
+        ...pre,
+        HairIssue:[""]
+      }
+    })
+    console.log("checking hi");
+
+  }
+  else if(data.objDiet===[]){
+    setData((pre)=>{
+      return{
+        ...pre,
+        objDiet:[""]
+      }
+    })
+    console.log("checking diet");
+
+  }
+  else{
+
 
   fetch(addPUrl,{
     method:"POST",
@@ -556,11 +683,15 @@ const handleSubmitPatient=(e)=>{
         showConfirmButton:false
       })
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000);
+      navigate("/patients");
     }
   })
+
+}
+
 }
 
   const [open1, setOpen1] = React.useState(false);
@@ -1060,7 +1191,7 @@ const handleSubmitPatient=(e)=>{
                         <Row className="m-0 m-xs-3">
                             <Col lg={2} className="">
                             
-        <Form.Label className="mx-0" style={{whiteSpace:"nowrap"}}>Form No.</Form.Label>
+        <Form.Label className="mx-0" style={{whiteSpace:"nowrap"}}>Form No. <span className="req-f">*</span></Form.Label>
                             </Col>
                             <Col lg={6} className="px-0 pe-0 pe-lg-2">
                             
@@ -1100,7 +1231,7 @@ const handleSubmitPatient=(e)=>{
                     <Row>
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>First Name</Form.Label>
+        <Form.Label>First Name <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="FirstName" onChange={handleChange}/>
        
       </Form.Group>
@@ -1108,7 +1239,7 @@ const handleSubmitPatient=(e)=>{
 
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Last Name</Form.Label>
+        <Form.Label>Last Name <span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="LastName" onChange={handleChange}/>
        
       </Form.Group>
@@ -1122,7 +1253,7 @@ const handleSubmitPatient=(e)=>{
                         </Col>
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Enquiry Date</Form.Label>
+        <Form.Label>Enquiry Date <span className="req-f">*</span></Form.Label>
         <Form.Control type="date" placeholder=""  name="EnquiryDate" onChange={handleChange}/>
        
       </Form.Group>
@@ -1149,7 +1280,7 @@ const handleSubmitPatient=(e)=>{
 
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Gender</Form.Label>
+        <Form.Label>Gender <span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="Gender" onChange={handleChange}> 
       <option></option>
       <option value="Male">Male</option>
@@ -1258,7 +1389,7 @@ const handleSubmitPatient=(e)=>{
                     <Row>
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Mobile No.</Form.Label>
+        <Form.Label>Mobile No.<span className="req-f">*</span></Form.Label>
         <Form.Control type="tel" placeholder="" name="MobileNo" onChange={handleChange}/>
        
       </Form.Group>
@@ -1278,7 +1409,7 @@ const handleSubmitPatient=(e)=>{
 
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Clinic Name</Form.Label>
+        <Form.Label>Clinic Name <span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="ClinicID" onChange={handleChange}>
       <option></option>
       {branch.map((b) => {
@@ -1299,7 +1430,7 @@ const handleSubmitPatient=(e)=>{
 
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Enquiry Source</Form.Label>
+        <Form.Label>Enquiry Source <span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="EnquirySourceID" onChange={handleChange}>
       <option></option>
       {
@@ -1330,7 +1461,10 @@ enqSource && enqSource.map((enqs)=>{
                       
                         </Col>
                         <Col md={6} className="mt-3">
-                        <Button variant="" className="pc-upImg mt-4" onClick={submitProfile}>Upload Image</Button>
+                        <Button variant="" className="pc-upImg mt-4" onClick={submitProfile}>Upload Image</Button><span>{Progress1 &&
+                      // <ProgressBar variant="success" className="m-2 mx-0" now={Progress} label={`${Progress}%`} min={0} max={100} style={{width:`${Progress}%`}}/>
+                      <Spinner animation="border" id="spin5"/>
+                      }</span>
                         </Col>
                     </Row>
 
@@ -1339,7 +1473,7 @@ enqSource && enqSource.map((enqs)=>{
 
                     <Row className="text-center mt-4">
                         <Col>
-                        <Button variant="" className="pc-nxt" onClick={()=>setCurrentTab((prev) => prev + 1)}>Next</Button>
+                        <Button variant="" className="pc-nxt" onClick={handleTab1}>Next</Button>
                         </Col>
                     </Row>
                 </Form>
@@ -1379,7 +1513,7 @@ enqSource && enqSource.map((enqs)=>{
 
                         <Row className="mt-2">
                             <Col>
-                            <Form.Label>Have you suffered or suffering  from any of the following :</Form.Label>
+                            <Form.Label>Have you suffered or suffering  from any of the following </Form.Label>
 
                             <Row>
                                 <Col lg={1}>
@@ -1424,13 +1558,29 @@ enqSource && enqSource.map((enqs)=>{
                           <Col md={4}>
                           <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Hair fall/ Dandruff/ Itching :</Form.Label>
-        <Form.Select aria-label="Default select example" name="HairIssue" onChange={handleChange}>
+        {/* <Form.Select aria-label="Default select example" name="HairIssue" onChange={handleChange}>
       <option></option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
-    </Form.Select>
-       
+    </Form.Select> */}
+
+
+
+<Row>
+  <Col>
+  <Form.Check type="checkbox" name="HairIssue" onChange={handlecheck1} label="Hair fall" value="Hair fall"/>
+  
+  </Col>
+  <Col>
+  <Form.Check type="checkbox" name="HairIssue" onChange={handlecheck1} label="Dandruff" value="Dandruff"/>
+  
+  </Col>
+  <Col>
+  <Form.Check type="checkbox" name="HairIssue" onChange={handlecheck1} label="Itching" value="Itching"/>
+  
+  </Col>
+</Row>
       </Form.Group>
                           </Col>
 
@@ -1659,7 +1809,19 @@ enqSource && enqSource.map((enqs)=>{
                           <Button variant="" className="pc-back" onClick={()=>setCurrentTab((prev)=> prev - 1)}>Back</Button>
                           </Col>
                           <Col>
-                          <Button variant="" className="pc-nxt" onClick={()=>setCurrentTab((prev)=> prev + 1)}>Next</Button>
+                          <Button variant="" className="pc-nxt" onClick={()=>
+                            
+                            {
+                              // if(data.HairIssue.length<=0 || data.SufferingFrom.length<=0 || data.objDiet.length<=0){
+                              //   Swal.fire({
+                              //     icon:"warning",
+                              //     titleText:"Please fill all the fields marked with red * !"
+                              //   })
+                              // }else{
+                                setCurrentTab((prev)=> prev + 1)
+                              // }
+                            }
+                            }>Next</Button>
                           </Col>
                         </Row>
                     </Form>

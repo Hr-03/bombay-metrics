@@ -63,6 +63,7 @@ import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
 import axios from "axios";
 import Swal from "sweetalert2";
+import moment from 'moment/moment';
 
 const drawerWidth = 240;
 
@@ -155,7 +156,9 @@ const StyledMenu = styled((props) => (
 
 
 const ConvertToPatient = () => {
+  let enqId=sessionStorage.getItem("convEnqId");
 
+  
     const [data, setData] = useState({
         FormNo:"",
         FirstName:"",
@@ -175,7 +178,7 @@ const ConvertToPatient = () => {
         Email:"",
         ClinicID:"",
         EnquirySourceID:"",
-        
+        EnquiryID:enqId,
         PatientPhoto:"",
        
         FamilyDoctorName:"",
@@ -212,7 +215,6 @@ const ConvertToPatient = () => {
 
       let User=Role==="1"?0:sessionStorage.getItem("UserId");
 
-      let enqId=sessionStorage.getItem("convEnqId");
 
 
       const [fupentries, setFupEntries] = useState([]);
@@ -243,25 +245,32 @@ const ConvertToPatient = () => {
       console.log(detRes.Data);
       setGetEnqDet(detRes.Data);
 
-      let em=detRes.Data[0]?.EnquiryDate.split(".")[1];
-      let ed=detRes.Data[0]?.EnquiryDate.split(".")[0];
-      let ey=detRes.Data[0]?.EnquiryDate.split(".")[2];
+      let em=detRes.Data[0]?.EnquiryDate.split("/")[1];
+      let ed=detRes.Data[0]?.EnquiryDate.split("/")[0];
+      let ey=detRes.Data[0]?.EnquiryDate.split("/")[2];
 
       let arr=[em,ed,ey].join('/');
+      
+      let bm=detRes.Data[0]?.BirthDate.split("/")[1];
+      let bd=detRes.Data[0]?.BirthDate.split("/")[0];
+      let by=detRes.Data[0]?.BirthDate.split("/")[2];
 
+      let arrb=[bm,bd,by].join('/');
+
+
+      
       console.log(arr);
+      console.log(arrb);
 
       setData((pre)=>{
         return{
           ...pre,
           FirstName:detRes.Data[0].FirstName,
           LastName:detRes.Data[0].LastName,
-          DateOfBirth:detRes.Data[0]?.BirthDate,
+          DateOfBirth:arrb.split(" ")[0],
           Address1:detRes.Data[0]?.Address1,
           Address2:detRes.Data[0]?.Address2,
-          CityID:detRes.Data[0]?.CityId,
           ClinicID:detRes.Data[0]?.ClinicID,
-          CountryID:detRes.Data[0]?.CountryId,
           Email:detRes.Data[0]?.Email,
           EnquiryDate:arr.split(" ")[0],
           EnquirySourceID:detRes.Data[0]?.EnquirySourceID,
@@ -269,7 +278,6 @@ const ConvertToPatient = () => {
           MobileNo:detRes.Data[0]?.MobileNo,
           Occupation:detRes.Data[0]?.Occupation,
           Pincode:detRes.Data[0]?.Pincode,
-          StatesID:detRes.Data[0]?.StatesId,
           TelephoneNo:detRes.Data[0]?.TelephoneNo
         }
       })
@@ -391,6 +399,14 @@ const ConvertToPatient = () => {
             setData((pre) => {
               return { ...pre, PatientPhoto: imgPath };
             });
+
+            if(res.data.status==="1"){
+              Swal.fire({
+                icon:"success",
+                title:"Uploaded successfully!",
+                
+              })
+            }
     
             console.log(data);
           });
@@ -630,12 +646,86 @@ const ConvertToPatient = () => {
         }
     }
     
+
+    let addressPattern = /[^a-zA-Z0-9 .,]/;
+let mobilePattern = /[^0-9]/;
+let namePattern = /[^a-zA-Z ]/;
+
+const handleTab1=(e)=>{
+  if(data.FormNo==="" || data.FirstName==="" || data.LastName==="" || data.EnquiryDate==="" || data.Gender==="" || data.MobileNo==="" || data.ClinicID==="" || data.EnquirySourceID===""){
+    Swal.fire({
+      icon:"warning",
+      titleText:"PLease fill all the fields marked with red * !"
+    })
+  }else if(data.FirstName.match(namePattern) || data.LastName.match(namePattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Name should conatain alphabets only!"
+    })
+  }
+  else if(data.MobileNo.length>10){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. cannot be more than 10 digits!",
+      // text:"xsdscs"
+    })
+  }
+  else if(data.MobileNo.length<10){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. cannot be less than 10 digits!",
+      // text:"xsdscs"
+    })
+  }
+  else if(data.MobileNo.match(mobilePattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. should contain only digits!"
+    })
+  }
+  else if(data.Address1.match(addressPattern) || data.Address2.match(addressPattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Address should not contain special characters like !@# etc!",
+      text:"Only . and , allowed"
+    })
+  }
+  else{
+    setCurrentTab(prev=>prev+1);
+  }
+}
+
     
     
     const handleSubmitPatient=(e)=>{
       e.preventDefault();
     
-      const addPUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewPatient`;
+      const addPUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewLeadToPatient`;
+
+      if(data.SufferingFrom===[]){
+        setData((pre)=>{
+          return{
+            ...pre,
+            SufferingFrom:[""]
+          }
+        })
+      }
+      else if(data.HairIssue===[]){
+        setData((pre)=>{
+          return{
+            ...pre,
+            HairIssue:[""]
+          }
+        })
+      }
+      else if(data.objDiet===[]){
+        setData((pre)=>{
+          return{
+            ...pre,
+            objDiet:[""]
+          }
+        })
+      }
     
       fetch(addPUrl,{
         method:"POST",
@@ -656,9 +746,11 @@ const ConvertToPatient = () => {
             showConfirmButton:false
           })
     
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 2000);
+
+          navigate("/fup-entries")
         }
       })
     }
@@ -1162,7 +1254,7 @@ const ConvertToPatient = () => {
                         <Row className="m-0 m-xs-3">
                             <Col lg={2} className="">
                             
-        <Form.Label className="mx-0" style={{whiteSpace:"nowrap"}}>Form No.</Form.Label>
+        <Form.Label className="mx-0" style={{whiteSpace:"nowrap"}}>Form No.<span className="req-f">*</span></Form.Label>
                             </Col>
                             <Col lg={6} className="px-0 pe-0 pe-lg-2">
                             
@@ -1202,7 +1294,7 @@ const ConvertToPatient = () => {
                     <Row>
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>First Name</Form.Label>
+        <Form.Label>First Name<span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="FirstName" value={data?.FirstName} onChange={handleChange}/>
        
       </Form.Group>
@@ -1210,7 +1302,7 @@ const ConvertToPatient = () => {
 
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Last Name</Form.Label>
+        <Form.Label>Last Name<span className="req-f">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="LastName" value={data?.LastName} onChange={handleChange}/>
        
       </Form.Group>
@@ -1224,8 +1316,8 @@ const ConvertToPatient = () => {
                         </Col>
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Enquiry Date</Form.Label>
-        <Form.Control type="date" placeholder=""  name="EnquiryDate" value={data?.EnquiryDate} onChange={handleChange}/>
+        <Form.Label>Enquiry Date<span className="req-f">*</span></Form.Label>
+        <Form.Control type="date" placeholder=""  name="EnquiryDate" value={moment((data?.EnquiryDate))?.format("YYYY-MM-DD")} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
@@ -1244,14 +1336,14 @@ const ConvertToPatient = () => {
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Date of birth</Form.Label>
-        <Form.Control type="date" placeholder="" name="DateOfBirth" value={data?.DateOfBirth} onChange={handleChange}/>
+        <Form.Control type="date" placeholder="" name="DateOfBirth" value={moment((data?.DateOfBirth))?.format("YYYY-MM-DD")} onChange={handleChange}/>
        
       </Form.Group>
                         </Col>
 
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Gender</Form.Label>
+        <Form.Label>Gender<span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="Gender" value={data?.Gender} onChange={handleChange}> 
       <option></option>
       <option value="Male">Male</option>
@@ -1360,7 +1452,7 @@ const ConvertToPatient = () => {
                     <Row>
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Mobile No.</Form.Label>
+        <Form.Label>Mobile No.<span className="req-f">*</span></Form.Label>
         <Form.Control type="tel" placeholder="" name="MobileNo" value={data?.MobileNo} onChange={handleChange}/>
        
       </Form.Group>
@@ -1380,7 +1472,7 @@ const ConvertToPatient = () => {
 
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Clinic Name</Form.Label>
+        <Form.Label>Clinic Name<span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="ClinicID" value={data?.ClinicID} onChange={handleChange}>
       <option></option>
       {branch.map((b) => {
@@ -1401,7 +1493,7 @@ const ConvertToPatient = () => {
 
                         <Col md={3}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Enquiry Source</Form.Label>
+        <Form.Label>Enquiry Source<span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="EnquirySourceID" value={data?.EnquirySourceID} onChange={handleChange}>
       <option></option>
       {
@@ -1441,7 +1533,7 @@ enqSource && enqSource.map((enqs)=>{
 
                     <Row className="text-center mt-4">
                         <Col>
-                        <Button variant="" className="pc-nxt" onClick={()=>setCurrentTab((prev) => prev + 1)}>Next</Button>
+                        <Button variant="" className="pc-nxt" onClick={handleTab1}>Next</Button>
                         </Col>
                     </Row>
                 </Form>
@@ -1775,7 +1867,19 @@ enqSource && enqSource.map((enqs)=>{
                           <Button variant="" className="pc-back" onClick={()=>setCurrentTab((prev)=> prev - 1)}>Back</Button>
                           </Col>
                           <Col>
-                          <Button variant="" className="pc-nxt" onClick={()=>setCurrentTab((prev)=> prev + 1)}>Next</Button>
+                          <Button variant="" className="pc-nxt" onClick={()=>
+                            
+                            {
+                              // if(data.HairIssue.length<=0 || data.SufferingFrom.length<=0 || data.objDiet.length<=0){
+                              //   Swal.fire({
+                              //     icon:"warning",
+                              //     titleText:"Please fill all the fields marked with red * !"
+                              //   })
+                              // }else{
+                                setCurrentTab((prev)=> prev + 1)
+                              // }
+                            }
+                            }>Next</Button>
                           </Col>
                         </Row>
                     </Form>

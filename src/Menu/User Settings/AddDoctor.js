@@ -36,7 +36,7 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Avatar, Tooltip } from "@mui/material";
-import { Card, Col, Row, Modal, Form, Table, Tabs, Tab } from "react-bootstrap";
+import { Card, Col, Row, Modal, Form, Table, Tabs, Tab,Spinner } from "react-bootstrap";
 import MaterialReactTable from "material-react-table";
 // import "../../index.css";
 import { Delete, Edit } from "@mui/icons-material";
@@ -364,6 +364,17 @@ fetch(profInfoUrl)
     []
   );
 
+
+  const [Progress1, setProgress1] = useState(null);
+  const [Progress2, setProgress2] = useState(null);
+  const [Progress3, setProgress3] = useState(null);
+  const [Progress4, setProgress4] = useState(null);
+  const [Progress5, setProgress5] = useState(null);
+
+  const [Progressproof, setProgressproof] = useState(null);
+
+
+
   const [previewUrl62, setPreviewUrl62] = useState("");
   //   const [image662, setImage662] = useState(null);
 
@@ -568,6 +579,58 @@ fetch(profInfoUrl)
   };
 
 
+  let addressPattern = /[^a-zA-Z0-9 .,]/;
+  let mobilePattern = /[^0-9]/;
+  let namePattern = /[^a-zA-Z ]/;
+
+
+  const handleTab1=(e)=>{
+    if(addDoctor.DoctorType===""||addDoctor.ClinicID===""||addDoctor.FirstName===""||addDoctor.LastName===""||addDoctor.MobileNo===""||addDoctor.Gender===""||addDoctor.JoiningDate===""){
+      // alert("test");
+      Swal.fire({
+        icon: "warning",
+        titleText:"Please fill all the fields marked with red * !",
+      })
+    }
+    else if(addDoctor.Address1.match(addressPattern) || addDoctor.Address2.match(addressPattern)){
+      Swal.fire({
+        icon:"warning",
+        titleText:"Address should not contain special characters like !@# etc!",
+        text:"Only . and , allowed"
+      })
+    } else if(addDoctor.MobileNo.length>10){
+      Swal.fire({
+        icon:"warning",
+        titleText:"Phone no. cannot be more than 10 digits!",
+        // text:"xsdscs"
+      })
+    }
+    else if(addDoctor.MobileNo.length<10){
+      Swal.fire({
+        icon:"warning",
+        titleText:"Phone no. cannot be less than 10 digits!",
+        // text:"xsdscs"
+      })
+    }
+    else if(addDoctor.MobileNo.match(mobilePattern)){
+      Swal.fire({
+        icon:"warning",
+        titleText:"Mobile no. should contain only digits!"
+      })
+    }
+    else if(addDoctor.FirstName.match(namePattern) || addDoctor.LastName.match(namePattern)){
+      Swal.fire({
+        icon:"warning",
+        titleText:"Name should conatain alphabets only!"
+      })
+    }
+    else{
+
+      setCurrentTab((prev) => prev + 1);
+    }
+
+  }
+
 
   const handleSubmit=(e)=>{
     e.preventDefault();
@@ -594,6 +657,8 @@ fetch(profInfoUrl)
         })
         navigate("/dr-reg");
         sessionStorage.removeItem("newUserId");
+  setProfInfo([]);
+
       }
     })
   }
@@ -680,6 +745,9 @@ fetch(profInfoUrl)
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
+            setProgress1(
+              Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100)
+            );
             console.log(
               "Upload Progress:" +
                 Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
@@ -696,6 +764,18 @@ fetch(profInfoUrl)
         });
 
         console.log(addDoctor);
+
+        if(res.data.status==="1"){
+          setProgress1(null);
+
+          
+          Swal.fire({
+            icon:"success",
+            title:"Uploaded successfully!",
+            timer:2000,
+            showConfirmButton:false
+          })
+        }
       });
   };
 
@@ -712,6 +792,9 @@ fetch(profInfoUrl)
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
+            setProgress2(
+              Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100)
+            );
             console.log(
               "Upload Progress:" +
                 Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
@@ -728,6 +811,17 @@ fetch(profInfoUrl)
         });
 
         console.log(addDoctor);
+
+        if(res.data.status==="1"){
+          setProgress2(null);
+
+          Swal.fire({
+            icon:"success",
+            title:"Uploaded successfully!",
+            timer:2000,
+            showConfirmButton:false
+          })
+        }
       });
   };
 
@@ -744,6 +838,9 @@ fetch(profInfoUrl)
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
+            setProgress3(
+              Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100)
+            );
             console.log(
               "Upload Progress:" +
                 Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
@@ -760,6 +857,18 @@ fetch(profInfoUrl)
         });
 
         console.log(addDoctor);
+
+
+        if(res.data.status==="1"){
+          setProgress3(null);
+         
+          Swal.fire({
+            icon:"success",
+            title:"Uploaded successfully!",
+            timer:2000,
+            showConfirmButton:false
+          })
+        }
       });
   };
 
@@ -776,6 +885,9 @@ fetch(profInfoUrl)
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
+            setProgress4(
+              Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100)
+            );
             console.log(
               "Upload Progress:" +
                 Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
@@ -792,6 +904,18 @@ fetch(profInfoUrl)
         });
 
         console.log(addDoctor);
+
+
+        if(res.data.status==="1"){
+          setProgress4(null);
+
+          Swal.fire({
+            icon:"success",
+            title:"Uploaded successfully!",
+            timer:2000,
+            showConfirmButton:false
+          })
+        }
       });
   };
 
@@ -808,6 +932,9 @@ fetch(profInfoUrl)
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
+            setProgress5(
+              Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100)
+            );
             console.log(
               "Upload Progress:" +
                 Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
@@ -824,6 +951,16 @@ fetch(profInfoUrl)
         });
 
         console.log(addDoctor);
+
+        if(res.data.status==="1"){
+          setProgress5(null);
+          Swal.fire({
+            icon:"success",
+            title:"Uploaded successfully!",
+            timer:2000,
+            showConfirmButton:false
+          })
+        }
       });
   };
 
@@ -911,6 +1048,13 @@ fetch(profInfoUrl)
       .then((res)=>res.json())
       .then((tab2Res)=>{
         console.log(tab2Res);
+        if(tab2Res.status===true){
+          Swal.fire({
+            icon:"success",
+            title:"Professional Information added successfully! click Next.",
+            // titleText:"click Next!"
+          })
+        }
         let userid=tab2Res.UserID;
 
         sessionStorage.setItem("newUserId",userid);
@@ -939,11 +1083,11 @@ fetch(profInfoUrl)
 
 
 
-  useEffect(()=>{
-if(window.location.pathname!="/add-dr"){
-  alert("alert");
-}
-  },[])
+//   useEffect(()=>{
+// if(window.location.pathname!="/add-dr"){
+//   alert("alert");
+// }
+//   },[])
 
   return (
     <>
@@ -1469,8 +1613,12 @@ if(window.location.pathname!="/add-dr"){
                               type="tel"
                               placeholder=""
                               name="MobileNo"
+                              // pattern="/09(0[1-2]|1[\d]|3[\d]|2[0-1])[\d]{3}[\d]{4}/g"
+                              className="cno"
                               onChange={handleChange}
                             />
+
+                            <Form.Text className="cnotxt">dfw</Form.Text>
                           </Form.Group>
                         </Col>
                         <Col md={3}>
@@ -1478,7 +1626,7 @@ if(window.location.pathname!="/add-dr"){
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Email ID <span className="req-f">*</span></Form.Label>
+                            <Form.Label>Email ID</Form.Label>
                             <Form.Control
                               type="email"
                               placeholder=""
@@ -1522,7 +1670,7 @@ if(window.location.pathname!="/add-dr"){
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Gender</Form.Label>
+                            <Form.Label>Gender <span className="req-f">*</span></Form.Label>
                             <Form.Select
                               aria-label="Default select example"
                               name="Gender"
@@ -1540,7 +1688,7 @@ if(window.location.pathname!="/add-dr"){
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Date</Form.Label>
+                            <Form.Label>Date <span className="req-f">*</span></Form.Label>
                             <Form.Control
                               type="date"
                               placeholder=""
@@ -1680,6 +1828,7 @@ if(window.location.pathname!="/add-dr"){
                             <Form.Label>Area Pin Code</Form.Label>
                             <Form.Control
                               type="number"
+                              maxLength={6}
                               placeholder=""
                               name="Pincode"
                               onChange={handleChange}
@@ -1755,7 +1904,7 @@ if(window.location.pathname!="/add-dr"){
                           <Button
                             variant=""
                             className="dr-nxt-btn"
-                            onClick={() => setCurrentTab((prev) => prev + 1)}
+                            onClick={() =>handleTab1()}
                           >
                             Next
                           </Button>
@@ -1771,7 +1920,7 @@ if(window.location.pathname!="/add-dr"){
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>Degree</Form.Label>
+                            <Form.Label>Degree <span className="req-f">*</span></Form.Label>
                             <Form.Select
                               aria-label="Default select example"
                               name="DoctorDegree"
@@ -1797,7 +1946,7 @@ if(window.location.pathname!="/add-dr"){
                                 className="mb-3"
                                 controlId="formBasicEmail"
                               >
-                                <Form.Label>Upload Degree Proof</Form.Label>
+                                <Form.Label>Upload Degree Proof <span className="req-f">*</span></Form.Label>
                                 <Form.Control
                                   type="file"
                                   placeholder=""
@@ -1849,6 +1998,9 @@ if(window.location.pathname!="/add-dr"){
                                      fd,
                                      {
                                        onUploadProgress: (ProgressEvent) => {
+                                        setProgressproof(
+                                          Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100)
+                                        );
                                          console.log(
                                            "Upload Progress:" +
                                              Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
@@ -1870,9 +2022,21 @@ if(window.location.pathname!="/add-dr"){
                                      })
                                      
                              
-                                     // if(res.data.status==="1"){}
+                                     if(res.data.status==="1"){
+          setProgressproof(null);
+
+                                      Swal.fire({
+                                        icon: 'success',
+                                        title: 'Uploaded successfully!',
+                                        timer:2000,
+                                        showConfirmButton:false
+                                      })
+                                     }
                                    })
-                              }}>Upload image</Button>
+                              }}>Upload image</Button><span>{Progressproof &&
+                                // <ProgressBar variant="success" className="m-2 mx-0" now={Progress} label={`${Progress}%`} min={0} max={100} style={{width:`${Progress}%`}}/>
+                                <Spinner animation="border" id=""/>
+                                }</span>
                               </Col>:""
                             }
                            
@@ -1884,7 +2048,7 @@ if(window.location.pathname!="/add-dr"){
                             className="mb-3"
                             controlId="formBasicEmail"
                           >
-                            <Form.Label>University/College/Board</Form.Label>
+                            <Form.Label>University/College/Board <span className="req-f">*</span></Form.Label>
                             <Form.Control
                               type="text"
                               placeholder=""
@@ -1986,7 +2150,8 @@ if(window.location.pathname!="/add-dr"){
                               <Tooltip arrow placement="left" title="Edit">
                                 <IconButton
                                   className="edit-btn"
-                                  onClick={() => table.setEditingRow(row)}
+                                  // onClick={() => table.setEditingRow(row)}
+                                  disabled
                                 >
                                   <FaRegEdit />
                                 </IconButton>
@@ -1995,6 +2160,8 @@ if(window.location.pathname!="/add-dr"){
                                 <IconButton
                                   color="error"
                                   // onClick={() => handleDeleteRow(row)}
+                                  disabled
+
                                 >
                                   <HiOutlineTrash />
                                 </IconButton>
@@ -2056,7 +2223,15 @@ if(window.location.pathname!="/add-dr"){
                           variant=""
                           className="dr-nxt-btn"
                           onClick={() => {
-                            setCurrentTab((prev) => prev + 1);
+                            if(addDocTab2.BoardOrUniversity==="" || addDocTab2.DoctorDegree==="" || addDocTab2.DoctorDegree===""){
+                              Swal.fire({
+                                icon:"warning",
+                                title:"Please fill all the fields marked with red * and also after uploading degree proof click on Add button!"
+                              })
+                            }else{
+
+                              setCurrentTab((prev) => prev + 1);
+                            }
                           }}
                         >
                           Next
@@ -2097,7 +2272,11 @@ if(window.location.pathname!="/add-dr"){
                                     // disabled={!doc1}
                                   >
                                     Upload Image
-                                  </Button>
+                                  </Button> <span>{Progress1 &&
+                      // <ProgressBar variant="success" className="m-2 mx-0" now={Progress} label={`${Progress}%`} min={0} max={100} style={{width:`${Progress}%`}}/>
+                      <Spinner animation="border" id="spin1"/>
+                      }</span>
+                                  
                                 </Col>
                               </Row>
                             </Col>
@@ -2139,7 +2318,7 @@ if(window.location.pathname!="/add-dr"){
                             <Col lg={9}>
                               <Form.Group controlId="formFile" className="mb-3">
                                 <Form.Control
-                                  type="number"
+                                  type="text"
                                   name="PanCard"
                                   className=""
                                   onChange={handleChange}
@@ -2171,7 +2350,10 @@ if(window.location.pathname!="/add-dr"){
                                     onClick={submitDoc3}
                                   >
                                     Upload Image
-                                  </Button>
+                                  </Button><span>{Progress3 &&
+                      // <ProgressBar variant="success" className="m-2 mx-0" now={Progress} label={`${Progress}%`} min={0} max={100} style={{width:`${Progress}%`}}/>
+                      <Spinner animation="border" id="spin3"/>
+                      }</span>
                                 </Col>
                               </Row>
                             </Col>
@@ -2215,7 +2397,7 @@ if(window.location.pathname!="/add-dr"){
                             <Col lg={9}>
                               <Form.Group controlId="formFile" className="mb-3">
                                 <Form.Control
-                                  type="number"
+                                  type="text"
                                   name="IndemnityProofNumber"
                                   className="iproof"
                                   onChange={handleChange}
@@ -2247,7 +2429,10 @@ if(window.location.pathname!="/add-dr"){
                                     onClick={submitDoc5}
                                   >
                                     Upload Image
-                                  </Button>
+                                  </Button><span>{Progress5 &&
+                      // <ProgressBar variant="success" className="m-2 mx-0" now={Progress} label={`${Progress}%`} min={0} max={100} style={{width:`${Progress}%`}}/>
+                      <Spinner animation="border" id="spin5"/>
+                      }</span>
                                 </Col>
                               </Row>
                             </Col>
@@ -2324,7 +2509,10 @@ if(window.location.pathname!="/add-dr"){
                                     onClick={submitDoc2}
                                   >
                                     Upload Image
-                                  </Button>
+                                  </Button><span>{Progress2 &&
+                      // <ProgressBar variant="success" className="m-2 mx-0" now={Progress} label={`${Progress}%`} min={0} max={100} style={{width:`${Progress}%`}}/>
+                      <Spinner animation="border" id="spin2"/>
+                      }</span>
                                 </Col>
                               </Row>
                             </Col>
@@ -2362,7 +2550,7 @@ if(window.location.pathname!="/add-dr"){
                             <Col lg={10}>
                               <Form.Group controlId="formFile" className="mb-3">
                                 <Form.Control
-                                  type="number"
+                                  type="text"
                                   name="RegistrationNumber"
                                   onChange={handleChange}
                                 />
@@ -2393,7 +2581,10 @@ if(window.location.pathname!="/add-dr"){
                                     onClick={submitDoc4}
                                   >
                                     Upload Image
-                                  </Button>
+                                  </Button><span>{Progress4 &&
+                      // <ProgressBar variant="success" className="m-2 mx-0" now={Progress} label={`${Progress}%`} min={0} max={100} style={{width:`${Progress}%`}}/>
+                      <Spinner animation="border" id="spin4"/>
+                      }</span>
                                 </Col>
                               </Row>
                             </Col>

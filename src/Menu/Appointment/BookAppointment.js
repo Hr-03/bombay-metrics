@@ -728,14 +728,14 @@ fetch(menuUrl)
                   </ListItemButton>
                   <Collapse in={open6} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/book-apmt")}>
+        {/* <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/book-apmt")}>
           <ListItemIcon>
             <img src="" alt="" srcset="" />
           </ListItemIcon>
 
           <ListItemText primary={menuList[18]?.MenuName}/>
          
-          </ListItemButton>
+          </ListItemButton> */}
 
 
 
@@ -826,7 +826,11 @@ fetch(menuUrl)
 
                         <Button variant="" className="book-btn px-5" onClick={()=>{
                           let enqId = cell.row.original.EnquiryID;
+                          let mbl = cell.row.original.Mobile;
+                          let name = cell.row.original.Name;
                           sessionStorage.setItem("bookEnqId",enqId);
+                          sessionStorage.setItem("bookmbl",mbl);
+                          sessionStorage.setItem("bookname",name);
                           navigate(`/book-apmt/${enqId}`);
                         }}>Book</Button>
                       {/* </Tooltip> */}

@@ -335,7 +335,7 @@ function FollowUpEntries() {
 
   const [fupentries, setFupEntries] = useState([]);
 
-  const fentUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetFollowUpList/0/0/0/0/0/0/0/${User}`;
+  const fentUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetFollowUpList/0/0/0/0/0/0/0/0`;
 
   useEffect(() => {
     fetch(fentUrl)
@@ -910,7 +910,7 @@ fetch(menuUrl)
                               let enquiryId = cell.row.original.EnquiryID;
                               sessionStorage.setItem("convEnqId", enquiryId);
                               console.log(cell.row.original.EnquiryID);
-                              navigate(`/fup-view/:${enquiryId}`)}
+                              navigate(`/fup-view/${enquiryId}`)}
                             }
                         >
                           <AiOutlineEye />

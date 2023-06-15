@@ -193,18 +193,9 @@ function Patients(){
 
     const columns = useMemo(
         () => [
-          // {
-          //   accessorKey: "#",
-          //   header: "Sr No.",
-          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
-            
-          // },
-        //   {
-        //     accessorKey: "enquiry",
-        //     header: "Enquiry No.",
-        //   },
+          
           {
-            accessorKey: "`PatientID`",
+            accessorKey: "PatientID",
             header: "Patient ID",
           },
          
@@ -223,6 +214,12 @@ function Patients(){
           {
             accessorKey: "RegistrationDate",
             header: "Reg Date",
+            Cell:({cell})=>{
+              let date=cell.getValue();
+              return <div>{date.split(" ")[0]}</div>
+            },
+            filterVariant:"range",
+            filterFn:"betweenInclusive"
            
           },
           {
@@ -785,37 +782,44 @@ fetch(menuUrl)
                     variant: "outlined",
                     
                   }}
-                  enableRowNumbers="original"
+                  // enableRowNumbers="original"
 
                   enableEditing
                   // onEditingRowSave={handleSaveRowEdits}
                   // onEditingRowCancel={handleCancelRowEdits}
-                  renderRowActions={({ row, table }) => (
+                  renderRowActions={({cell, row, table }) => (
                     <Box sx={{ display: "flex", gap: "1rem" }}>
                       <Tooltip arrow placement="left" title="Edit">
                         <IconButton 
                         className="edit-btn"
                         // onClick={() => table.setEditingRow(row)}
                         // onClick={() => navigate("/fup-details")}
-                        
+                        disabled
                         >
                           <FaRegEdit/>
                         </IconButton>
                       </Tooltip>
-                      <Tooltip arrow placement="right" title="Delete">
+                      <Tooltip arrow placement="right" title="View">
                         <IconButton
                           color=""
                           className="view-btn"
-                          onClick={() => navigate("/view-p")}
+                          onClick={() => {
+                            let patientId = cell.row.original.PatientID;
+                            sessionStorage.setItem("viewpnt", patientId);
+                            console.log(cell.row.original.PatientID);
+                            navigate(`/view-p/${patientId}`)
+                          }}
                         >
                           <AiOutlineEye/>
                         </IconButton>
                       </Tooltip>
-                      <Tooltip arrow placement="left" title="View">
+                      <Tooltip arrow placement="left" title="Delete">
                         <IconButton 
                         className=""
                         color="error"
                         // onClick={() => navigate("/fup-view")}
+                        disabled
+
                         >
                           <HiOutlineTrash/>
                         </IconButton>

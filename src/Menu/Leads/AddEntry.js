@@ -382,6 +382,11 @@ const handle=(e)=>{
     newcred[e.target.name]=e.target.value;
 
     setData(newcred);
+
+    // const result = e.target.value.replace(/[^a-z]/gi, '')
+
+
+
     console.log(data);
     let fnid=document.getElementById("fn");
     let lnid=document.getElementById("ln");
@@ -515,12 +520,56 @@ fetch(enqSourceUrl)
 })
 },[])
 
-
+let addressPattern = /[^a-zA-Z0-9 .,]/;
+let mobilePattern = /[^0-9]/;
+let namePattern = /[^a-zA-Z ]/;
 
 const addEnqUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewEnquiry`;
 
 const handleSubmit=(e)=>{
   e.preventDefault();
+
+
+
+
+  if(data?.FirstName==="" || data?.LastName==="" || data?.EnquiryDate==="" || data?.Gender==="" || data?.MobileNo==="" || data?.ClinicID==="" || data?.AssignedToUser==="" || data?.EnquiryFor===""){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Please fill all the fields marked with red * !"
+    })
+  }else if(data.FirstName.match(namePattern) || data.LastName.match(namePattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Name should conatain alphabets only!"
+    })
+  }else if(data.Address1.match(addressPattern) || data.Address2.match(addressPattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Address should not contain special characters like !@# etc!",
+      text:"Only . and , allowed"
+    })
+  }
+  else if(data.MobileNo.length>10){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. cannot be more than 10 digits!",
+      // text:"xsdscs"
+    })
+  }
+  else if(data.MobileNo.length<10){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. cannot be less than 10 digits!",
+      // text:"xsdscs"
+    })
+  }
+  else if(data.MobileNo.match(mobilePattern)){
+    Swal.fire({
+      icon:"warning",
+      titleText:"Mobile no. should contain only digits!"
+    })
+  }
+  else{
 
   fetch(addEnqUrl,{
     method: "POST",
@@ -547,6 +596,8 @@ const handleSubmit=(e)=>{
       })
     }
   })
+}
+
 }
 
 
@@ -1051,7 +1102,7 @@ fetch(menuUrl)
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>First Name <span className="req-f">*</span></Form.Label>
-        <Form.Control type="text" placeholder="" name="FirstName" value={data.FirstName} className="fn" onChange={(e) => handle(e)} required/>
+        <Form.Control type="text" placeholder="" name="FirstName" value={data.FirstName} className="fn" onChange={(e) => handle(e)} />
        <Form.Text className="req-f fnt" id="fn" style={{display:"none"}}>Use alphabets only!</Form.Text>
       </Form.Group>
                 </Col>
@@ -1059,7 +1110,7 @@ fetch(menuUrl)
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Last Name <span className="req-f">*</span></Form.Label>
-        <Form.Control type="text" name="LastName" placeholder="" value={data.LastName} className="ln" onChange={(e) => handle(e)} required/>
+        <Form.Control type="text" name="LastName" placeholder="" value={data.LastName} className="ln" onChange={(e) => handle(e)} />
        <Form.Text className="req-f fnt" id="ln" style={{display:"none"}}>Use alphabets only!</Form.Text>
         
       </Form.Group>
@@ -1076,7 +1127,7 @@ fetch(menuUrl)
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enquiry Date <span className="req-f">*</span></Form.Label>
-        <Form.Control type="date" placeholder="" id="EnquiryDate" name="EnquiryDate" value={data.EnquiryDate} onChange={(e) => handle(e)} required/>
+        <Form.Control type="date" placeholder="" id="EnquiryDate" name="EnquiryDate" value={data.EnquiryDate} onChange={(e) => handle(e)} />
         
       </Form.Group>
                 </Col>
@@ -1088,14 +1139,14 @@ fetch(menuUrl)
                 <Col lg={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Date of birth </Form.Label>
-        <Form.Control type="date" placeholder="" name="DateOfBirth" value={data.DateOfBirth} onChange={(e) => handle(e)} required/>
+        <Form.Control type="date" placeholder="" name="DateOfBirth" value={data.DateOfBirth} onChange={(e) => handle(e)}/>
        
       </Form.Group>
                 </Col>
 
                 <Col lg={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Gender</Form.Label>
+        <Form.Label>Gender<span className="req-f">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="Gender" onChange={(e) => handle(e)}>
       <option></option>
       <option value="Male">Male</option>
@@ -1202,7 +1253,7 @@ fetch(menuUrl)
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Mobile No. <span className="req-f">*</span></Form.Label>
-        <Form.Control type="tel" name="MobileNo" value={data.MobileNo} onChange={(e) => handle(e)} required/>
+        <Form.Control type="tel" name="MobileNo" value={data.MobileNo} onChange={(e) => handle(e)} />
        
       </Form.Group>
                 </Col>
@@ -1210,7 +1261,7 @@ fetch(menuUrl)
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>E-mail ID</Form.Label>
-        <Form.Control type="email" name="Email" value={data.Email} onChange={(e) => handle(e)} required/>
+        <Form.Control type="email" name="Email" value={data.Email} onChange={(e) => handle(e)}/>
       
       </Form.Group>
                 </Col>
@@ -1219,7 +1270,7 @@ fetch(menuUrl)
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Clinic Name <span className="req-f">*</span></Form.Label>
-        <Form.Select aria-label="Default select example" name="ClinicID" onChange={(e) => handle(e)} required>
+        <Form.Select aria-label="Default select example" name="ClinicID" onChange={(e) => handle(e)} >
       <option></option>
 
       {
@@ -1241,7 +1292,7 @@ fetch(menuUrl)
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Assign To <span className="req-f">*</span></Form.Label>
-        <Form.Select aria-label="Default select example" name="AssignedToUser" value={data.AssignedToUser} onChange={(e) => handle(e)} required>
+        <Form.Select aria-label="Default select example" name="AssignedToUser" value={data.AssignedToUser} onChange={(e) => handle(e)} >
       <option></option>
 
       {
@@ -1264,7 +1315,7 @@ fetch(menuUrl)
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enquiry For <span className="req-f">*</span></Form.Label>
-        <Form.Select aria-label="Default select example" name="EnquiryFor" value={data.EnquiryFor} onChange={(e) => handle(e)} required>
+        <Form.Select aria-label="Default select example" name="EnquiryFor" value={data.EnquiryFor} onChange={(e) => handle(e)} >
       <option></option>
       {
         enqFor && enqFor.map((enqf,i)=>{

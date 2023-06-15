@@ -176,39 +176,55 @@ function ViewFollowupDetails(){
     const handleClose = () => {
       setAnchorEl(null);
     };
+    let EnqId=sessionStorage.getItem("convEnqId");
+
+
+    const [fupDetails, setFupDetails] = useState([]);
+
+
+const fupdUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetFollowupDetails/${EnqId}`;
+
+useEffect(()=>{
+  fetch(fupdUrl)
+  .then((res)=>res.json())
+  .then((fupd)=>{
+    console.log(fupd.Data);
+    setFupDetails(fupd.Data);
+   })
+},[])
 
 
 
     const columns = useMemo(
         () => [
-          {
-            accessorKey: "srNo",
-            header: "Sr No.",
-            muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
+          // {
+          //   accessorKey: "srNo",
+          //   header: "Sr No.",
+          //   muiTableHeadCellFilterTextFieldProps: { placeholder: "Sr.No." },
             
-          },
+          // },
         //   {
         //     accessorKey: "enquiry",
         //     header: "Enquiry No.",
         //   },
           {
-            accessorKey: "followUpDate",
+            accessorKey: "FollowUpDate",
             header: "Follow Up Date",
           },
           {
-            accessorKey: "followupMode",
+            accessorKey: "FollowUpMode",
             header: "Follow Up Mode",
           },
           {
-            accessorKey: "conversationDetails",
+            accessorKey: "ConversationDetails",
             header: "Conversation Details",
           },
           {
-            accessorKey: "FollowupStatus",
+            accessorKey: "FollowUpStatus",
             header: "Follow up Status",
           },
           {
-            accessorKey: "followupBy",
+            accessorKey: "FollowUpBy",
             header: "Follow up By",
           },
           
@@ -735,7 +751,7 @@ fetch(menuUrl)
                 
             <MaterialReactTable
                   columns={columns}
-                  data={data}
+                  data={fupDetails}
                   
                   initialState={{ showColumnFilters: true }} //show filters by default
                   
