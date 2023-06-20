@@ -63,6 +63,7 @@ import calendar from "../../Assets/calendar.png";
 import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
+import invoice from "../../Assets/invoice.png";
 
 const drawerWidth = 240;
 
@@ -1008,6 +1009,16 @@ fetch(menuUrl)
                   <img src={report} alt="" srcset="" />
                     </ListItemIcon>
                     <ListItemText primary={menuList[7]?.MenuName}/>
+                  </ListItemButton>
+                  </ListItem>
+
+
+                   <ListItem disablePadding onClick={()=>navigate("/invoice")}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                  <img src={invoice} alt="" srcset="" />
+                    </ListItemIcon>
+                    <ListItemText primary={menuList[24]?.MenuName}/>
                   </ListItemButton>
                   </ListItem>
 

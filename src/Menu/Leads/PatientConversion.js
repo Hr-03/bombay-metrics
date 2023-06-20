@@ -63,6 +63,8 @@ import report from "../../Assets/reports.png";
 import calendar from "../../Assets/calendar.png";
 import axios from "axios";
 import Swal from "sweetalert2";
+import invoice from "../../Assets/invoice.png";
+
 
 const drawerWidth = 240;
 
@@ -1144,7 +1146,15 @@ const handleSubmitPatient=(e)=>{
                   </ListItemButton>
                   </ListItem>
 
-                
+                   <ListItem disablePadding onClick={()=>navigate("/invoice")}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                  <img src={invoice} alt="" srcset="" />
+                    </ListItemIcon>
+                    <ListItemText primary={menuList[24]?.MenuName}/>
+                  </ListItemButton>
+                  </ListItem>
+
                   </>
                 {/* )
               })

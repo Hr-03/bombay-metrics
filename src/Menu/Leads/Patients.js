@@ -45,6 +45,8 @@ import {HiOutlineTrash,HiFire,HiUserAdd} from "react-icons/hi";
 import {SiMicrosoftexcel} from "react-icons/si";
 import {useNavigate} from "react-router-dom";
 import dashIcon from "../../Assets/Dashboard.png";
+import invoice from "../../Assets/invoice.png";
+
 // import ListItemIcon from '@mui/material/ListItemIcon';
 // import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
@@ -729,7 +731,15 @@ fetch(menuUrl)
                   </ListItemButton>
                   </ListItem>
 
-                
+                   <ListItem disablePadding onClick={()=>navigate("/invoice")}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                  <img src={invoice} alt="" srcset="" />
+                    </ListItemIcon>
+                    <ListItemText primary={menuList[24]?.MenuName}/>
+                  </ListItemButton>
+                  </ListItem>
+
                   </>
                 {/* )
               })

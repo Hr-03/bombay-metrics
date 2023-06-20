@@ -60,7 +60,7 @@ import calendar from "../Assets/calendar.png";
 import { MdLogout } from 'react-icons/md';
 import { BsPlus } from 'react-icons/bs';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
-
+import invoice from "../Assets/invoice.png";
 
 const drawerWidth = 240;
 
@@ -174,7 +174,19 @@ const AddTreatments = () => {
       setAnchorEl(null);
     };
 
+    const [patients, setPatients] = useState([]);
 
+    const pUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetPatientList`;
+    
+    useEffect(()=>{
+       fetch(pUrl)
+       .then((res)=>res.json())
+       .then((pnt)=>{
+        console.log(pnt?.Data);
+        setPatients(pnt?.Data);
+
+       })
+    },[])
 
     const columns = useMemo(
         () => [
@@ -377,6 +389,35 @@ fetch(menuUrl)
     setOpen6(!open6);
   };
 
+
+  const handleOnSearch = (string, results) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+    console.log(string, results)
+  }
+  
+  const handleOnHover = (result) => {
+    // the item hovered
+    console.log(result)
+  }
+  
+  const handleOnSelect = (item) => {
+    // the item selected
+    console.log(item)
+  }
+  
+  const handleOnFocus = () => {
+    console.log('Focused')
+  }
+  
+  const formatResult = (item) => {
+    return (
+      <>
+        {/* <span style={{ display: 'block', textAlign: 'left' }}>id: {item.id}</span> */}
+        <span style={{ display: 'block', textAlign: 'left' }}>{item.Name}</span>
+      </>
+    )
+  }
 
   return (
     <>
@@ -796,7 +837,15 @@ fetch(menuUrl)
                   </ListItemButton>
                   </ListItem>
 
-                
+                   <ListItem disablePadding onClick={()=>navigate("/invoice")}>
+                  <ListItemButton>
+                    <ListItemIcon>
+                  <img src={invoice} alt="" srcset="" />
+                    </ListItemIcon>
+                    <ListItemText primary={menuList[24]?.MenuName}/>
+                  </ListItemButton>
+                  </ListItem>
+
                   </>
                 {/* )
               })
@@ -829,7 +878,13 @@ fetch(menuUrl)
                 <Form.Label>Patient name</Form.Label>
 
                 <ReactSearchAutocomplete
-      // items={items}
+      items={patients}
+      onSearch={handleOnSearch}
+onHover={handleOnHover}
+onSelect={handleOnSelect}
+onFocus={handleOnFocus}
+autoFocus
+formatResult={formatResult}
       fuseOptions={{ keys: ["Name"] }}
       // necessary, otherwise the results will be blank
       resultStringKeyName="Name"
