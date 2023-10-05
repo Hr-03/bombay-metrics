@@ -39,6 +39,22 @@ import ConvertToPatient from './Menu/Leads/ConvertToPatient';
 import Invoice from './Pages/Invoice';
 import AddTreatments from './Pages/AddTreatments';
 import AddCollection from './Pages/AddCollection';
+import ClinicwiseCollection from './Pages/Reports/ClinicwiseCollection';
+import DoctorwiseCollection from './Pages/Reports/DoctorwiseCollection';
+import PatientwiseCollection from './Pages/Reports/PatientwiseCollection';
+import EnquiryToPatient from './Pages/Reports/EnquiryToPatient';
+import LeadSourceEnquiry from './Pages/Reports/LeadSourceEnquiry';
+import PatientTreatments from './Pages/Reports/PatientTreatments';
+import Consultations from './Pages/Consultations';
+import EditDoctor from './Menu/User Settings/EditDoctor';
+import ConsultationHistory from './Pages/ConsultationHistory';
+import ViewConsultationHistory from './Pages/ViewConsultationHistory';
+import ConsultationReport from './Pages/Reports/ConsultationReport';
+import EditEmployee from './Menu/User Settings/EditEmployee';
+import EditBranch from './Menu/Clinic Settings/EditBranch';
+import EditPatients from './Menu/Leads/EditPatients';
+import EditEnquiry from './Menu/Leads/EditEnquiry';
+
 
 function App() {
   return (
@@ -81,6 +97,22 @@ function App() {
           <Route path="/invoice" element={<Invoice/>} />
           <Route path="/add-treatment" element={<AddTreatments/>} />
           <Route path="/add-collection" element={<AddCollection/>} />
+          <Route path="/clinic-collection" element={<ClinicwiseCollection/>} />
+          <Route path="/doctor-collection" element={<DoctorwiseCollection/>} />
+          <Route path="/patient-collection" element={<PatientwiseCollection/>} />
+          <Route path="/e2p" element={<EnquiryToPatient/>} />
+          <Route path="/lsrc" element={<LeadSourceEnquiry/>} />
+          <Route path="/pntdtl" element={<PatientTreatments/>} />
+          <Route path="/consultations/:patientId" element={<Consultations/>} />
+          <Route path="/edit-dr/:doctorId" element={<EditDoctor/>} />
+          <Route path="/consult-hst/:pntID" element={<ConsultationHistory/>} />
+          <Route path="/view-consult-hst/:consultId" element={<ViewConsultationHistory/>} />
+          <Route path="/consult-rpt" element={<ConsultationReport/>} />
+          <Route path="/edit-emp/:userID" element={<EditEmployee/>} />
+          <Route path="/edit-branch/:clinicID" element={<EditBranch/>} />
+          <Route path="/edit-pnt/:pntID" element={<EditPatients/>} />
+          <Route path="/edit-enq/:enquiryId" element={<EditEnquiry/>} />
+     
 
 
           </Routes>

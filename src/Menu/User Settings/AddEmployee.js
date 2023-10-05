@@ -59,11 +59,14 @@ import userGearIcon from "../../Assets/userGear.png";
 import cliGearIcon from "../../Assets/cset.png";
 import lp from "../../Assets/lp.png";
 import report from "../../Assets/reports.png";
-import calendar from "../../Assets/calendar.png";
+import calendarap from "../../Assets/calendar.png";
+
 import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
 import invoice from "../../Assets/invoice.png";
+import addTmnt from "../../Assets/addtmt.png";
+import addColl from "../../Assets/addcoln.png";
 
 const drawerWidth = 240;
 
@@ -183,6 +186,7 @@ function AddEmployee(){
 
 
     const [addEmp, setAddEmp] = useState({
+      UserID:"0",
       FirstName:"",
       LastName:"",
       Designation:"",
@@ -230,7 +234,7 @@ function AddEmployee(){
     });
   
     const getStates = async (countryId, cORp) => {
-      let url = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+      let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
       let state = await (await fetch(url)).json();
       console.log(state.Data);
       if (cORp === "current") {
@@ -242,7 +246,7 @@ function AddEmployee(){
     };
   
     const getCities = async (stateId, cORp) => {
-      let url = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+      let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
       let city = await (await fetch(url)).json();
       console.log(city.Data);
       if (cORp === "current") {
@@ -255,7 +259,7 @@ function AddEmployee(){
   
     const getCountries = async () => {
       let url =
-        "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetCountryList";
+        "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
       let country = await (await fetch(url)).json();
       console.log(country.Data.slice(0, 2));
       setCountries({
@@ -333,7 +337,7 @@ function AddEmployee(){
       e.preventDefault();
 
 
-      const addEmpUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/AddNewEmployee`;
+      const addEmpUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewEmployee`;
 
 
       if(addEmp?.ClinicID==="" || addEmp?.Designation==="" || addEmp?.JoiningDate==="" || addEmp?.FirstName==="" || addEmp?.LastName==="" || addEmp.MobileNo==="" || addEmp?.Gender==="" || addEmp?.username==="" || addEmp?.Passwords===""){
@@ -479,23 +483,23 @@ function AddEmployee(){
        
           {
             srNo: 1,
-            photo: <img src="https://t4.ftcdn.net/jpg/03/17/85/49/360_F_317854905_2idSdvi2ds3yejmk8mhvxYr1OpdVTrSM.jpg" width={150} height={100}/>,
+            photo: <img src="http://t4.ftcdn.net/jpg/03/17/85/49/360_F_317854905_2idSdvi2ds3yejmk8mhvxYr1OpdVTrSM.jpg" width={150} height={100}/>,
             name:"Sneha Gaikwad",
             mobileNumber:"95261663263",
             emailID:"snehagaikwad@gmail.com",
             regDate:"16/02/2023",
-            // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+            // view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            // download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
            
           },
           {
             srNo: 2,
-            photo: <img src="https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?w=360" width={150} height={100}/>,
+            photo: <img src="http://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?w=360" width={150} height={100}/>,
             name:"Sayali Palshetkar",
             mobileNumber:"95261663263",
             emailID:"sayalipalshetkar@gmail.com",
             regDate:"16/02/2023",
-            // view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+            // view:<img src="http://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
             // download:"unChecked"
             
           },
@@ -522,24 +526,65 @@ function AddEmployee(){
   
 
 
+  const [parentMenu, setparentMenu] = useState([]);
+
+  const [mainMenu, setmainMenu] = useState([]);
+
+  const [clinicSetting, setclinicSetting] = useState([]);
+
+  const [treatmentMenu, settreatmentMenu] = useState([]);
+
+  const [userSetting, setuserSetting] = useState([]);
+
+  const [lpMenu, setlpMenu] = useState([]);
+
+  const [apmntMenu, setapmntMenu] = useState([]);
+
+  const [reportMenu, setreportMenu] = useState([]);
+
   const [menuList, setMenuList] = useState([]);
 
+   let Role=sessionStorage.getItem("RoleId");
+  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  useEffect(() => {
+    fetch(menuUrl)
+      .then((res) => res.json())
+      .then((list) => {
+        console.log(list.Data);
+        setMenuList(list.Data);
 
-    const menuUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetMenuAccess/1`;
-  useEffect(()=>{
-fetch(menuUrl)
-.then((res)=>res.json())
-.then((list)=>{
-  console.log(list.Data);
-  setMenuList(list.Data);
-})
-  },[])
+        setparentMenu(list.Data.filter((parent, i) => parent.Parent === 0));
+        // console.log(list.Data.filter((parent,i)=>parent.Parent===0));
+
+        setmainMenu(list.Data.filter((main, i) => main.Parent === 3));
+        // console.log(list.Data.filter((main,i)=>main.Parent===3));
+
+        setlpMenu(list.Data.filter((lp, i) => lp.Parent === 6));
+        // console.log(list.Data.filter((lp,i)=>lp.Parent===6));
+
+        setreportMenu(list.Data.filter((rpt, i) => rpt.Parent === 8));
+        // console.log(list.Data.filter((rpt,i)=>rpt.Parent===8));
+
+        setclinicSetting(list.Data.filter((cs, i) => cs.Parent === 4));
+        // console.log(list.Data.filter((cs,i)=>cs.Parent===4);
+
+        setuserSetting(list.Data.filter((user, i) => user.Parent === 5));
+        // console.log(list.Data.filter(((user,i)=>user.Parent===5)));
+
+        settreatmentMenu(list.Data.filter((treat, i) => treat.Parent === 9));
+        // console.log(list.Data.filter((treat,i)=>treat.Parent===9));
+
+        setapmntMenu(list.Data.filter((apmnt, i) => apmnt.Parent === 7));
+        // console.log(list.Data.filter((apmnt,i)=>apmnt.Parent===7));
+      });
+  }, []);
+
 
 
 
   const [designation, setDesignation] = useState([]);
 
-  const desigUrl=`https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetDesignationList`;
+  const desigUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetDesignationList`;
 
   useEffect(()=>{
     fetch(desigUrl)
@@ -552,7 +597,7 @@ fetch(menuUrl)
 
 
   const [branch, setBranch] = useState([]);
-  const branchUrl = `https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+  const branchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
 
   useEffect(() => {
     fetch(branchUrl)
@@ -593,6 +638,11 @@ fetch(menuUrl)
 
   const handleApClick = () => {
     setOpen6(!open6);
+  };
+  const [open7, setOpen7] = React.useState(false);
+
+  const handleReportClick = () => {
+    setOpen7(!open7);
   };
     return(
         <>
@@ -687,346 +737,399 @@ fetch(menuUrl)
           </DrawerHeader>
           <Divider />
           <List>
-            {/* {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))} */}
-            {/* {
-              menuList.map((menu)=>{
-                return( */}
+            <>
+              {parentMenu?.map((parent, i) => {
+                return (
                   <>
-                  <ListItem disablePadding>
-                  <ListItemButton onClick={()=>navigate("/today-fup")}>
-                    <ListItemIcon>
-                  {menuList[0]?.MenuName==="Dashboard" && <img src={dashIcon} />}
-                    </ListItemIcon>
-                    <ListItemText primary={menuList[0]?.MenuName}/>
-                  </ListItemButton>
-                  </ListItem>
-                  
-
-
-                  {/* <ListItem disablePadding> */}
-                  <ListItemButton onClick={handleMenuClick}>
-        <ListItemIcon>
-         <img src={menuIcon} alt="" srcset="" />
-        </ListItemIcon>
-        <ListItemText primary={menuList[2]?.MenuName} />
-        {open1 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open1} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-
-
-
-
-
-
-
-
-
-          
-          <ListItemButton sx={{ pl: 3 }} onClick={handleCsClick}>
-            <ListItemIcon>
-            <img src={cliGearIcon} alt="" srcset="" />
-
-            </ListItemIcon>
-            
-            <ListItemText primary={menuList[3]?.MenuName} />
-            {open2 ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-                
-          <Collapse in={open2} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/branch")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[1]?.MenuName}/>
-
-          </ListItemButton>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={handleTreatClick}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[8]?.MenuName}/>
-          {open3 ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-
-          <Collapse in={open3} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          
-          
-        <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/s&l")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[20]?.MenuName}/>
-
-          </ListItemButton>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/wl")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[21]?.MenuName}/>
-
-          </ListItemButton>
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/ht")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[22]?.MenuName}/>
-
-          </ListItemButton>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/homeopathy")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[23]?.MenuName}/>
-
-          </ListItemButton>
-          </List>
-          </Collapse>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/lead-srcs")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[9]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-
-
-
-
-          </List>
-          </Collapse>
-
-
-
-
-
-
-
-
-          <ListItemButton sx={{ pl: 3 }} onClick={handleUserClick}>
-            <ListItemIcon>
-            <img src={userGearIcon} alt="" srcset="" />
-
-            </ListItemIcon>
-            
-            <ListItemText primary={menuList[4]?.MenuName} />
-        {open4 ? <ExpandLess /> : <ExpandMore />}
-
-          </ListItemButton>
-          <Collapse in={open4} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/role")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[10]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/access-perm")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[11]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/dr-reg")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[12]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/emp-reg")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[13]?.MenuName}/>
-         
-          </ListItemButton>
-
-          </List>
-          </Collapse>
-
-
-
-        </List>
-      </Collapse>
-                  {/* </ListItem> */}
-
-
-                  {/* <ListItem disablePadding> */}
-                  <ListItemButton onClick={handleLpClick}>
-                    <ListItemIcon>
-                  <img src={lp} alt="" srcset="" />
-                    </ListItemIcon>
-                    <ListItemText primary={menuList[5]?.MenuName}/>
-        {open5 ? <ExpandLess /> : <ExpandMore />}
-
-                  </ListItemButton>
-                  <Collapse in={open5} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/enquiries")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[14]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/fup-entries")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[15]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/patients")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[16]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/up-leads")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[17]?.MenuName}/>
-         
-          </ListItemButton>
-          </List>
-          </Collapse>
-
-
-
-
-
-
-          <ListItemButton onClick={()=>{
-            handleApClick()
-            navigate("/appmnt");
-            }}>
-                    <ListItemIcon>
-                  <img src={calendar} alt="" srcset="" />
-                    </ListItemIcon>
-                    <ListItemText primary={menuList[6]?.MenuName}/>
-        {open6 ? <ExpandLess /> : <ExpandMore />}
-
-                  </ListItemButton>
-                  <Collapse in={open6} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-        <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/book-apmt")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[18]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-          <ListItemButton sx={{ pl: 4 }} onClick={()=>navigate("/view-apmt")}>
-          <ListItemIcon>
-            <img src="" alt="" srcset="" />
-          </ListItemIcon>
-
-          <ListItemText primary={menuList[19]?.MenuName}/>
-         
-          </ListItemButton>
-
-
-
-         
-          </List>
-          </Collapse>
-                  {/* </ListItem> */}
-                  <ListItem disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon>
-                  <img src={report} alt="" srcset="" />
-                    </ListItemIcon>
-                    <ListItemText primary={menuList[7]?.MenuName}/>
-                  </ListItemButton>
-                  </ListItem>
-
-
-                   <ListItem disablePadding onClick={()=>navigate("/invoice")}>
-                  <ListItemButton>
-                    <ListItemIcon>
-                  <img src={invoice} alt="" srcset="" />
-                    </ListItemIcon>
-                    <ListItemText primary={menuList[24]?.MenuName}/>
-                  </ListItemButton>
-                  </ListItem>
-
-                
+                    <ListItemButton
+                      key={i}
+                      onClick={() => {
+                        if (parent?.MenuName === "Menu") {
+                          handleMenuClick();
+                        } else if (parent?.MenuName === "Leads/Patients") {
+                          handleLpClick();
+                        } else if (parent?.MenuName === "Reports") {
+                          handleReportClick();
+                        } else if (parent?.MenuName === "Appointment") {
+                          handleApClick();
+                        }
+                        else if(parent?.MenuName === "Invoice"){
+                          navigate("/invoice")
+                        }
+                        else if(parent?.MenuName === "Add Patients Treatment"){
+                          navigate("/add-treatment")
+                        }
+                        else if(parent?.MenuName === "Add Collection"){
+                          navigate("/add-collection")
+                        }
+                      }}
+                    >
+                      <ListItemIcon>
+                        <img
+                          src={`${
+                            parent?.MenuName === "Dashboard"
+                              ? dashIcon
+                              : parent?.MenuName === "Menu"
+                              ? menuIcon
+                              : parent?.MenuName === "Leads/Patients"
+                              ? lp
+                              : parent?.MenuName === "Reports"
+                              ? report
+                              : parent?.MenuName === "Appointment"
+                              ? calendarap
+                              : parent?.MenuName === "Invoice"
+                              ? invoice
+                              : parent?.MenuName === "Add Patients Treatment"
+                              ? addTmnt
+                              : parent?.MenuName === "Add Collection"
+                              ? addColl
+                              : ""
+                          }`}
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={parent?.MenuName} />
+                      {parent?.MenuName === "Menu" ? (
+                        open1 ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )
+                      ) : parent?.MenuName === "Leads/Patients" ? (
+                        open5 ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )
+                      ) : parent?.MenuName === "Reports" ? (
+                        open7 ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )
+                      ) : parent?.MenuName === "Appointment" ? (
+                        open6 ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )
+                      ) : (
+                        ""
+                      )}
+                    </ListItemButton>
+                    {parent?.MenuName === "Menu" ||
+                    parent?.MenuName === "Leads/Patients" ||
+                    parent?.MenuName === "Reports" ||
+                    parent?.MenuName === "Appointment" ? (
+                      <Collapse
+                        in={
+                          parent?.MenuName === "Menu"
+                            ? open1
+                            : parent?.MenuName === "Leads/Patients"
+                            ? open5
+                            : parent?.MenuName === "Reports"
+                            ? open7
+                            : parent?.MenuName === "Appointment"
+                            ? open6
+                            : ""
+                        }
+                        timeout="auto"
+                        unmountOnExit
+                      >
+                        <List component="div" disablePadding>
+                          {parent?.MenuName === "Menu"
+                            ? mainMenu?.map((main, i) => {
+                                return (
+                                  <>
+                                    <ListItemButton
+                                      sx={{ pl: 3 }}
+                                      onClick={() => {
+                                        if (
+                                          main?.MenuName === "Clinic Settings"
+                                        ) {
+                                          handleCsClick();
+                                        } else if (
+                                          main?.MenuName === "User Settings"
+                                        ) {
+                                          handleUserClick();
+                                        }
+                                      }}
+                                    >
+                                      <ListItemIcon>
+                                        <img src={`${main?.MenuName === "Clinic Settings"?cliGearIcon:main?.MenuName === "User Settings"?userGearIcon:""}`} alt="" srcset="" />
+                                      </ListItemIcon>
+
+                                      <ListItemText primary={main?.MenuName} />
+                                      {main?.MenuName === "Clinic Settings" ? (
+                                        open2 ? (
+                                          <ExpandLess />
+                                        ) : (
+                                          <ExpandMore />
+                                        )
+                                      ) : main?.MenuName === "User Settings" ? (
+                                        open4 ? (
+                                          <ExpandLess />
+                                        ) : (
+                                          <ExpandMore />
+                                        )
+                                      ) : (
+                                        ""
+                                      )}
+                                    </ListItemButton>
+
+                                    {main?.MenuName === "Clinic Settings" ||
+                                    main?.MenuName === "User Settings" ? (
+                                      <Collapse
+                                        in={
+                                          main?.MenuName === "Clinic Settings"
+                                            ? open2
+                                            : main?.MenuName === "User Settings"
+                                            ? open4
+                                            : ""
+                                        }
+                                        timeout="auto"
+                                        unmountOnExit
+                                      >
+                                        <List component="div" disablePadding>
+                                          {main?.MenuName === "Clinic Settings"
+                                            ? clinicSetting?.map((cs, i) => {
+                                                return (
+                                                  <>
+                                                    <ListItemButton
+                                                      sx={{ pl: 4 }}
+                                                      onClick={() => {
+                                                        if (
+                                                          cs?.MenuName ===
+                                                          "Treatment"
+                                                        ) {
+                                                          handleTreatClick();
+                                                        }
+                                                        else if(cs?.MenuName==="Branch"){
+                                                          navigate("/branch")
+                                                        }
+                                                        else if(cs?.MenuName==="LeadSource"){
+                                                          navigate("/lead-srcs")
+                                                        }
+                                                      }}
+                                                    >
+                                                      <ListItemIcon>
+                                                        {/* <img src="" alt="" srcset="" /> */}
+                                                      </ListItemIcon>
+
+                                                      <ListItemText
+                                                        primary={cs?.MenuName}
+                                                      />
+
+                                                      {cs?.MenuName ===
+                                                      "Treatment" ? (
+                                                        open3 ? (
+                                                          <ExpandLess />
+                                                        ) : (
+                                                          <ExpandMore />
+                                                        )
+                                                      ) : (
+                                                        ""
+                                                      )}
+                                                    </ListItemButton>
+                                                    {cs?.MenuName ==
+                                                    "Treatment" ? (
+                                                      <Collapse
+                                                        in={
+                                                          cs?.MenuName ===
+                                                          "Treatment"
+                                                            ? open3
+                                                            : ""
+                                                        }
+                                                        timeout="auto"
+                                                        unmountOnExit
+                                                      >
+                                                        <List
+                                                          component="div"
+                                                          disablePadding
+                                                        >
+                                                          {cs?.MenuName ===
+                                                          "Treatment"
+                                                            ? treatmentMenu?.map(
+                                                                (treat, i) => {
+                                                                  return (
+                                                                    <>
+                                                                      <ListItemButton
+                                                                        sx={{
+                                                                          pl: 4,
+                                                                        }}
+
+                                                                        onClick={()=>{
+                                                                          if(treat?.MenuName==="Skin and Laser"){
+                                                                            navigate("/s&l")
+                                                                          }
+                                                                          else if(treat?.MenuName==="Weight Loss"){
+                                                                            navigate("/wl")
+                                                                          }
+                                                                          else if(treat?.MenuName==="Hair"){
+                                                                            navigate("/ht")
+                                                                          }
+                                                                          else if(treat?.MenuName==="Homeopathy"){
+                                                                            navigate("/homeopathy")
+                                                                          }
+                                                                        }}
+                                                                      >
+                                                                        <ListItemIcon>
+                                                                          {/* <img src="" alt="" srcset="" /> */}
+                                                                        </ListItemIcon>
+
+                                                                        <ListItemText
+                                                                          primary={
+                                                                            treat?.MenuName
+                                                                          }
+                                                                        />
+                                                                      </ListItemButton>
+                                                                    </>
+                                                                  );
+                                                                }
+                                                              )
+                                                            : ""}
+                                                        </List>
+                                                      </Collapse>
+                                                    ) : (
+                                                      ""
+                                                    )}
+                                                  </>
+                                                );
+                                              })
+                                            : main?.MenuName === "User Settings"
+                                            ? userSetting?.map((user, i) => {
+                                                return (
+                                                  <>
+                                                    <ListItemButton
+                                                      sx={{ pl: 4 }}
+                                                      onClick={()=>{
+                                                        if(user?.MenuName==="Role"){
+                                                          navigate("/role")
+                                                        }
+                                                        else if(user?.MenuName==="Access Permission"){
+                                                          navigate("/access-perm")
+                                                        }
+                                                        else if(user?.MenuName==="Doctor Registration"){
+                                                          navigate("/dr-reg")
+                                                        }
+                                                        else if(user?.MenuName==="Employee Registration"){
+                                                          navigate("/emp-reg")
+                                                        }
+                                                      }}
+                                                    >
+                                                      <ListItemIcon>
+                                                        {/* <img src="" alt="" srcset="" /> */}
+                                                      </ListItemIcon>
+
+                                                      <ListItemText
+                                                        primary={user?.MenuName}
+                                                      />
+                                                    </ListItemButton>
+                                                  </>
+                                                );
+                                              })
+                                            : ""}
+                                        </List>
+                                      </Collapse>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </>
+                                );
+                              })
+                            : parent?.MenuName === "Leads/Patients"
+                            ? lpMenu?.map((lp, i) => {
+                                return (
+                                  <>
+                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                      if(lp?.MenuName==="Lead Entry"){
+                                        navigate("/enquiries")
+                                      }
+                                      else if(lp?.MenuName==="FollowUp Entry"){
+                                        navigate("/fup-entries")
+                                      }
+                                      else if(lp?.MenuName==="Patients/Customers"){
+                                        navigate("/patients")
+                                      }
+                                      else if(lp?.MenuName==="Upload Leads"){
+                                        navigate("/up-leads")
+                                      }
+                                    }}>
+                                      <ListItemIcon>
+                                        {/* <img src={cliGearIcon} alt="" srcset="" /> */}
+                                      </ListItemIcon>
+
+                                      <ListItemText primary={lp?.MenuName} />
+                                      {/* {open5 ? <ExpandLess /> : <ExpandMore />} */}
+                                    </ListItemButton>
+                                  </>
+                                );
+                              })
+                            : parent?.MenuName === "Reports"
+                            ? reportMenu?.map((rpt, i) => {
+                                return (
+                                  <>
+                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                      if(rpt?.MenuName==="Enquiry To Patient Conversions"){
+                                        navigate("/e2p")
+                                      }
+                                      else if(rpt?.MenuName==="Patients Treatment"){
+                                        navigate("/pntdtl")
+                                      }
+                                      else if(rpt?.MenuName==="Clinic Wise Collection"){
+                                        navigate("/clinic-collection")
+                                      }
+                                      else if(rpt?.MenuName==="Doctor Wise Collection"){
+                                        navigate("/doctor-collection")
+                                      }
+                                      else if(rpt?.MenuName==="Patient Wise Collection"){
+                                        navigate("/patient-collection")
+                                      }
+                                      else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
+                                        navigate("/lsrc")
+                                      }
+                                    }}>
+                                      <ListItemIcon>
+                                        {/* <img src={cliGearIcon} alt="" srcset="" /> */}
+                                      </ListItemIcon>
+
+                                      <ListItemText primary={rpt?.MenuName} />
+                                      {/* {open7 ? <ExpandLess /> : <ExpandMore />} */}
+                                    </ListItemButton>
+                                  </>
+                                );
+                              })
+                            : parent?.MenuName === "Appointment"
+                            ? apmntMenu?.map((apmnt, i) => {
+                                return (
+                                  <>
+                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                      if(apmnt?.MenuName==="Book Appointment"){
+                                        navigate("/appmnt")
+                                      }
+                                      else if(apmnt?.MenuName==="View Appointment"){
+                                        navigate("/view-apmt")
+                                      }
+                                    }}>
+                                      <ListItemIcon>
+                                        {/* <img src={cliGearIcon} alt="" srcset="" /> */}
+                                      </ListItemIcon>
+
+                                      <ListItemText primary={apmnt?.MenuName} />
+                                      {/* {open7 ? <ExpandLess /> : <ExpandMore />} */}
+                                    </ListItemButton>
+                                  </>
+                                );
+                              })
+                            : ""}
+                        </List>
+                      </Collapse>
+                    ) : (
+                      ""
+                    )}
                   </>
-                {/* )
-              })
-            } */}
+                );
+              })}
+            </>
           </List>
           {/* <Divider />
           <List>
@@ -1335,7 +1438,7 @@ fetch(menuUrl)
          
              await axios
                .post(
-                 "https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+                 "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
                  fd,
                  {
                    onUploadProgress: (ProgressEvent) => {
@@ -1389,7 +1492,7 @@ fetch(menuUrl)
                                 )
                               ) : (
                                 <img
-                                    src="https://wallpaperaccess.com/full/1285952.jpg"
+                                    src="http://wallpaperaccess.com/full/1285952.jpg"
                                     alt="image"
                                     className="img-s"
                                     // style={{float:"right"}}

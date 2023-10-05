@@ -44,9 +44,7 @@ function Login() {
         console.log(newdata);
     }
 
-    const logUrl="https://orthosquare.infintrixindia.com/ReviveAPI/Revive.svc/VerifyLogin";
-
-
+    const logUrl="http://reviveapplication.com/ReviveAPI/Revive.svc/VerifyLogin";
 
 
 

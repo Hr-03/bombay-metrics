@@ -71,8 +71,28 @@ td{
   overflow: hidden !important;
 }
 
-.css-yb0lig{
+.css-yb0lig,.css-1uwabd6,.css-vcl3iz,.css-wqyty6{
   color: white !important;
+}
+
+.css-1ontqvh::-webkit-scrollbar{
+  width: 1px !important;
+}
+
+/* .css-vubbuv{
+  color: #9B7BB7 !important;
+} */
+
+.css-i6s8oy{
+  min-height: 5.4em !important;
+}
+
+/* .css-1yxmbwk,.css-pio6kb,.css-1k455el{
+  color: #9B7BB7 !important;
+} */
+
+.css-1yw493q,.css-epvm6{
+  color: black !important;
 }
 
 @media screen and (max-width:768px) {

@@ -4,7 +4,12 @@
 }
 .dfMuHY {
     height: 150px !important;
-    overflow: hidden !important;
+    /* overflow: hidden !important; */
+    z-index: 4 !important;
+}
+.cwXBLU {
+    height: 150px !important;
+    /* overflow: hidden !important; */
     z-index: 4 !important;
 }
 
@@ -16,9 +21,20 @@
    
 }
 
+.cwXBLU .wrapper {
+
+    border-radius: 5px !important;
+    border-color: rgba(173, 173, 171, 0.534) !important;
+   
+}
+
 
 
 .bIsGwU {
+   
+    display: none !important;
+}
+.lmJnep {
    
     display: none !important;
 }
