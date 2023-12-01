@@ -44,7 +44,7 @@ function Login() {
         console.log(newdata);
     }
 
-    const logUrl="http://reviveapplication.com/ReviveAPI/Revive.svc/VerifyLogin";
+    const logUrl="https://reviveapplication.com/ReviveAPI/Revive.svc/VerifyLogin";
 
 
 
@@ -165,14 +165,14 @@ function Login() {
                               className="login-btn"
                               onClick={(e)=>handleLogin(e)}
                             >
-                              LOGIN
+                              {loading?<Spinner animation="border" className="load"/>:"LOGIN"}
                             </Button> <br />
 
-{
+{/* {
   loading &&
 
                           <Spinner animation="border" className="load"/>
-}
+} */}
 
                           </Col>
                         </Row>

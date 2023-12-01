@@ -188,7 +188,7 @@ function Branch() {
   const [menuList, setMenuList] = useState([]);
 
   let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -243,7 +243,7 @@ function Branch() {
 
   const [branchList, setBranchList] = useState([]);
 
-const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClinicProfile/0/0`;
+const branchUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClinicProfile/0/0`;
 
   useEffect(()=>{
     fetch(branchUrl)
@@ -289,7 +289,7 @@ const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClini
         header: "Location",
       },
       {
-        accessorKey: "TelephoneNo",
+        accessorKey: "MobileNo",
         header: "Phone No.",
       },
       {
@@ -381,6 +381,8 @@ const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClini
     setOpen7(!open7);
   };
  
+
+  
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -481,7 +483,7 @@ const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClini
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -498,6 +500,9 @@ const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClini
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -520,7 +525,9 @@ const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClini
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -805,7 +812,7 @@ const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClini
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -823,6 +830,9 @@ const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetCheckClini
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -955,7 +965,7 @@ navigate(`/edit-branch/${clinicID}`)
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Do you want to delete this Role?</Modal.Body>
+        <Modal.Body>Do you want to delete this Branch?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             No
@@ -963,7 +973,7 @@ navigate(`/edit-branch/${clinicID}`)
           <Button variant="primary" onClick={(e)=>{
             e.preventDefault();
 
-            const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/DeleteClinic`;
+            const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/DeleteClinic`;
 
             fetch(url,{
               method:"POST",

@@ -187,7 +187,12 @@ let enquiry=document.getElementById("enq");
 let patient=document.getElementById("pnt");
 
 
-const enqbUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetAppointmentList/0/0/0`;
+
+let Role=sessionStorage.getItem("RoleId");
+
+let User=Role==="1"?0:sessionStorage.getItem("UserId")
+
+const enqbUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetAppointmentList/0/${User}/0`;
 
 const enq=()=>{
   if(enquiry?.checked){
@@ -205,7 +210,7 @@ const enq=()=>{
 
 
 
-const pntbUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetAppointmentList/1/0/0`;
+const pntbUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetAppointmentList/1/0/0`;
 
 
 const pnt=()=>{
@@ -272,7 +277,7 @@ pnt();
         //     Cell:({cell})=>{
         //         // let a=cell.getValue();
         //         return(
-        //         // a==="unChecked"?<img src="http://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+        //         // a==="unChecked"?<img src="https://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
         //     <>
         //     <Button variant="" className="book-btn">Book</Button>
         //     </>
@@ -323,8 +328,8 @@ pnt();
     
       const [menuList, setMenuList] = useState([]);
     
-       let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+      //  let Role=sessionStorage.getItem("RoleId");
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
       useEffect(() => {
         fetch(menuUrl)
           .then((res) => res.json())
@@ -500,7 +505,7 @@ pnt();
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -517,6 +522,9 @@ pnt();
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -539,7 +547,9 @@ pnt();
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -824,7 +834,7 @@ pnt();
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -842,6 +852,9 @@ pnt();
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>

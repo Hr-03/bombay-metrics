@@ -214,9 +214,10 @@ function EditBranch() {
   const [cities, setCities] = useState({
     currentCities: [],
   });
+  
 
   const getStates = async (countryId, cORp) => {
-    let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+    let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
     let state = await (await fetch(url)).json();
     console.log(state.Data);
     if (cORp === "current") {
@@ -228,7 +229,7 @@ function EditBranch() {
   };
 
   const getCities = async (stateId, cORp) => {
-    let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+    let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
     let city = await (await fetch(url)).json();
     console.log(city.Data);
     if (cORp === "current") {
@@ -241,7 +242,7 @@ function EditBranch() {
 
   const getCountries = async () => {
     let url =
-      "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+      "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
     let country = await (await fetch(url)).json();
     console.log(country.Data.slice(0, 2));
     setCountries({
@@ -325,7 +326,7 @@ function EditBranch() {
   };
 
   const [location, setLocation] = useState([]);
-  const locUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetLocationList/34`;
+  const locUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetLocationList/34`;
   useEffect(() => {
     fetch(locUrl)
       .then((res) => res.json())
@@ -335,9 +336,23 @@ function EditBranch() {
       });
   }, []);
 
+
+
+  const [getEmp, setGetEmp] = useState([]);
+
+  const getEmpUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetEmployeeDetails/0`;
+useEffect(()=>{
+  fetch(getEmpUrl)
+  .then((res)=>res.json())
+  .then((geteRes)=>{
+    console.log(geteRes.Data);
+    setGetEmp(geteRes.Data)
+  })
+},[])
+
   const [responsiblePerson, setResponsiblePerson] = useState([]);
 
-  const respUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
+  const respUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
 
   useEffect(() => {
     fetch(respUrl)
@@ -361,7 +376,6 @@ function EditBranch() {
       editData?.CityId === "" ||
       editData?.LocationID === "" ||
       editData?.TelephoneNo === "" ||
-      editData?.ResponsiblePerson === "" ||
       editData?.OpeningTime === "" ||
       editData?.ClosingTime === "" ||
       editData?.WorkingDays === ""
@@ -392,7 +406,7 @@ function EditBranch() {
       })
     }
     else {
-      const addBranchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewClinic`;
+      const addBranchUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewClinic`;
 
       fetch(addBranchUrl, {
         method: "POST",
@@ -437,7 +451,7 @@ function EditBranch() {
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -510,14 +524,20 @@ function EditBranch() {
   };
 
 
-const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicEditInfo/${clinicID}`;
+const clinicdetUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicEditInfo/${clinicID}`;
+
+
+const [editableState, seteditableState] = useState("");
+
+const [editableCity, seteditableCity] = useState("");
 
   useEffect(()=>{
     fetch(clinicdetUrl)
     .then((res)=>res.json())
     .then((result)=>{
         console.log(result.Data);
-
+seteditableState(result.Data[0]?.StateName)
+seteditableCity(result.Data[0]?.CityName)
         setEditData((pre)=>{
             return{
                 ...pre,
@@ -635,7 +655,7 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -652,6 +672,9 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -674,7 +697,9 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -959,7 +984,7 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -977,6 +1002,9 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1085,7 +1113,7 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                         <Form.Select
                           aria-label="Default select example"
                           name="CountryId"
-                        //   value={editData.CountryId}
+                          value={editData.CountryId}
                           onChange={(e) => handle(e)}
                         >
                           <option></option>
@@ -1113,10 +1141,10 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                         <Form.Select
                           aria-label="Default select example"
                           name="StatesId"
-                        //   value={editData.StatesId}
+                          value={editData.StatesId}
                           onChange={(e) => handle(e)}
                         >
-                          <option></option>
+                          <option>{editableState}</option>
 
                           {states.currentStates &&
                             states.currentStates.map((state) => {
@@ -1141,10 +1169,10 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                         <Form.Select
                           aria-label="Default select example"
                           name="CityId"
-                        //   value={editData.CityId}
+                          value={editData?.CityId}
                           onChange={(e) => handle(e)}
                         >
-                          <option></option>
+                          <option>{editableCity}</option>
                           {cities.currentCities &&
                             cities.currentCities.map((city) => {
                               return (
@@ -1202,7 +1230,7 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                     </Col>
                     <Col md={3}>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Responsible Person<span className="req-f">*</span></Form.Label>
+                        <Form.Label>Responsible Person</Form.Label>
                         <Form.Select
                           name="ResponsiblePerson"
                           value={editData.ResponsiblePerson}
@@ -1211,11 +1239,11 @@ const clinicdetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicE
                         >
                           <option></option>
 
-                          {responsiblePerson.map((person) => {
+                          {getEmp.map((emp, i) => {
                             return (
                               <>
-                                <option value={person?.UserID}>
-                                  {person?.Name}
+                                <option value={emp.UserID}>
+                                  {emp.Name}
                                 </option>
                               </>
                             );

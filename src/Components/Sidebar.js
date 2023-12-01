@@ -185,7 +185,7 @@ function Sidebar() {
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -355,7 +355,7 @@ function Sidebar() {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -372,6 +372,9 @@ function Sidebar() {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -394,7 +397,11 @@ function Sidebar() {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
+                          }`}
+                        />
                           }`}
                         />
                       </ListItemIcon>
@@ -679,7 +686,7 @@ function Sidebar() {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -697,6 +704,9 @@ function Sidebar() {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>

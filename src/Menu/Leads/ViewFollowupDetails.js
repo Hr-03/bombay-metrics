@@ -185,7 +185,7 @@ function ViewFollowupDetails(){
     const [fupDetails, setFupDetails] = useState([]);
 
 
-const fupdUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetFollowupDetails/${EnqId}`;
+const fupdUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetFollowupDetails/${EnqId}`;
 
 useEffect(()=>{
   fetch(fupdUrl)
@@ -276,7 +276,7 @@ useEffect(()=>{
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -447,7 +447,7 @@ useEffect(()=>{
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -464,6 +464,9 @@ useEffect(()=>{
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -486,7 +489,9 @@ useEffect(()=>{
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -771,7 +776,7 @@ useEffect(()=>{
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -789,6 +794,9 @@ useEffect(()=>{
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>

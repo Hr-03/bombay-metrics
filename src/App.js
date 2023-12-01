@@ -54,6 +54,10 @@ import EditEmployee from './Menu/User Settings/EditEmployee';
 import EditBranch from './Menu/Clinic Settings/EditBranch';
 import EditPatients from './Menu/Leads/EditPatients';
 import EditEnquiry from './Menu/Leads/EditEnquiry';
+import InvoiceView from './Pages/InvoiceView';
+import ConsultationInvoice from './Pages/ConsultationInvoice';
+import ConsultationInvoiceView from './Pages/ConsultationInvoiceView';
+import EditAccessPermission from './Menu/User Settings/EditAccessPermission';
 
 
 function App() {
@@ -112,6 +116,10 @@ function App() {
           <Route path="/edit-branch/:clinicID" element={<EditBranch/>} />
           <Route path="/edit-pnt/:pntID" element={<EditPatients/>} />
           <Route path="/edit-enq/:enquiryId" element={<EditEnquiry/>} />
+          <Route path="/view-inv" element={<InvoiceView/>} />  
+          <Route path="/consult-view-inv" element={<ConsultationInvoiceView/>} />  
+          <Route path="/add-consult-inv" element={<ConsultationInvoice/>} />
+          <Route path="/edit-acc-perm/:AccessId" element={<EditAccessPermission/>} />
      
 
 

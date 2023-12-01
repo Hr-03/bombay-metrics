@@ -235,7 +235,7 @@ function EditEmployee() {
     });
   
     const getStates = async (countryId, cORp) => {
-      let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+      let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
       let state = await (await fetch(url)).json();
       console.log(state.Data);
       if (cORp === "current") {
@@ -247,7 +247,7 @@ function EditEmployee() {
     };
   
     const getCities = async (stateId, cORp) => {
-      let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+      let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
       let city = await (await fetch(url)).json();
       console.log(city.Data);
       if (cORp === "current") {
@@ -260,7 +260,7 @@ function EditEmployee() {
   
     const getCountries = async () => {
       let url =
-        "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+        "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
       let country = await (await fetch(url)).json();
       console.log(country.Data.slice(0, 2));
       setCountries({
@@ -338,7 +338,7 @@ function EditEmployee() {
       e.preventDefault();
 
 
-      const addEmpUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewEmployee`;
+      const addEmpUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewEmployee`;
 
 
       if(editEmp?.ClinicID==="" || editEmp?.Designation==="" || editEmp?.JoiningDate==="" || editEmp?.FirstName==="" || editEmp?.LastName==="" || editEmp.MobileNo==="" || editEmp?.Gender==="" || editEmp?.username==="" || editEmp?.Passwords===""){
@@ -484,23 +484,23 @@ function EditEmployee() {
        
           {
             srNo: 1,
-            photo: <img src="http://t4.ftcdn.net/jpg/03/17/85/49/360_F_317854905_2idSdvi2ds3yejmk8mhvxYr1OpdVTrSM.jpg" width={150} height={100}/>,
+            photo: <img src="https://t4.ftcdn.net/jpg/03/17/85/49/360_F_317854905_2idSdvi2ds3yejmk8mhvxYr1OpdVTrSM.jpg" width={150} height={100}/>,
             name:"Sneha Gaikwad",
             mobileNumber:"95261663263",
             emailID:"snehagaikwad@gmail.com",
             regDate:"16/02/2023",
-            // view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            // download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+            // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
            
           },
           {
             srNo: 2,
-            photo: <img src="http://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?w=360" width={150} height={100}/>,
+            photo: <img src="https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?w=360" width={150} height={100}/>,
             name:"Sayali Palshetkar",
             mobileNumber:"95261663263",
             emailID:"sayalipalshetkar@gmail.com",
             regDate:"16/02/2023",
-            // view:<img src="http://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+            // view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
             // download:"unChecked"
             
           },
@@ -546,7 +546,7 @@ function EditEmployee() {
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -585,7 +585,7 @@ function EditEmployee() {
 
   const [designation, setDesignation] = useState([]);
 
-  const desigUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetDesignationList`;
+  const desigUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetDesignationList`;
 
   useEffect(()=>{
     fetch(desigUrl)
@@ -598,7 +598,7 @@ function EditEmployee() {
 
 
   const [branch, setBranch] = useState([]);
-  const branchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+  const branchUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
 
   useEffect(() => {
     fetch(branchUrl)
@@ -653,7 +653,7 @@ function EditEmployee() {
 //   const [empDetails, setEmpDetails] = useState([]);
 
 
-  const empDetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEmployeeEditInfo/${empID}`;
+  const empDetUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetEmployeeEditInfo/${empID}`;
 
   useEffect(()=>{
     fetch(empDetUrl)
@@ -788,7 +788,7 @@ function EditEmployee() {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -805,6 +805,9 @@ function EditEmployee() {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -827,7 +830,9 @@ function EditEmployee() {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1112,7 +1117,7 @@ function EditEmployee() {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1130,6 +1135,9 @@ function EditEmployee() {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1482,7 +1490,7 @@ function EditEmployee() {
          
              await axios
                .post(
-                 "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+                 "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
                  fd,
                  {
                    onUploadProgress: (ProgressEvent) => {
@@ -1536,7 +1544,7 @@ function EditEmployee() {
                                 )
                               ) : (
                                 <img
-                                    src={editEmp?.PersonalPhoto?editEmp?.PersonalPhoto:"http://wallpaperaccess.com/full/1285952.jpg"}
+                                    src={editEmp?.PersonalPhoto?editEmp?.PersonalPhoto:"https://wallpaperaccess.com/full/1285952.jpg"}
                                     alt="image"
                                     className="img-s"
                                     // style={{float:"right"}}

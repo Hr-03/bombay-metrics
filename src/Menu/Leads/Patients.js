@@ -191,10 +191,11 @@ function Patients(){
       PatientID:""
     })
 
+    let UserId=sessionStorage.getItem("UserId");
 
     const [patients, setPatients] = useState([]);
 
-    const pUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientList`;
+    const pUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientList/${UserId}`;
     
     useEffect(()=>{
        fetch(pUrl)
@@ -302,7 +303,7 @@ function Patients(){
       const [menuList, setMenuList] = useState([]);
     
        let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
       useEffect(() => {
         fetch(menuUrl)
           .then((res) => res.json())
@@ -473,7 +474,7 @@ function Patients(){
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -490,6 +491,9 @@ function Patients(){
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -512,7 +516,9 @@ function Patients(){
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -797,7 +803,7 @@ function Patients(){
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -815,6 +821,9 @@ function Patients(){
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1038,7 +1047,7 @@ function Patients(){
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Do you want to delete this Lead Source?</Modal.Body>
+        <Modal.Body>Do you want to delete this patient?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             No
@@ -1046,7 +1055,7 @@ function Patients(){
           <Button variant="primary" onClick={(e)=>{
             e.preventDefault();
 
-            const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/DeletePatient`;
+            const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/DeletePatient`;
 
             fetch(url,{
               method:"POST",

@@ -186,7 +186,7 @@ const ViewDoctorProfile = () => {
 
     const [profile, setProfile] = useState([]);
 
-    const proUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorProfile/0/${UserID}`;
+    const proUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorProfile/0/${UserID}`;
 
     useEffect(()=>{
         fetch(proUrl)
@@ -262,7 +262,7 @@ const ViewDoctorProfile = () => {
             // enquiry: "001",
             Degree:profile[0]?.Degree,
             University:profile[0]?.BoardOrUniversity,
-            DegreeProof:<img src={profile[0]?.DegreeProofPhoto?profile[0]?.DegreeProofPhoto:"http://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150}/>
+            DegreeProof:<img src={profile[0]?.DegreeProofPhoto?profile[0]?.DegreeProofPhoto:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150}/>
             // enquiryDate:"09 Feb 2023",
             
            
@@ -311,7 +311,7 @@ const ViewDoctorProfile = () => {
     const [menuList, setMenuList] = useState([]);
   
      let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
     useEffect(() => {
       fetch(menuUrl)
         .then((res) => res.json())
@@ -482,7 +482,7 @@ const ViewDoctorProfile = () => {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -499,6 +499,9 @@ const ViewDoctorProfile = () => {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -521,7 +524,9 @@ const ViewDoctorProfile = () => {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -806,7 +811,7 @@ const ViewDoctorProfile = () => {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -824,6 +829,9 @@ const ViewDoctorProfile = () => {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -964,7 +972,7 @@ const ViewDoctorProfile = () => {
                     <tr>
                       <td>{profile[0]?.Degree}</td>
                       <td>{profile[0]?.BoardOrUniversity}</td>
-                      <td><img src={profile[0]?.DegreeProofPhoto?profile[0]?.DegreeProofPhoto:"http://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150}/></td>
+                      <td><img src={profile[0]?.DegreeProofPhoto?profile[0]?.DegreeProofPhoto:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150}/></td>
                     </tr>
                   </tbody>
                 </Table>
@@ -1004,7 +1012,7 @@ const ViewDoctorProfile = () => {
                       <p>Aadhaar Card Number : {profile[0]?.AadharCardNumber}</p>
                       <Row>
                         <Col md={8}>
-                      <img src={profile[0]?.AadharCardPhoto} alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
+                      <p><img src={profile[0]?.AadharCardPhoto?profile[0]?.AadharCardPhoto:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150} className='drDocimgs'/></p>
                         
                         </Col>
                       </Row>
@@ -1013,7 +1021,7 @@ const ViewDoctorProfile = () => {
                       <p>Pan Card Number :{profile[0]?.PanCard}</p>
                       <Row>
                         <Col md={8}>
-                      <img src={profile[0]?.PanCardPhoto} alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
+                      <img src={profile[0]?.PanCardPhoto?profile[0]?.PanCardPhoto:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150} className='drDocimgs'/>
                         
                         </Col>
                       </Row>
@@ -1024,7 +1032,7 @@ const ViewDoctorProfile = () => {
                       <p>Registration Number :{profile[0]?.RegistrationNumber}</p>
                       <Row>
                         <Col md={8}>
-                      <img src={profile[0]?.RegistrationPhoto} alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
+                      <img src={profile[0]?.RegistrationPhoto?profile[0]?.RegistrationPhoto:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150} className='drDocimgs'/>
                         
                         </Col>
                       </Row>
@@ -1033,7 +1041,7 @@ const ViewDoctorProfile = () => {
                       <p>Indemnity Number: {profile[0]?.IndemnityProofNumber}</p>
                       <Row>
                         <Col md={8}>
-                      <img src={profile[0]?.IndemnityProofPhoto} alt="" srcset="" width={150} height={150} style={{float:"right"}}/>
+                      <img src={profile[0]?.IndemnityProofPhoto?profile[0]?.IndemnityProofPhoto:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width={150} height={150} className='drDocimgs'/>
                         
                         </Col>
                       </Row>

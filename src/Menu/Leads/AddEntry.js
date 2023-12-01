@@ -264,7 +264,7 @@ function AddEntry(){
 
 
 const [clinics, setClinics] = useState([]);
-const clinUrl="http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0";
+const clinUrl="https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0";
 
 useEffect(()=>{
 fetch(clinUrl)
@@ -285,7 +285,7 @@ fetch(clinUrl)
 
 
 const getStates = async (countryId, cORp) => {
-  let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+  let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
   let state = await (await fetch(url)).json();
   console.log(state.Data);
   if (cORp === "current") {
@@ -297,7 +297,7 @@ const getStates = async (countryId, cORp) => {
 };
 
 const getCities = async (stateId, cORp) => {
-  let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+  let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
   let city = await (await fetch(url)).json();
   console.log(city.Data);
   if (cORp === "current") {
@@ -309,7 +309,7 @@ const getCities = async (stateId, cORp) => {
 };
 
 const getCountries = async () => {
-  let url = "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+  let url = "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
   let country = await (await fetch(url)).json();
   console.log(country.Data.slice(0, 2));
   setCountries({
@@ -383,11 +383,24 @@ else{
 }
 
 
+
+const currentDate = new Date().toISOString().split('T')[0];
+const [selectedDate, setSelectedDate] = useState(currentDate);
+
+
+
 const handle=(e)=>{
   const newcred={...data}
     newcred[e.target.name]=e.target.value;
 
     setData(newcred);
+
+    setData((pre)=>{
+      return{
+        ...pre,
+        EnquiryDate:currentDate
+      }
+    })
 
     // const result = e.target.value.replace(/[^a-z]/gi, '')
 
@@ -486,9 +499,28 @@ let followupDate=fd.value
 
 
 
+
+// Function to handle date input and disable future dates
+const handleDateChange = (e) => {
+  const selected = e.target.value;
+  setSelectedDate(selected);
+
+  setData((pre)=>{
+  return{
+    ...pre,
+    EnquiryDate:e.target.value
+  }
+  })
+
+
+};
+
+
+
+
 const [doctors, setDoctors] = useState([]);
 
-const drsUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
+const drsUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
 useEffect(()=>{
 fetch(drsUrl)
 .then((res)=>res.json())
@@ -500,9 +532,23 @@ fetch(drsUrl)
 
 
 
+const [roles, setRoles] = useState([]);
+
+  const rolesUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetRoleList`;
+  useEffect(() => {
+    fetch(rolesUrl)
+      .then((res) => res.json())
+      .then((rolesRes) => {
+        console.log(rolesRes.Data);
+        setRoles(rolesRes.Data);
+      });
+  }, []);
+
+
+
 const [enqFor, setEnqFor] = useState([]);
 
-const enqForUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetTreatmentList`;
+const enqForUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetTreatmentList`;
 useEffect(()=>{
   fetch(enqForUrl)
   .then((res)=>res.json())
@@ -516,7 +562,7 @@ useEffect(()=>{
 
 const [enqSource, setEnqSource] = useState([]);
 
-const enqSourceUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
+const enqSourceUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
 useEffect(()=>{
 fetch(enqSourceUrl)
 .then((res)=>res.json())
@@ -530,7 +576,7 @@ let addressPattern = /[^a-zA-Z0-9 .,]/;
 let mobilePattern = /[^0-9]/;
 let namePattern = /[^a-zA-Z ]/;
 
-const addEnqUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewEnquiry`;
+const addEnqUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewEnquiry`;
 
 const handleSubmit=(e)=>{
   e.preventDefault();
@@ -588,7 +634,25 @@ const handleSubmit=(e)=>{
   .then((res)=>res.json())
   .then((result)=>{
     console.log(result);
-    if(result.status===true){
+
+
+    if(data?.IsPatient==="1" && result?.status===true){
+      sessionStorage.setItem("leadPatient",result.EnquiryID)
+      Swal.fire({
+        icon:"warning",
+        title:"Please fill further details to add this lead in patient list!",
+        // timer:2500
+      })
+      navigate(`/fup-pnt/${result.EnquiryID}`)
+    }
+    else if(result.EnquiryID===-1){
+      Swal.fire({
+        icon:"warning",
+        title:`${result?.message}`,
+        // timer:2500
+      })
+    }
+    else if(result.status===true){
       Swal.fire({
         icon:"success",
         title:"Added Successfully!",
@@ -631,7 +695,7 @@ const [reportMenu, setreportMenu] = useState([]);
 const [menuList, setMenuList] = useState([]);
 
  let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
 useEffect(() => {
   fetch(menuUrl)
     .then((res) => res.json())
@@ -702,6 +766,22 @@ useEffect(() => {
   const handleReportClick = () => {
     setOpen7(!open7);
   };
+
+
+
+  const [getEmp, setGetEmp] = useState([]);
+
+  const getEmpUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetEmployeeDetails/0`;
+useEffect(()=>{
+  fetch(getEmpUrl)
+  .then((res)=>res.json())
+  .then((geteRes)=>{
+    console.log(geteRes.Data);
+    setGetEmp(geteRes.Data)
+  })
+},[])
+
+
     return(
         <>
          <Box sx={{ display: 'flex' }}>
@@ -735,7 +815,6 @@ useEffect(() => {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-             
               className="sbarbtn me-3"
               
             >
@@ -802,7 +881,7 @@ useEffect(() => {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -819,6 +898,9 @@ useEffect(() => {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -841,7 +923,9 @@ useEffect(() => {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1126,7 +1210,7 @@ useEffect(() => {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1144,6 +1228,9 @@ useEffect(() => {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1242,7 +1329,7 @@ useEffect(() => {
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Enquiry Date <span className="req-f">*</span></Form.Label>
-        <Form.Control type="date" placeholder="" id="EnquiryDate" name="EnquiryDate" value={data.EnquiryDate} onChange={(e) => handle(e)} />
+        <Form.Control type="date" placeholder="" id="EnquiryDate" name="EnquiryDate"  value={selectedDate} max={currentDate} onChange={handleDateChange}/>
         
       </Form.Group>
                 </Col>
@@ -1410,16 +1497,15 @@ useEffect(() => {
         <Form.Select aria-label="Default select example" name="AssignedToUser" value={data.AssignedToUser} onChange={(e) => handle(e)} >
       <option></option>
 
-      {
-        doctors && doctors.map((doctors,i)=>{
-          return(
-            <>
-          <option value={doctors?.UserID} key={i}>{doctors?.Name}</option>
-            
-            </>
-          )
-        })
-      }
+      {getEmp.map((emp, i) => {
+                            return (
+                              <>
+                                <option value={emp.UserID}>
+                                  {emp.Name}
+                                </option>
+                              </>
+                            );
+                          })}
     
     </Form.Select>
       </Form.Group>

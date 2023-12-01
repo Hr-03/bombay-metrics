@@ -216,7 +216,7 @@ function LeadSources() {
 
   const [getSl, setGetSl] = useState([]);
 
-  const getSlUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceMaster`;
+  const getSlUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceMaster`;
 
   useEffect(()=>{
 fetch(getSlUrl)
@@ -311,7 +311,7 @@ fetch(getSlUrl)
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -494,7 +494,7 @@ fetch(getSlUrl)
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -511,6 +511,9 @@ fetch(getSlUrl)
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -533,7 +536,9 @@ fetch(getSlUrl)
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -818,7 +823,7 @@ fetch(getSlUrl)
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -836,6 +841,9 @@ fetch(getSlUrl)
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1006,7 +1014,7 @@ fetch(getSlUrl)
           <Button variant="primary" onClick={(e)=>{
             e.preventDefault();
 
-            const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/DeleteLeadsource`;
+            const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/DeleteLeadsource`;
 
             fetch(url,{
               method:"POST",
@@ -1082,7 +1090,7 @@ fetch(getSlUrl)
                     <Button
                       variant=""
                       onClick={() => {
-                        const lsUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewLeadSource`;
+                        const lsUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewLeadSource`;
 
                         fetch(lsUrl, {
                           method: "POST",
@@ -1164,7 +1172,7 @@ fetch(getSlUrl)
                     <Button
                       variant=""
                       onClick={() => {
-                        const lsUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/EditLeadSource`;
+                        const lsUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/EditLeadSource`;
 
                         fetch(lsUrl, {
                           method: "POST",

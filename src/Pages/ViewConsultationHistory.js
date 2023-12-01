@@ -210,7 +210,7 @@ function ViewConsultationHistory() {
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -286,7 +286,10 @@ function ViewConsultationHistory() {
   const [consultationDetails, setConsultationDetails] = useState([]);
 
 
-  const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetViewConsultationHistory/${consultID}`;
+  const [recordDet, setrecordDet] = useState([])
+
+
+  const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetViewConsultationHistory/${consultID}`;
 
   useEffect(()=>{
     fetch(url)
@@ -294,6 +297,8 @@ function ViewConsultationHistory() {
     .then((result)=>{
         console.log(result);
         setConsultationDetails(result.Data[0])
+
+        setrecordDet(result.Data[0].Record[0])
     })
   },[])
 
@@ -398,7 +403,7 @@ function ViewConsultationHistory() {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -415,6 +420,9 @@ function ViewConsultationHistory() {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -437,7 +445,9 @@ function ViewConsultationHistory() {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -722,7 +732,7 @@ function ViewConsultationHistory() {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -740,6 +750,9 @@ function ViewConsultationHistory() {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -825,43 +838,43 @@ function ViewConsultationHistory() {
   <tbody>
     <tr>
       <th className='msrmnt-heading'>Neck</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.Neck} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.Neck} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Left Arm</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.LeftArm} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.LeftArm} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Right Arm</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.RightArm} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.RightArm} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Chest</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.Chest} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.Chest} <span>(inch)</span></td>
     </tr>
     <tr>
       <th className='msrmnt-heading'>Upper Abdomen</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.UpperAbdomen} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.UpperAbdomen} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Mid Abdomen</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.MidAbdomen} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.MidAbdomen} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Lower Abdomen</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.LowerAbdomen} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.LowerAbdomen} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Hips</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.Hips} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.Hips} <span>(inch)</span></td>
     </tr>
     <tr>
       <th className='msrmnt-heading'>Upper Left Thigh</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.UpperLeftThigh} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.UpperLeftThigh} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Middle Left Thigh</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.MiddleLeftThigh} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.MiddleLeftThigh} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Lower Left Thigh</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.LowerLeftThigh} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.LowerLeftThigh} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Upper Right Thigh</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.UpperRightThigh} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.UpperRightThigh} <span>(inch)</span></td>
     </tr>
     <tr>
       <th className='msrmnt-heading'>Middle Right Thigh</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.MiddleRightThigh} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.MiddleRightThigh} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Lower Right Thigh</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.LowerRightThigh} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.LowerRightThigh} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Right Calf</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.RightCalf} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.RightCalf} <span>(inch)</span></td>
       <th className='msrmnt-heading'>Left Calf</th>
-      <td className='msrmnt-data'>{consultationDetails?.Record?.LeftCalf} <span>(inch)</span></td>
+      <td className='msrmnt-data'>{recordDet?.LeftCalf} <span>(inch)</span></td>
     </tr>
   </tbody>
       </Table>
@@ -873,7 +886,7 @@ function ViewConsultationHistory() {
         return(
             <>
             <p>
-                <img src={images.Image} alt="" srcset=""  width="200" height="200"/>
+                <img src={images.Image?images.Image:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/330px-No-Image-Placeholder.svg.png"} width="200" height="200"/>
             </p>
             </>
         )

@@ -222,7 +222,7 @@ function EditDoctor() {
   let newuID=sessionStorage.getItem("newUserId");
   const [speciality, setSpeciality] = useState([]);
   
-  const specialityUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetSpecialtyList`;
+  const specialityUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetSpecialtyList`;
       useEffect(()=>{
         fetch(specialityUrl)
         .then((res)=>res.json())
@@ -234,7 +234,7 @@ function EditDoctor() {
   
   //   const [profInfo, setProfInfo] = useState([])
   
-  //   const profInfoUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetDocProfInfo/${newuID?newuID:0}`;
+  //   const profInfoUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetDocProfInfo/${newuID?newuID:0}`;
   
   const [specialityData, setspecialityData] = useState([])
   
@@ -333,12 +333,12 @@ function EditDoctor() {
           specialty: "implant",
           degreeProof: (
             <img
-              src="http://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
               width={50}
             />
           ),
-          // view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-          // download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+          // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+          // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
         },
         {
           srNo: 2,
@@ -347,18 +347,18 @@ function EditDoctor() {
           specialty: "Crowning",
           degreeProof: (
             <img
-              src="http://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
               width={50}
             />
           ),
-          // view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-          // download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+          // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+          // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
         },
         //   {
         //     srNo: 2,
         //     Photo: (
         //       <img
-        //         src="http://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+        //         src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
         //         width={150}
         //         height={120}
         //       />
@@ -367,7 +367,7 @@ function EditDoctor() {
         //     mobileNumber: "95261663263",
         //     emailID: "bhaviktutwala@gmail.com",
         //     regDate: "16/02/2023",
-        //     // view:<img src="http://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+        //     // view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
         //     // download:"unChecked"
         //   },
       ],
@@ -481,7 +481,7 @@ function EditDoctor() {
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -536,7 +536,7 @@ function EditDoctor() {
     });
   
     const getStates = async (countryId, cORp) => {
-      let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+      let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
       let state = await (await fetch(url)).json();
       console.log(state.Data);
       if (cORp === "current") {
@@ -548,7 +548,7 @@ function EditDoctor() {
     };
   
     const getCities = async (stateId, cORp) => {
-      let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+      let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
       let city = await (await fetch(url)).json();
       console.log(city.Data);
       if (cORp === "current") {
@@ -561,7 +561,7 @@ function EditDoctor() {
   
     const getCountries = async () => {
       let url =
-        "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+        "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
       let country = await (await fetch(url)).json();
       console.log(country.Data.slice(0, 2));
       setCountries({
@@ -688,7 +688,7 @@ function EditDoctor() {
       e.preventDefault();
   
   
-      const submitUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewUser`;
+      const submitUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewUser`;
   
       fetch(submitUrl,{
         method:"POST",
@@ -754,7 +754,7 @@ function EditDoctor() {
   
     const [drType, setDrType] = useState([]);
   
-    const drTypeUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorType`;
+    const drTypeUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorType`;
     useEffect(() => {
       fetch(drTypeUrl)
         .then((res) => res.json())
@@ -765,7 +765,7 @@ function EditDoctor() {
     }, []);
   
     const [branch, setBranch] = useState([]);
-    const branchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+    const branchUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
   
     useEffect(() => {
       fetch(branchUrl)
@@ -778,7 +778,7 @@ function EditDoctor() {
   
     const [degree, setDegree] = useState([]);
   
-    const degUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorDegree`;
+    const degUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorDegree`;
   
     useEffect(() => {
       fetch(degUrl)
@@ -798,7 +798,7 @@ function EditDoctor() {
   
       await axios
         .post(
-          "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+          "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
           fd,
           {
             onUploadProgress: (ProgressEvent) => {
@@ -845,7 +845,7 @@ function EditDoctor() {
   
       await axios
         .post(
-          "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+          "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
           fd,
           {
             onUploadProgress: (ProgressEvent) => {
@@ -891,7 +891,7 @@ function EditDoctor() {
   
       await axios
         .post(
-          "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+          "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
           fd,
           {
             onUploadProgress: (ProgressEvent) => {
@@ -938,7 +938,7 @@ function EditDoctor() {
   
       await axios
         .post(
-          "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+          "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
           fd,
           {
             onUploadProgress: (ProgressEvent) => {
@@ -985,7 +985,7 @@ function EditDoctor() {
   
       await axios
         .post(
-          "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+          "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
           fd,
           {
             onUploadProgress: (ProgressEvent) => {
@@ -1089,7 +1089,7 @@ function EditDoctor() {
   
   
   
-        const Tab2Url=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddDocProfInfo`;
+        const Tab2Url=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddDocProfInfo`;
   
   
         let n={
@@ -1141,7 +1141,7 @@ function EditDoctor() {
     }
   
   let doctorId=sessionStorage.getItem("doctorId");
-  const getDetails=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorEditInfo/${doctorId}`;
+  const getDetails=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorEditInfo/${doctorId}`;
 
   
     useEffect(()=>{
@@ -1294,7 +1294,7 @@ fetch(getDetails)
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -1311,6 +1311,9 @@ fetch(getDetails)
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -1333,7 +1336,9 @@ fetch(getDetails)
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1618,7 +1623,7 @@ fetch(getDetails)
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1636,6 +1641,9 @@ fetch(getDetails)
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -2216,7 +2224,7 @@ fetch(getDetails)
                                 )
                               ) : (
                                 <img
-                                  src={addDocTab2?.DegreeProofPhoto?addDocTab2?.DegreeProofPhoto:"http://wallpaperaccess.com/full/1285952.jpg"}
+                                  src={addDocTab2?.DegreeProofPhoto?addDocTab2?.DegreeProofPhoto:"https://wallpaperaccess.com/full/1285952.jpg"}
                                   alt="image"
                                   className="img-s mt-4"
                                   width={150}
@@ -2239,7 +2247,7 @@ fetch(getDetails)
                              
                                    await axios
                                    .post(
-                                     "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+                                     "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
                                      fd,
                                      {
                                        onUploadProgress: (ProgressEvent) => {
@@ -2556,7 +2564,7 @@ fetch(getDetails)
                                 <Row className="mt-2">
                                   <Col>
                                     <img
-                                      src={EditDoctor?.PersonalPhoto?EditDoctor?.PersonalPhoto:"http://wallpaperaccess.com/full/1285952.jpg"}
+                                      src={EditDoctor?.PersonalPhoto?EditDoctor?.PersonalPhoto:"https://wallpaperaccess.com/full/1285952.jpg"}
                                       alt="image"
                                       className="img-s mt-5"
                                       // style={{float:"left"}}
@@ -2633,7 +2641,7 @@ fetch(getDetails)
                                 <Row className="mt-2">
                                   <Col>
                                     <img
-                                      src={EditDoctor?.PanCardPhoto?EditDoctor?.PanCardPhoto:"http://wallpaperaccess.com/full/1285952.jpg"}
+                                      src={EditDoctor?.PanCardPhoto?EditDoctor?.PanCardPhoto:"https://wallpaperaccess.com/full/1285952.jpg"}
                                       alt="image"
                                       className="img-s mt-4"
                                       // style={{float:"left"}}
@@ -2712,7 +2720,7 @@ fetch(getDetails)
                                 <Row className="mt-2">
                                   <Col>
                                     <img
-                                      src={EditDoctor?.IndemnityProofPhoto?EditDoctor?.IndemnityProofPhoto:"http://wallpaperaccess.com/full/1285952.jpg"}
+                                      src={EditDoctor?.IndemnityProofPhoto?EditDoctor?.IndemnityProofPhoto:"https://wallpaperaccess.com/full/1285952.jpg"}
                                       alt="image"
                                       className="img-s mt-4"
                                       // style={{float:"left"}}
@@ -2791,7 +2799,7 @@ fetch(getDetails)
                                 )
                               ) : (
                                 <img
-                                  src={EditDoctor?.AadharCardPhoto?EditDoctor?.AadharCardPhoto:"http://wallpaperaccess.com/full/1285952.jpg"}
+                                  src={EditDoctor?.AadharCardPhoto?EditDoctor?.AadharCardPhoto:"https://wallpaperaccess.com/full/1285952.jpg"}
                                   alt="image"
                                   className="img-s mt-4"
                                   style={{ float: "right" }}
@@ -2863,7 +2871,7 @@ fetch(getDetails)
                                 )
                               ) : (
                                 <img
-                                  src={EditDoctor?.RegistrationPhoto?EditDoctor?.RegistrationPhoto:"http://wallpaperaccess.com/full/1285952.jpg"}
+                                  src={EditDoctor?.RegistrationPhoto?EditDoctor?.RegistrationPhoto:"https://wallpaperaccess.com/full/1285952.jpg"}
                                   alt="image"
                                   className="img-s mt-4"
                                   style={{ float: "right" }}

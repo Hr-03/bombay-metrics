@@ -218,8 +218,17 @@ console.log("date");
 const handleApmtSubmit=(e)=>{
   e.preventDefault();
 
-  const addApUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewAppointment`;
+  const addApUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewAppointment`;
 
+
+  if(appointment?.ClinicID==="" || appointment?.UserID==="" || appointment?.AppointmentNo==="" || appointment?.AppointmentDateTime==="" || appointment?.FirstName==="" || appointment?.LastName==="" || appointment?.Gender==="" || appointment?.MobileNo===""){
+    Swal.fire({
+      icon:"error",
+      title:"please fill all the fields marked with red *"
+    })
+  }else{
+
+  
 
   fetch(addApUrl,{
     method:"POST",
@@ -240,6 +249,7 @@ const handleApmtSubmit=(e)=>{
       navigate("/view-apmt")
     }
   })
+}
 }
 
 
@@ -286,7 +296,7 @@ const handleApmtSubmit=(e)=>{
     const [menuList, setMenuList] = useState([]);
   
      let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
     useEffect(() => {
       fetch(menuUrl)
         .then((res) => res.json())
@@ -365,7 +375,7 @@ const handleApmtSubmit=(e)=>{
 
 
   const [branch, setBranch] = useState([]);
-  const branchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+  const branchUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
 
   useEffect(() => {
     fetch(branchUrl)
@@ -380,7 +390,7 @@ const handleApmtSubmit=(e)=>{
 
   const [doctors, setDoctors] = useState([]);
 
-const drsUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
+const drsUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
 useEffect(()=>{
 fetch(drsUrl)
 .then((res)=>res.json())
@@ -490,7 +500,7 @@ fetch(drsUrl)
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -507,6 +517,9 @@ fetch(drsUrl)
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -529,7 +542,9 @@ fetch(drsUrl)
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -814,7 +829,7 @@ fetch(drsUrl)
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -832,6 +847,9 @@ fetch(drsUrl)
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -906,7 +924,7 @@ fetch(drsUrl)
             <Row>
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Branch Name</Form.Label>
+        <Form.Label>Branch Name <span className="req-t">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="ClinicID" onChange={(e)=>handleChange(e)}>
       <option></option>
       {branch.map((b) => {
@@ -923,7 +941,7 @@ fetch(drsUrl)
                 </Col>
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Doctor Name</Form.Label>
+        <Form.Label>Doctor Name <span className="req-t">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="UserID" onChange={(e)=>handleChange(e)}>
       <option></option>
       {
@@ -941,13 +959,13 @@ fetch(drsUrl)
                 </Col>
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Appointment  No.</Form.Label>
+        <Form.Label>Appointment  No. <span className="req-t">*</span></Form.Label>
         <Form.Control type="number" placeholder="" name="AppointmentNo" onChange={(e)=>handleChange(e)}/>
       </Form.Group>
                 </Col>
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Appointment Date & Time</Form.Label>
+        <Form.Label>Appointment Date & Time <span className="req-t">*</span></Form.Label>
         <Form.Control type="datetime-local" placeholder="" id="DT" name="AppointmentDateTime" onChange={(e)=>handleChange(e)}/>
    
       </Form.Group>
@@ -958,14 +976,14 @@ fetch(drsUrl)
             <Row>
                 <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>First Name</Form.Label>
+        <Form.Label>First Name <span className="req-t">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="FirstName" value={appointment?.FirstName} onChange={(e)=>handleChange(e)}/>
    
       </Form.Group>                 
                 </Col>
                 <Col md={3}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Last Name</Form.Label>
+        <Form.Label>Last Name <span className="req-t">*</span></Form.Label>
         <Form.Control type="text" placeholder="" name="LastName" value={appointment?.LastName} onChange={(e)=>handleChange(e)}/>
    
       </Form.Group>                 
@@ -987,7 +1005,7 @@ fetch(drsUrl)
 
 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Gender</Form.Label>
+        <Form.Label>Gender <span className="req-t">*</span></Form.Label>
         <Form.Select aria-label="Default select example" name="Gender" onChange={(e)=>handleChange(e)}>
       <option></option>
       <option value="Male">Male</option>
@@ -1004,7 +1022,7 @@ fetch(drsUrl)
 
                 <Col md={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Mobile Number</Form.Label>
+        <Form.Label>Mobile Number <span className="req-t">*</span></Form.Label>
         <Form.Control type="tel" placeholder="" name="MobileNo" value={appointment?.MobileNo} onChange={(e)=>handleChange(e)}/>
    
       </Form.Group>    

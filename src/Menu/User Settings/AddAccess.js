@@ -218,14 +218,14 @@ function AddAccess() {
           let a = cell.getValue();
           return a === "unChecked" ? (
             <img
-              src="http://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg"
+              src="https://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg"
               alt=""
               srcset=""
               width={50}
             />
           ) : (
             <img
-              src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+              src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
               width={50}
             />
           );
@@ -280,31 +280,31 @@ function AddAccess() {
         menu: "Clinic Settings",
         add: (
           <img
-            src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+            src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
             width={50}
           />
         ),
         edit: (
           <img
-            src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+            src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
             width={50}
           />
         ),
         delete: (
           <img
-            src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+            src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
             width={50}
           />
         ),
         view: (
           <img
-            src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+            src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
             width={50}
           />
         ),
         download: (
           <img
-            src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+            src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
             width={50}
           />
         ),
@@ -315,25 +315,25 @@ function AddAccess() {
         menu: "User Settings",
         add: (
           <img
-            src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+            src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
             width={50}
           />
         ),
         edit: (
           <img
-            src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+            src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
             width={50}
           />
         ),
         delete: (
           <img
-            src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
+            src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
             width={50}
           />
         ),
         view: (
           <img
-            src="http://flyclipart.com/thumb2/x-button-327024.png"
+            src="https://flyclipart.com/thumb2/x-button-327024.png"
             width={50}
           />
         ),
@@ -347,13 +347,65 @@ function AddAccess() {
   //     $(this.form.elements).filter(':checkbox').prop('checked', this.checked);
   // });
 
+  // $(document).ready(function () {
+  //   $("#chkParent").click(function () {
+  //     var isChecked = $(this).prop("checked");
+  //     $("#tblData:has(td)")
+  //       .find('input[type="checkbox"]')
+  //       .prop("checked", isChecked);
+  //   });
+  //   $("#tblData:has(td)")
+  //     .find('input[type="checkbox"]')
+  //     .click(function () {
+  //       var isChecked = $(this).prop("checked");
+  //       var isHeaderChecked = $("#chkParent").prop("checked");
+  //       if (isChecked == false && isHeaderChecked)
+  //         $("#chkParent").prop("checked", isChecked);
+  //       else {
+  //         $("#tblData:has(td)")
+  //           .find('input[type="checkbox"]')
+  //           .each(function () {
+  //             if ($(this).prop("checked") == false) isChecked = false;
+  //           });
+  //         $("#chkParent").prop("checked", isChecked);
+  //       }
+  //     });
+  // });
+
+
+
   $(document).ready(function () {
     $("#chkParent").click(function () {
       var isChecked = $(this).prop("checked");
       $("#tblData:has(td)")
         .find('input[type="checkbox"]')
         .prop("checked", isChecked);
+  
+      // Update setAddAccess based on chkParent checkbox state
+      if (isChecked) {
+        setAddAccess((pre) => ({
+          ...pre,
+          Adds: 1,
+          Views: 1,
+          Edits: 1,
+          Deletes: 1,
+          Download: 1,
+        }));
+      } else {
+        setAddAccess((pre) => ({
+          ...pre,
+          Adds: 0,
+          Views: 0,
+          Edits: 0,
+          Deletes: 0,
+          Download: 0,
+        }));
+      }
+
+      console.log(addAccess);
+
     });
+  
     $("#tblData:has(td)")
       .find('input[type="checkbox"]')
       .click(function () {
@@ -369,8 +421,33 @@ function AddAccess() {
             });
           $("#chkParent").prop("checked", isChecked);
         }
+  
+        // Update setAddAccess based on chkParent checkbox state
+        if (isChecked) {
+          setAddAccess((pre) => ({
+            ...pre,
+            Adds: 1,
+            Views: 1,
+            Edits: 1,
+            Deletes: 1,
+            Download: 1,
+          }));
+        } else {
+          setAddAccess((pre) => ({
+            ...pre,
+            Adds: 0,
+            Views: 0,
+            Edits: 0,
+            Deletes: 0,
+            Download: 0,
+          }));
+        }
+
+        console.log(addAccess);
+
       });
   });
+  
 
   $(document).ready(function () {
     $("#chkParent1").click(function () {
@@ -416,7 +493,7 @@ function AddAccess() {
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -453,7 +530,7 @@ function AddAccess() {
 
   const [roles, setRoles] = useState([]);
 
-  const rolesUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetRoleList`;
+  const rolesUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetRoleList`;
   useEffect(() => {
     fetch(rolesUrl)
       .then((res) => res.json())
@@ -497,6 +574,32 @@ function AddAccess() {
     let dlt=document.getElementById("Delete");
     let view=document.getElementById("View");
     let dwnld=document.getElementById("Download");
+
+
+    // if(sAll?.checked){
+    //   setAddAccess((pre)=>{
+    //     return{
+    //       ...pre,
+    //       Adds:1,
+    //       Views:1,
+    //       Edits:1,
+    //       Deletes:1,
+    //       Download:1
+    //     }
+    //   })
+    // }
+    // else{
+    //   setAddAccess((pre)=>{
+    //     return{
+    //       ...pre,
+    //       Adds:0,
+    //       Views:0,
+    //       Edits:0,
+    //       Deletes:0,
+    //       Download:0
+    //     }
+    //   })
+    // }
 
 
     if(add?.checked){
@@ -593,6 +696,7 @@ function AddAccess() {
       })
     }
 
+    
 
 
    
@@ -610,7 +714,7 @@ function AddAccess() {
   const handleSubmitAccess=(e)=>{
     e.preventDefault();
 
-    const addAccessUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewMenuAccess`;
+    const addAccessUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewMenuAccess`;
 
     fetch(addAccessUrl,{
       method:"POST",
@@ -641,7 +745,7 @@ function AddAccess() {
 
   const [menuAccess, setMenuAccess] = useState([]);
 
-  const menuAccessUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuList`;
+  const menuAccessUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuList`;
 
   useEffect(() => {
     fetch(menuAccessUrl)
@@ -785,7 +889,7 @@ function AddAccess() {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -802,6 +906,9 @@ function AddAccess() {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -824,7 +931,9 @@ function AddAccess() {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1109,7 +1218,7 @@ function AddAccess() {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1127,6 +1236,9 @@ function AddAccess() {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1279,17 +1391,21 @@ function AddAccess() {
                             ? "Dashboard"
                             : addAccess.MenuID === "3"
                             ? "Menu"
-                            : addAccess.MenuID === "4"
-                            ? "Clinic Settings"
-                            : addAccess.MenuID === "5"
-                            ? "User Settings"
                             : addAccess.MenuID === "6"
                             ? "Leads/Patients"
                             : addAccess.MenuID === "7"
                             ? "Appointment"
                             : addAccess.MenuID === "8"
                             ? "Reports"
-                            : ""}
+                            : addAccess.MenuID === "23"
+                            ? "Invoice"
+                            : addAccess.MenuID === "26"
+                            ? "Add Patients Treatment"
+                            : addAccess.MenuID === "27"
+                            ? "Add Collection"
+                            : addAccess.MenuID === "36"
+                            ? "Consultation Invoice"
+                            :""}
                         </td>
                         <td>
                           <Form.Check

@@ -232,7 +232,7 @@ RoleID:"0",
     const handleSubmitRole=(e)=>{
       e.preventDefault();
 
-      const roleUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewRoles`;
+      const roleUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewRoles`;
 
 
       fetch(roleUrl,{
@@ -265,7 +265,7 @@ RoleID:"0",
 
     const [viewRole, setViewRole] = useState([]);
 
-const getRoleUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetViewRoleList/0/0`;
+const getRoleUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetViewRoleList/0/0`;
     useEffect(()=>{
 fetch(getRoleUrl)
 .then((res)=>res.json())
@@ -399,7 +399,7 @@ fetch(getRoleUrl)
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -570,7 +570,7 @@ fetch(getRoleUrl)
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -587,6 +587,9 @@ fetch(getRoleUrl)
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -609,7 +612,9 @@ fetch(getRoleUrl)
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -894,7 +899,7 @@ fetch(getRoleUrl)
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -912,6 +917,9 @@ fetch(getRoleUrl)
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1082,7 +1090,7 @@ fetch(getRoleUrl)
           <Button variant="primary" onClick={(e)=>{
             e.preventDefault();
 
-            const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/DeleteRole`;
+            const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/DeleteRole`;
 
             fetch(url,{
               method:"POST",
@@ -1193,7 +1201,7 @@ fetch(getRoleUrl)
             e.preventDefault();
 
 
-            const roleUrl1=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewRoles`;
+            const roleUrl1=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewRoles`;
 
 
       fetch(roleUrl1,{

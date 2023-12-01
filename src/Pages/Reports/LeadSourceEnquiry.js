@@ -159,6 +159,18 @@ const StyledMenu = styled((props) => (
 }));
 
 function LeadSourceEnquiry() {
+  const [datedata, setdatedata] = useState({
+    startDate:"",
+    endDate:""
+  })
+
+
+  const handleDates=(e)=>{
+    const newdata={...datedata};
+    newdata[e.target.name]=e.target.value;
+    setdatedata(newdata);
+    console.log(newdata);
+  }
     const navigate=useNavigate();
     const [createModalOpen, setCreateModalOpen] = useState(false);
 
@@ -184,7 +196,7 @@ function LeadSourceEnquiry() {
 
   const [leadsrc, setLeadSrc] = useState([]);
 
-  const getLSUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceEnquiries`;
+  const getLSUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceEnquiries/0/0`;
 useEffect(()=>{
   fetch(getLSUrl)
   .then((res)=>res.json())
@@ -209,7 +221,7 @@ useEffect(()=>{
             // Cell:({cell})=>{
             //   let imurl=cell.getValue();
 
-            //   return <div>{<img src={imurl?imurl:"http://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
+            //   return <div>{<img src={imurl?imurl:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
             // }
           },
           {
@@ -264,7 +276,7 @@ useEffect(()=>{
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -435,7 +447,7 @@ useEffect(()=>{
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -452,6 +464,9 @@ useEffect(()=>{
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -474,7 +489,9 @@ useEffect(()=>{
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -759,7 +776,7 @@ useEffect(()=>{
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -777,6 +794,9 @@ useEffect(()=>{
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -843,6 +863,37 @@ useEffect(()=>{
             <Col>
             <p className="ap-t">Lead Source Enquiries</p>
             <hr />
+        <Row className="mt-4">
+          <Col>
+          <div className='d-flex flex-wrap'>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>From date</Form.Label>
+        <Form.Control type="date" name="startDate" value={datedata?.startDate} placeholder="" onChange={handleDates} />
+      
+      </Form.Group>
+      <Form.Group className="mb-3 mx-3" controlId="formBasicEmail">
+        <Form.Label>To date</Form.Label>
+        <Form.Control type="date" name="endDate" value={datedata?.endDate} placeholder="" onChange={handleDates}/>
+      
+      </Form.Group>
+<div className='pt-3'>
+
+      <Button variant='' className='mx-3 rptBtn mt-4' onClick={(e)=>{
+        e.preventDefault();
+
+        const datefiltered=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceEnquiries/${datedata?.startDate}/${datedata?.endDate}`
+        fetch(datefiltered)
+        .then((res)=>res.json())
+        .then((geteRes)=>{
+          console.log(geteRes.Data);
+          setLeadSrc(geteRes.Data)
+        })
+
+      }}>Search</Button>
+</div>
+          </div>
+          </Col>
+        </Row>
 
             {/* <Row className="p-5">
                 <Col>
@@ -867,32 +918,32 @@ useEffect(()=>{
                     sx: { m: "0.5rem 0", width: "100%" },
                     variant: "outlined",
                   }}
-                  enableEditing
+                  // enableEditing
                   // onEditingRowSave={handleSaveRowEdits}
                   // onEditingRowCancel={handleCancelRowEdits}
-                  renderRowActions={({ row, table }) => (
-                    <Box sx={{ display: "flex", gap: "1rem" }}>
-                      <Tooltip arrow placement="left" title="Edit">
-                        <IconButton 
-                        className="edit-btn"
-                        onClick={() => table.setEditingRow(row)}
-                        disabled
-                        >
-                          <FaRegEdit/>
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip arrow placement="right" title="Delete">
-                        <IconButton
-                          color="error"
-                          // onClick={() => handleDeleteRow(row)}
-                        disabled
+                  // renderRowActions={({ row, table }) => (
+                  //   <Box sx={{ display: "flex", gap: "1rem" }}>
+                  //     <Tooltip arrow placement="left" title="Edit">
+                  //       <IconButton 
+                  //       className="edit-btn"
+                  //       onClick={() => table.setEditingRow(row)}
+                  //       disabled
+                  //       >
+                  //         <FaRegEdit/>
+                  //       </IconButton>
+                  //     </Tooltip>
+                  //     <Tooltip arrow placement="right" title="Delete">
+                  //       <IconButton
+                  //         color="error"
+                  //         // onClick={() => handleDeleteRow(row)}
+                  //       disabled
 
-                        >
-                          <HiOutlineTrash/>
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  )}
+                  //       >
+                  //         <HiOutlineTrash/>
+                  //       </IconButton>
+                  //     </Tooltip>
+                  //   </Box>
+                  // )}
                  
 
 

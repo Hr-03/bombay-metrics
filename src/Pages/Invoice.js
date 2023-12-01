@@ -184,7 +184,7 @@ const Invoice = () => {
 
     const [patients, setPatients] = useState([]);
 
-    const pUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientList`;
+    const pUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientList`;
     
     useEffect(()=>{
        fetch(pUrl)
@@ -198,7 +198,7 @@ const Invoice = () => {
 
     const [drs, setDrs] = useState([]);
 
-const drUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorDetails/0`;
+const drUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorDetails/0`;
 useEffect(()=>{
 fetch(drUrl)
 .then((res)=>res.json())
@@ -210,7 +210,7 @@ fetch(drUrl)
 
 const [branchList, setBranchList] = useState([]);
 
-const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+const branchUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
 
   useEffect(()=>{
     fetch(branchUrl)
@@ -230,7 +230,7 @@ const branchUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList
   let patientid=sessionStorage.getItem("patientId");
 
   const [treatments, setTreatments] = useState([]);
-  const tUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientTreatment/${patientid}`;
+  const tUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientTreatment/${patientid}`;
 
 
 useEffect(()=>{
@@ -322,7 +322,7 @@ const [addInvoice, setAddInvoice] = useState({
         //     Cell:({cell})=>{
         //         let a=cell.getValue();
         //         return(
-        //         a==="unChecked"?<img src="http://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+        //         a==="unChecked"?<img src="https://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
         //       )          }
         //   },
         //   {
@@ -372,21 +372,21 @@ const [addInvoice, setAddInvoice] = useState({
             srNo: 1,
             role: "Admin",
             menu:"Clinic Settings",
-            add:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            edit:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            delete:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+            add:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            edit:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            delete:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
            
           },
           {
             srNo: 2,
             role: "Doctor",
             menu:"User Settings",
-            add:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            edit:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            delete:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            view:<img src="http://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+            add:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            edit:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            delete:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
             download:"unChecked"
             
           },
@@ -405,7 +405,7 @@ const [addInvoice, setAddInvoice] = useState({
       let User=Role==="1"?0:sessionStorage.getItem("UserId")
 
 
-      const tfUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetTodaysFollowupList/${User}`
+      const tfUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetTodaysFollowupList/${User}`
 
 
       useEffect(()=>{
@@ -439,7 +439,7 @@ const [addInvoice, setAddInvoice] = useState({
   const [menuList, setMenuList] = useState([]);
 
   //  let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -447,7 +447,7 @@ const [addInvoice, setAddInvoice] = useState({
         console.log(list.Data);
         setMenuList(list.Data);
 
-        setparentMenu(list.Data.filter((parent, i) => parent.Parent === 0));
+        setparentMenu(list.Data.filter((parent, i) => parent?.Parent === 0));
         // console.log(list.Data.filter((parent,i)=>parent.Parent===0));
 
         setmainMenu(list.Data.filter((main, i) => main.Parent === 3));
@@ -611,12 +611,20 @@ console.log(addInvoice);
 // console.log(totalAmount.toFixed(2));
   };
 
+
+  const [Treatmenttotal, setTreatmenttotal] = useState(0);
+
+
   const handleDiscountChange = (index, event) => {
     const { value } = event.target;
     const updatedTreatments = [...selectedTreatments];
     updatedTreatments[index].Discount = value;
     setSelectedTreatments(updatedTreatments);
 
+
+
+    const updatedTotalCost = calculateTotal(updatedTreatments[index]);
+    updatedTreatments[index].TotalCost = updatedTotalCost;
     console.log(selectedTreatments);
     
     setAddInvoice((pre)=>{
@@ -626,6 +634,8 @@ console.log(addInvoice);
       }
     })
 console.log(addInvoice);
+
+setTreatmenttotal(selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Cost), 0)-selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Discount), 0));
   };
 
   const handleTaxChange = (index, event) => {
@@ -636,6 +646,12 @@ console.log(addInvoice);
     console.log(selectedTreatments);
 
 
+
+
+    const updatedTotalCost = calculateTotal(updatedTreatments[index]);
+  updatedTreatments[index].TotalCost = updatedTotalCost;
+
+  
     setAddInvoice((pre)=>{
       return{
         ...pre,
@@ -643,6 +659,9 @@ console.log(addInvoice);
       }
     })
 console.log(addInvoice);
+
+setTreatmenttotal(selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Cost), 0)-selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Discount), 0)+(selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Cost), 0)*selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Tax), 0)/100));
+
   };
 
   const handleTotalChange = (index, event) => {
@@ -660,6 +679,48 @@ console.log(addInvoice);
     })
 console.log(addInvoice);
   };
+
+
+
+
+
+
+
+
+  const calculateTotal = (row) => {
+    const { Cost, Discount, Tax } = row;
+    const discountedPrice = Cost - Discount;
+    const taxAmount = (discountedPrice * Tax) / 100;
+    const total = discountedPrice + taxAmount;
+
+    
+    
+    return total.toFixed(2); // Round to two decimal places
+    
+    // const updatedTreatments = [...selectedTreatments];
+    // selectedTreatments.forEach((t)=>t.TotalCost=total)
+  
+
+
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const handleAddTreatment = () => {
     setSelectedTreatments([...selectedTreatments, { TreatmentID: '', Cost: '', Discount: '', Tax: '',TotalCost:'' }]);
@@ -680,8 +741,8 @@ console.log(addInvoice);
 
   let totalCost = selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Cost), 0);
   let totalDiscount = selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Discount), 0);
-  let totalTax = selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Tax), 0);
-  let totaPaidAmount = selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.TotalCost), 0);
+  let totalTax = selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Tax), 0)*selectedTreatments.reduce((sum, treatment) => sum + parseFloat(treatment.Cost), 0)/100;
+  let totalPaidAmount = selectedTreatments?.reduce((sum, treatment) => sum + parseFloat(treatment.TotalCost), 0);
 
 
 
@@ -689,7 +750,7 @@ console.log(addInvoice);
   const handleSubmitInvoice=(e)=>{
     e.preventDefault();
 
-    const invoiceUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewInvoice`;
+    const invoiceUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewInvoice`;
 
 
     
@@ -867,7 +928,7 @@ console.log(addInvoice);
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -884,6 +945,9 @@ console.log(addInvoice);
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -906,7 +970,9 @@ console.log(addInvoice);
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1191,7 +1257,7 @@ console.log(addInvoice);
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1209,6 +1275,9 @@ console.log(addInvoice);
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1351,7 +1420,7 @@ resultStringKeyName="Name"
                         <Form.Label>Treatment Name</Form.Label>
                         <Form.Select aria-label="Default select example" id='tmnt' name='TreatmentID' value={selectedTreatment.TreatmentID} onChange={(event) => handleTreatmentChange(index, event)}>
       <option></option>
-      {treatments.map((treatment, index) => (
+      {treatments?.map((treatment, index) => (
               <option key={index} value={treatment.TreatmentID}>
                 {treatment.Treatment}
               </option>
@@ -1381,20 +1450,20 @@ resultStringKeyName="Name"
                     </Col> */}
                     <Col md={2}>
                     <Form.Group>
-                        <Form.Label>Discount</Form.Label>
+                        <Form.Label>Discount (in rupees)</Form.Label>
                        <Form.Control type="text" value={selectedTreatment.Discount} onChange={(event) => handleDiscountChange(index, event)}/>
                     </Form.Group>
                     </Col>
                     <Col md={2}>
                     <Form.Group>
-                        <Form.Label>Tax</Form.Label>
-                       <Form.Control type="text" value={selectedTreatment.Tax} onChange={(event) => handleTaxChange(index, event)}/>
+                        <Form.Label>Tax (in %) </Form.Label>
+                       <Form.Control type="text" value={selectedTreatment.Tax} onChange={(event) => handleTaxChange(index, event)} disabled={selectedTreatment?.Discount===""}/>
                     </Form.Group>
                     </Col>
                     <Col md={2}>
                     <Form.Group>
                         <Form.Label>Total</Form.Label>
-                       <Form.Control type="text" value={selectedTreatment.TotalCost} onChange={(event) => handleTotalChange(index, event)}/>
+                       <Form.Control type="text" value={calculateTotal(selectedTreatment)} disabled/>
                     </Form.Group>
                     </Col>
                     <Col>
@@ -1434,7 +1503,7 @@ resultStringKeyName="Name"
                     <td className='invTh'></td> */}
                     <td className='invTh'>{totalDiscount.toFixed(2)}</td>
                     <td className='invTh'>{totalTax.toFixed(2)}</td>
-                    <td className='invTh'>{totaPaidAmount.toFixed(2)}</td>
+                    <td className='invTh'>{totalPaidAmount.toFixed(2)}</td>
                 </tr>
             </tbody>
          </Table>

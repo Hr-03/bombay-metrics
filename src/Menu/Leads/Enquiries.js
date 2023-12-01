@@ -190,7 +190,11 @@ function Enquiries(){
 
     const [enquiryList, setEnquiryList] = useState([]);
 
-const enquiryUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryList/0/0/0/0/0/0`;
+    let UserId=sessionStorage.getItem("UserId");
+    let RoleId=sessionStorage.getItem("RoleId");
+
+
+const enquiryUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryList/${RoleId==="1"?0:UserId}/0/0/0/0/0`;
 
     useEffect(()=>{
       fetch(enquiryUrl)
@@ -337,7 +341,7 @@ const enquiryUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryLi
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -508,7 +512,7 @@ const enquiryUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryLi
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -525,6 +529,9 @@ const enquiryUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryLi
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -547,7 +554,9 @@ const enquiryUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryLi
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -832,7 +841,7 @@ const enquiryUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryLi
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -850,6 +859,9 @@ const enquiryUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryLi
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1052,7 +1064,7 @@ const enquiryUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEnquiryLi
           <Button variant="primary" onClick={(e)=>{
             e.preventDefault();
 
-            const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/DeleteEnquiry`;
+            const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/DeleteEnquiry`;
 
             fetch(url,{
               method:"POST",

@@ -193,7 +193,7 @@ let pntID=sessionStorage.getItem("pntID");
 
 //   const [pntdtl, setPntDtl] = useState([]);
 
-//   const getpntDtlUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientTreatmentDetails/4`;
+//   const getpntDtlUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientTreatmentDetails/4`;
 // useEffect(()=>{
 //   fetch(getpntDtlUrl)
 //   .then((res)=>res.json())
@@ -204,7 +204,7 @@ let pntID=sessionStorage.getItem("pntID");
 // },[])
 const [consultations, setConsultations] = useState([])
 
-const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetConsultationHistory/${pntID}`;
+const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetConsultationHistory/${pntID}`;
 
 useEffect(()=>{
 fetch(url)
@@ -229,7 +229,7 @@ const columns = useMemo(
         // Cell:({cell})=>{
         //   let imurl=cell.getValue();
 
-        //   return <div>{<img src={imurl?imurl:"http://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
+        //   return <div>{<img src={imurl?imurl:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
         // }
       },
       {
@@ -287,7 +287,7 @@ const columns = useMemo(
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -463,7 +463,7 @@ const columns = useMemo(
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -480,6 +480,9 @@ const columns = useMemo(
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -502,7 +505,9 @@ const columns = useMemo(
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -787,7 +792,7 @@ const columns = useMemo(
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -805,6 +810,9 @@ const columns = useMemo(
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>

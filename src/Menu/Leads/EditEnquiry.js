@@ -265,7 +265,7 @@ function EditEnquiry() {
 
 
 const [clinics, setClinics] = useState([]);
-const clinUrl="http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0";
+const clinUrl="https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0";
 
 useEffect(()=>{
 fetch(clinUrl)
@@ -286,7 +286,7 @@ fetch(clinUrl)
 
 
 const getStates = async (countryId, cORp) => {
-  let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+  let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
   let state = await (await fetch(url)).json();
   console.log(state.Data);
   if (cORp === "current") {
@@ -298,7 +298,7 @@ const getStates = async (countryId, cORp) => {
 };
 
 const getCities = async (stateId, cORp) => {
-  let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+  let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
   let city = await (await fetch(url)).json();
   console.log(city.Data);
   if (cORp === "current") {
@@ -310,7 +310,7 @@ const getCities = async (stateId, cORp) => {
 };
 
 const getCountries = async () => {
-  let url = "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+  let url = "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
   let country = await (await fetch(url)).json();
   console.log(country.Data.slice(0, 2));
   setCountries({
@@ -336,7 +336,17 @@ const getCountries = async () => {
 
 
 
+const [getEmp, setGetEmp] = useState([]);
 
+const getEmpUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetEmployeeDetails/0`;
+useEffect(()=>{
+fetch(getEmpUrl)
+.then((res)=>res.json())
+.then((geteRes)=>{
+  console.log(geteRes.Data);
+  setGetEmp(geteRes.Data)
+})
+},[])
 
 
 
@@ -489,7 +499,7 @@ let followupDate=fd.value
 
 const [doctors, setDoctors] = useState([]);
 
-const drsUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
+const drsUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
 useEffect(()=>{
 fetch(drsUrl)
 .then((res)=>res.json())
@@ -503,7 +513,7 @@ fetch(drsUrl)
 
 const [enqFor, setEnqFor] = useState([]);
 
-const enqForUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetTreatmentList`;
+const enqForUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetTreatmentList`;
 useEffect(()=>{
   fetch(enqForUrl)
   .then((res)=>res.json())
@@ -517,7 +527,7 @@ useEffect(()=>{
 
 const [enqSource, setEnqSource] = useState([]);
 
-const enqSourceUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
+const enqSourceUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
 useEffect(()=>{
 fetch(enqSourceUrl)
 .then((res)=>res.json())
@@ -531,7 +541,7 @@ let addressPattern = /[^a-zA-Z0-9 .,]/;
 let mobilePattern = /[^0-9]/;
 let namePattern = /[^a-zA-Z ]/;
 
-const addEnqUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewEnquiry`;
+const addEnqUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewEnquiry`;
 
 const handleSubmit=(e)=>{
   e.preventDefault();
@@ -632,7 +642,7 @@ const [reportMenu, setreportMenu] = useState([]);
 const [menuList, setMenuList] = useState([]);
 
  let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
 useEffect(() => {
   fetch(menuUrl)
     .then((res) => res.json())
@@ -704,14 +714,18 @@ useEffect(() => {
     setOpen7(!open7);
   };
 
-  const enqDetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEditInfoEnquiry/${enqID}`;
+  const enqDetUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetEditInfoEnquiry/${enqID}`;
 
+
+  const [editablestate, seteditablestate] = useState("");
+  const [editablecity, seteditablecity] = useState("")
   useEffect(()=>{
     fetch(enqDetUrl)
     .then((res)=>res.json())
     .then((result)=>{
         console.log(result.Data);
-
+seteditablestate(result.Data[0]?.StateName)
+seteditablecity(result.Data[0]?.CityName)
         setEditEnq((pre)=>{
             return{
                 ...pre,
@@ -847,7 +861,7 @@ useEffect(() => {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -864,6 +878,9 @@ useEffect(() => {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -886,7 +903,9 @@ useEffect(() => {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1171,7 +1190,7 @@ useEffect(() => {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1189,6 +1208,9 @@ useEffect(() => {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1341,7 +1363,7 @@ useEffect(() => {
             <Col lg={3}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Country</Form.Label>
-        <Form.Select aria-label="Default select example" name="CountryId"  onChange={(e) => handle(e)}>
+        <Form.Select aria-label="Default select example" name="CountryId" value={editEnq?.CountryId}  onChange={(e) => handle(e)}>
       <option></option>
 
       {
@@ -1362,7 +1384,7 @@ useEffect(() => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>State</Form.Label>
         <Form.Select aria-label="Default select example" name="StatesId"  onChange={(e) => handle(e)}>
-      <option></option>
+      <option>{editablestate}</option>
 
 
       {
@@ -1383,7 +1405,7 @@ useEffect(() => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>City</Form.Label>
         <Form.Select aria-label="Default select example" name="CityId"  onChange={(e) => handle(e)}>
-      <option></option>
+      <option>{editablecity}</option>
       {
         cities.currentCities && cities.currentCities.map((city)=>{
           return(
@@ -1455,16 +1477,15 @@ useEffect(() => {
         <Form.Select aria-label="Default select example" name="AssignedToUser" value={editEnq.AssignedToUser} onChange={(e) => handle(e)} >
       <option></option>
 
-      {
-        doctors && doctors.map((doctors,i)=>{
-          return(
-            <>
-          <option value={doctors?.UserID} key={i}>{doctors?.Name}</option>
-            
-            </>
-          )
-        })
-      }
+      {getEmp.map((emp, i) => {
+                            return (
+                              <>
+                                <option key={emp.UserID} value={emp.UserID}>
+                                  {emp.Name}
+                                </option>
+                              </>
+                            );
+                          })}
     
     </Form.Select>
       </Form.Group>
@@ -1530,8 +1551,8 @@ useEffect(() => {
         <Form.Label>Patient/Follow up</Form.Label>
 
                 <Row>
-                    <Col> <Form.Check type="radio" name="IsPatient" id="pnt" aria-label="option 1" label="Patient"  checked={`${editEnq?.IsPatient==="True"?"checked":""}`} value="Patient" onChange={(e) => handleIsPatient(e)}/></Col>
-                    <Col> <Form.Check type="radio" name="IsPatient" id="flup" aria-label="option 1" label="Follow Up"  checked={`${editEnq?.IsPatient==="False"?"checked":""}`} value="Follow Up" onChange={(e) => handleIsPatient(e)}/></Col>
+                    <Col> <Form.Check type="radio" name="IsPatient" id="pnt" aria-label="option 1" label="Patient"  checked={`${editEnq?.IsPatient==="1"?"checked":""}`} value="Patient" onChange={(e) => handleIsPatient(e)}/></Col>
+                    <Col> <Form.Check type="radio" name="IsPatient" id="flup" aria-label="option 1" label="Follow Up"  checked={`${editEnq?.IsPatient==="0"?"checked":""}`} value="Follow Up" onChange={(e) => handleIsPatient(e)}/></Col>
                 </Row>
                 </Col>
 
@@ -1548,7 +1569,7 @@ useEffect(() => {
                 <Col md={3}id="fupdate" style={{display:"none"}}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Followup date</Form.Label>
-        <Form.Control type="date" name="FollowUpDate" id="fupDate" value={editEnq.FollowUpDate} onChange={(e) => handle(e)}/>
+        <Form.Control type="date" name="FollowUpDate" id="fupDate" value={editEnq?.FollowUpDate} onChange={(e) => handle(e)}/>
       
       </Form.Group>
                 </Col>

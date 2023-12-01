@@ -191,7 +191,7 @@ function Consultations() {
 
 //   const [pntdtl, setPntDtl] = useState([]);
 
-//   const getpntDtlUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientTreatmentDetails/4`;
+//   const getpntDtlUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientTreatmentDetails/4`;
 // useEffect(()=>{
 //   fetch(getpntDtlUrl)
 //   .then((res)=>res.json())
@@ -251,7 +251,7 @@ const handleChangeConsultations=(e)=>{
             // Cell:({cell})=>{
             //   let imurl=cell.getValue();
 
-            //   return <div>{<img src={imurl?imurl:"http://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
+            //   return <div>{<img src={imurl?imurl:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
             // }
           },
           {
@@ -308,7 +308,7 @@ const handleChangeConsultations=(e)=>{
       
     
        let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
       useEffect(() => {
         fetch(menuUrl)
           .then((res) => res.json())
@@ -438,7 +438,7 @@ const handleChange=(e)=>{
   
 }
 
-// let imageUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos`;
+// let imageUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos`;
 
 
 const handleImages=async (e)=>{
@@ -454,7 +454,7 @@ const handleImages=async (e)=>{
 
   await axios
   .post(
-    "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+    "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
     fd,
     {
       onUploadProgress: (ProgressEvent) => {
@@ -496,7 +496,7 @@ const handleImages=async (e)=>{
 
 
 const [treatments, setTreatments] = useState([]);
-const tUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientTreatment/${pntID}`;
+const tUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientTreatment/${pntID}`;
 
 
 useEffect(()=>{
@@ -646,7 +646,7 @@ const [RecoredTable, setRecoredTable] = useState([]);
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -663,6 +663,9 @@ const [RecoredTable, setRecoredTable] = useState([]);
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -685,7 +688,9 @@ const [RecoredTable, setRecoredTable] = useState([]);
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -970,7 +975,7 @@ const [RecoredTable, setRecoredTable] = useState([]);
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -988,6 +993,9 @@ const [RecoredTable, setRecoredTable] = useState([]);
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1274,7 +1282,7 @@ const [RecoredTable, setRecoredTable] = useState([]);
               />
             ) : (
                                 <img
-                                  src="http://www.kineosystem.com/wp-content/uploads/2016/08/dummy-prod-1.jpg"
+                                  src="https://www.kineosystem.com/wp-content/uploads/2016/08/dummy-prod-1.jpg"
                                   alt="image"
                                   className='consultimg' 
                                   name="ImagesBG"
@@ -1282,7 +1290,7 @@ const [RecoredTable, setRecoredTable] = useState([]);
                                  
                                 />
                               )}
-{/* <img src="http://www.kineosystem.com/wp-content/uploads/2016/08/dummy-prod-1.jpg" alt="" srcset="" className='consultimg' name="ImagesBG"/> */}
+{/* <img src="https://www.kineosystem.com/wp-content/uploads/2016/08/dummy-prod-1.jpg" alt="" srcset="" className='consultimg' name="ImagesBG"/> */}
         </Col>
     </Row>
 </Col>
@@ -1497,7 +1505,7 @@ const [RecoredTable, setRecoredTable] = useState([]);
           <Button variant="" className='clt-submit' onClick={(e)=>{
     e.preventDefault();
 
-    const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddMeasurementRecord`;
+    const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddMeasurementRecord`;
 
 
  
@@ -1521,7 +1529,14 @@ const [RecoredTable, setRecoredTable] = useState([]);
         sessionStorage.setItem("recordID",result?.RecordID)
         handleClose1();
 
-        fetch(`http://reviveapplication.com/ReviveAPI/Revive.svc/GetMeasurementRecord/${result?.RecordID}`)
+        setConsultation((pre)=>{
+          return{
+            ...pre,
+            RecordID:result?.RecordID
+          }
+        })
+
+        fetch(`https://reviveapplication.com/ReviveAPI/Revive.svc/GetMeasurementRecord/${result?.RecordID}`)
         .then((res)=>res.json())
         .then((result)=>{
           console.log(result);
@@ -1553,7 +1568,7 @@ const [RecoredTable, setRecoredTable] = useState([]);
   <Button variant='' className='clt-submit' type='submit' onClick={(e)=>{
     e.preventDefault();
 
-    const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewConsultation`;
+    const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewConsultation`;
 
     let n={
       ...consultation,

@@ -217,7 +217,7 @@ const navigate=useNavigate();
     const [getHp, setGetHp] = useState([]);
 
 
-    const getHpUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetHomeopathyTreatment`;
+    const getHpUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetHomeopathyTreatment`;
 
     useEffect(()=>{
       fetch(getHpUrl)
@@ -321,7 +321,7 @@ const navigate=useNavigate();
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -507,7 +507,7 @@ const navigate=useNavigate();
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -524,6 +524,9 @@ const navigate=useNavigate();
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -546,7 +549,9 @@ const navigate=useNavigate();
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -831,7 +836,7 @@ const navigate=useNavigate();
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -849,6 +854,9 @@ const navigate=useNavigate();
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -998,7 +1006,7 @@ const navigate=useNavigate();
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Do you want to delete this Lead Source?</Modal.Body>
+        <Modal.Body>Do you want to delete this treatment?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             No
@@ -1006,7 +1014,7 @@ const navigate=useNavigate();
           <Button variant="primary" onClick={(e)=>{
             e.preventDefault();
 
-            const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/DeleteTreatment`;
+            const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/DeleteTreatment`;
 
             fetch(url,{
               method:"POST",
@@ -1069,7 +1077,7 @@ const navigate=useNavigate();
                         </Button>
                         <Button variant="" 
                         onClick={()=>{
-                          const htUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddTreatmentHomeopathy`;
+                          const htUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddTreatmentHomeopathy`;
                           
                           fetch(htUrl,{
                             method:"POST",
@@ -1128,7 +1136,7 @@ const navigate=useNavigate();
                         </Button>
                         <Button variant="" 
                         onClick={()=>{
-                          const htUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/EditTreatmentHomeopathy`;
+                          const htUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/EditTreatmentHomeopathy`;
                           
                           fetch(htUrl,{
                             method:"POST",
@@ -1195,7 +1203,7 @@ const navigate=useNavigate();
           Cancel
           </Button>
           <Button variant=""    onClick={()=>{
-            const htUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddTreatmentHomeopathy`;
+            const htUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddTreatmentHomeopathy`;
             
             fetch(htUrl,{
               method:"POST",

@@ -281,7 +281,9 @@ function EditPatients() {
       const handleRemoveClick = index => {
         const list = [...inputList];
         list.splice(index, 1);
+        list.splice(index, 1);
         setInputList(list);
+        console.log(list);
       };
     
       // handle click event of the Add button
@@ -308,7 +310,7 @@ function EditPatients() {
     
         await axios
           .post(
-            "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+            "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
             fd,
             {
               onUploadProgress: (ProgressEvent) => {
@@ -364,7 +366,7 @@ function EditPatients() {
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -481,7 +483,7 @@ function EditPatients() {
     
     
       const getStates = async (countryId, cORp) => {
-        let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+        let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
         let state = await (await fetch(url)).json();
         console.log(state.Data);
         if (cORp === "current") {
@@ -493,7 +495,7 @@ function EditPatients() {
       };
       
       const getCities = async (stateId, cORp) => {
-        let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+        let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
         let city = await (await fetch(url)).json();
         console.log(city.Data);
         if (cORp === "current") {
@@ -505,7 +507,7 @@ function EditPatients() {
       };
       
       const getCountries = async () => {
-        let url = "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+        let url = "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
         let country = await (await fetch(url)).json();
         console.log(country.Data.slice(0, 2));
         setCountries({
@@ -542,7 +544,7 @@ function EditPatients() {
     
     
       const [branch, setBranch] = useState([]);
-      const branchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+      const branchUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
     
       useEffect(() => {
         fetch(branchUrl)
@@ -557,7 +559,7 @@ function EditPatients() {
     
       const [enqSource, setEnqSource] = useState([]);
     
-    const enqSourceUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
+    const enqSourceUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
     useEffect(()=>{
     fetch(enqSourceUrl)
     .then((res)=>res.json())
@@ -675,7 +677,7 @@ function EditPatients() {
     const handleSubmitPatient=(e)=>{
       e.preventDefault();
     
-      const addPUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewPatient`;
+      const addPUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewPatient`;
     
     
       if(editPnt.SufferingFrom===[]){
@@ -780,7 +782,7 @@ function EditPatients() {
       };
 
 
-    const getPntDetUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientEditInfo/${pntID}`;
+    const getPntDetUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientEditInfo/${pntID}`;
 
 
     useEffect(()=>{
@@ -942,7 +944,7 @@ function EditPatients() {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -959,6 +961,9 @@ function EditPatients() {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -981,7 +986,9 @@ function EditPatients() {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1266,7 +1273,7 @@ function EditPatients() {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1284,6 +1291,9 @@ function EditPatients() {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>

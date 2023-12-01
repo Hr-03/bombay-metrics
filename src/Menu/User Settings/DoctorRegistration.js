@@ -183,7 +183,7 @@ function DoctorRegistration(){
 
 const [drs, setDrs] = useState([]);
 
-const drUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorDetails/0`;
+const drUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorDetails/0`;
 useEffect(()=>{
 fetch(drUrl)
 .then((res)=>res.json())
@@ -216,7 +216,7 @@ const [showModal, setShowModal] = useState(false);
             header: "Photo",
             Cell:({cell})=>{
               let src=cell.getValue();
-              return <div>{<img src={src?src:"http://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
+              return <div>{<img src={src?src:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
             }
           },
           {
@@ -281,23 +281,23 @@ const [showModal, setShowModal] = useState(false);
        
           {
             srNo: 1,
-            Photo: <img src="http://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width={150} height={120}/>,
+            Photo: <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width={150} height={120}/>,
             Name:"Dr. Pankti",
             mobileNumber:"95261663263",
             emailID:"panktitutwala@gmail.com",
             regDate:"16/02/2023",
-            // view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            // download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+            // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
            
           },
           {
             srNo: 2,
-            Photo: <img src="http://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width={150} height={120}/>,
+            Photo: <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80" width={150} height={120}/>,
             Name:"Dr. Bhavik Tutwala",
             mobileNumber:"95261663263",
             emailID:"bhaviktutwala@gmail.com",
             regDate:"16/02/2023",
-            // view:<img src="http://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+            // view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
             // download:"unChecked"
             
           },
@@ -327,7 +327,7 @@ const [showModal, setShowModal] = useState(false);
       const [menuList, setMenuList] = useState([]);
     
        let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
       useEffect(() => {
         fetch(menuUrl)
           .then((res) => res.json())
@@ -499,7 +499,7 @@ const [showModal, setShowModal] = useState(false);
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -516,6 +516,9 @@ const [showModal, setShowModal] = useState(false);
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -538,7 +541,9 @@ const [showModal, setShowModal] = useState(false);
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -823,7 +828,7 @@ const [showModal, setShowModal] = useState(false);
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -841,6 +846,9 @@ const [showModal, setShowModal] = useState(false);
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1032,7 +1040,7 @@ const [showModal, setShowModal] = useState(false);
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Do you want to delete this Role?</Modal.Body>
+        <Modal.Body>Do you want to delete this Doctor?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             No
@@ -1040,7 +1048,7 @@ const [showModal, setShowModal] = useState(false);
           <Button variant="primary" onClick={(e)=>{
             e.preventDefault();
 
-            const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/DeleteUser`;
+            const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/DeleteUser`;
 
             fetch(url,{
               method:"POST",

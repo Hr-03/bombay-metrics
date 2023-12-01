@@ -172,6 +172,13 @@ function AddBranch() {
     setAnchorEl(null);
   };
 
+
+
+
+  const [loadSubmit, setloadSubmit] = useState(false);
+
+
+
   const [data, setData] = useState({
     ClinicID:"0",
     ClinicName: "",
@@ -214,7 +221,7 @@ function AddBranch() {
   });
 
   const getStates = async (countryId, cORp) => {
-    let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+    let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
     let state = await (await fetch(url)).json();
     console.log(state.Data);
     if (cORp === "current") {
@@ -226,7 +233,7 @@ function AddBranch() {
   };
 
   const getCities = async (stateId, cORp) => {
-    let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+    let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
     let city = await (await fetch(url)).json();
     console.log(city.Data);
     if (cORp === "current") {
@@ -239,7 +246,7 @@ function AddBranch() {
 
   const getCountries = async () => {
     let url =
-      "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+      "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
     let country = await (await fetch(url)).json();
     console.log(country.Data.slice(0, 2));
     setCountries({
@@ -323,7 +330,7 @@ function AddBranch() {
   };
 
   const [location, setLocation] = useState([]);
-  const locUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetLocationList/34`;
+  const locUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetLocationList/34`;
   useEffect(() => {
     fetch(locUrl)
       .then((res) => res.json())
@@ -333,18 +340,46 @@ function AddBranch() {
       });
   }, []);
 
-  const [responsiblePerson, setResponsiblePerson] = useState([]);
+  // const [responsiblePerson, setResponsiblePerson] = useState([]);
 
-  const respUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
+  // const respUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetUserList`;
 
+  // useEffect(() => {
+  //   fetch(respUrl)
+  //     .then((res) => res.json())
+  //     .then((resp) => {
+  //       console.log(resp.Data);
+  //       setResponsiblePerson(resp.Data);
+  //     });
+  // }, []);
+
+
+  const [roles, setRoles] = useState([]);
+
+  const rolesUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetRoleList`;
   useEffect(() => {
-    fetch(respUrl)
+    fetch(rolesUrl)
       .then((res) => res.json())
-      .then((resp) => {
-        console.log(resp.Data);
-        setResponsiblePerson(resp.Data);
+      .then((rolesRes) => {
+        console.log(rolesRes.Data);
+        setRoles(rolesRes.Data);
       });
   }, []);
+
+
+
+  const [getEmp, setGetEmp] = useState([]);
+
+  const getEmpUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetEmployeeDetails/0`;
+useEffect(()=>{
+  fetch(getEmpUrl)
+  .then((res)=>res.json())
+  .then((geteRes)=>{
+    console.log(geteRes.Data);
+    setGetEmp(geteRes.Data)
+  })
+},[])
+
 
   let addressPattern = /[^a-zA-Z0-9 .,]/;
 
@@ -359,7 +394,6 @@ function AddBranch() {
       data?.CityId === "" ||
       data?.LocationID === "" ||
       data?.TelephoneNo === "" ||
-      data?.ResponsiblePerson === "" ||
       data?.OpeningTime === "" ||
       data?.ClosingTime === "" ||
       data?.WorkingDays === ""
@@ -390,7 +424,9 @@ function AddBranch() {
       })
     }
     else {
-      const addBranchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewClinic`;
+
+      setloadSubmit(true);
+      const addBranchUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewClinic`;
 
       fetch(addBranchUrl, {
         method: "POST",
@@ -404,6 +440,7 @@ function AddBranch() {
         .then((result) => {
           console.log(result);
           if (result.status === true) {
+            setloadSubmit(false);
             Swal.fire({
               icon: "success",
               title: "Branch added successfully!",
@@ -415,6 +452,8 @@ function AddBranch() {
         });
     }
   };
+
+
 
   const [parentMenu, setparentMenu] = useState([]);
 
@@ -435,7 +474,7 @@ function AddBranch() {
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -604,7 +643,7 @@ function AddBranch() {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -621,6 +660,9 @@ function AddBranch() {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -643,7 +685,9 @@ function AddBranch() {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -928,7 +972,7 @@ function AddBranch() {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -946,6 +990,9 @@ function AddBranch() {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1170,7 +1217,7 @@ function AddBranch() {
                     </Col>
                     <Col md={3}>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Responsible Person<span className="req-f">*</span></Form.Label>
+                        <Form.Label>Responsible Person</Form.Label>
                         <Form.Select
                           name="ResponsiblePerson"
                           value={data.ResponsiblePerson}
@@ -1179,11 +1226,11 @@ function AddBranch() {
                         >
                           <option></option>
 
-                          {responsiblePerson.map((person) => {
+                          {getEmp.map((emp, i) => {
                             return (
                               <>
-                                <option value={person?.UserID}>
-                                  {person?.Name}
+                                <option value={emp.UserID}>
+                                  {emp.Name}
                                 </option>
                               </>
                             );
@@ -1244,7 +1291,7 @@ function AddBranch() {
                   <Row className="mt-4">
                     <Col>
                       <Button variant="" type="submit" className="addb-sub-btn">
-                        Submit
+                        {loadSubmit?"Please wait...":"Submit"}
                       </Button>
                     </Col>
                     <Col>

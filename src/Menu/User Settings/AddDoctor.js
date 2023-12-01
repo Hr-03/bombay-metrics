@@ -221,7 +221,7 @@ function AddDoctor() {
 let newuID=sessionStorage.getItem("newUserId");
 const [speciality, setSpeciality] = useState([]);
 
-const specialityUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetSpecialtyList`;
+const specialityUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetSpecialtyList`;
     useEffect(()=>{
       fetch(specialityUrl)
       .then((res)=>res.json())
@@ -233,7 +233,7 @@ const specialityUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetSpecia
 
   const [profInfo, setProfInfo] = useState([])
 
-  const profInfoUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetDocProfInfo/${newuID?newuID:0}`;
+  const profInfoUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetDocProfInfo/${newuID?newuID:0}`;
 
 
   useEffect(()=>{
@@ -327,12 +327,12 @@ fetch(profInfoUrl)
         specialty: "implant",
         degreeProof: (
           <img
-            src="http://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+            src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
             width={50}
           />
         ),
-        // view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-        // download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+        // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+        // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
       },
       {
         srNo: 2,
@@ -341,18 +341,18 @@ fetch(profInfoUrl)
         specialty: "Crowning",
         degreeProof: (
           <img
-            src="http://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+            src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
             width={50}
           />
         ),
-        // view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-        // download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+        // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+        // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
       },
       //   {
       //     srNo: 2,
       //     Photo: (
       //       <img
-      //         src="http://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+      //         src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
       //         width={150}
       //         height={120}
       //       />
@@ -361,7 +361,7 @@ fetch(profInfoUrl)
       //     mobileNumber: "95261663263",
       //     emailID: "bhaviktutwala@gmail.com",
       //     regDate: "16/02/2023",
-      //     // view:<img src="http://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+      //     // view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
       //     // download:"unChecked"
       //   },
     ],
@@ -475,7 +475,7 @@ fetch(profInfoUrl)
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -530,7 +530,7 @@ fetch(profInfoUrl)
   });
 
   const getStates = async (countryId, cORp) => {
-    let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+    let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
     let state = await (await fetch(url)).json();
     console.log(state.Data);
     if (cORp === "current") {
@@ -542,7 +542,7 @@ fetch(profInfoUrl)
   };
 
   const getCities = async (stateId, cORp) => {
-    let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+    let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
     let city = await (await fetch(url)).json();
     console.log(city.Data);
     if (cORp === "current") {
@@ -555,7 +555,7 @@ fetch(profInfoUrl)
 
   const getCountries = async () => {
     let url =
-      "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+      "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
     let country = await (await fetch(url)).json();
     console.log(country.Data.slice(0, 2));
     setCountries({
@@ -682,7 +682,7 @@ fetch(profInfoUrl)
     e.preventDefault();
 
 
-    const submitUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewUser`;
+    const submitUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewUser`;
 
     fetch(submitUrl,{
       method:"POST",
@@ -748,7 +748,7 @@ fetch(profInfoUrl)
 
   const [drType, setDrType] = useState([]);
 
-  const drTypeUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorType`;
+  const drTypeUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorType`;
   useEffect(() => {
     fetch(drTypeUrl)
       .then((res) => res.json())
@@ -759,7 +759,7 @@ fetch(profInfoUrl)
   }, []);
 
   const [branch, setBranch] = useState([]);
-  const branchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+  const branchUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
 
   useEffect(() => {
     fetch(branchUrl)
@@ -772,7 +772,7 @@ fetch(profInfoUrl)
 
   const [degree, setDegree] = useState([]);
 
-  const degUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorDegree`;
+  const degUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetDoctorDegree`;
 
   useEffect(() => {
     fetch(degUrl)
@@ -792,7 +792,7 @@ fetch(profInfoUrl)
 
     await axios
       .post(
-        "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+        "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
@@ -839,7 +839,7 @@ fetch(profInfoUrl)
 
     await axios
       .post(
-        "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+        "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
@@ -885,7 +885,7 @@ fetch(profInfoUrl)
 
     await axios
       .post(
-        "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+        "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
@@ -932,7 +932,7 @@ fetch(profInfoUrl)
 
     await axios
       .post(
-        "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+        "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
@@ -979,7 +979,7 @@ fetch(profInfoUrl)
 
     await axios
       .post(
-        "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+        "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
@@ -1081,7 +1081,7 @@ fetch(profInfoUrl)
 
 
 
-      const Tab2Url=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddDocProfInfo`;
+      const Tab2Url=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddDocProfInfo`;
 
 
       let n={
@@ -1238,7 +1238,7 @@ fetch(profInfoUrl)
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -1255,6 +1255,9 @@ fetch(profInfoUrl)
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -1277,7 +1280,9 @@ fetch(profInfoUrl)
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1562,7 +1567,7 @@ fetch(profInfoUrl)
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1580,6 +1585,9 @@ fetch(profInfoUrl)
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -2124,7 +2132,7 @@ fetch(profInfoUrl)
                                 )
                               ) : (
                                 <img
-                                  src="http://wallpaperaccess.com/full/1285952.jpg"
+                                  src="https://wallpaperaccess.com/full/1285952.jpg"
                                   alt="image"
                                   className="img-s mt-4"
                                   width={150}
@@ -2147,7 +2155,7 @@ fetch(profInfoUrl)
                              
                                    await axios
                                    .post(
-                                     "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+                                     "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
                                      fd,
                                      {
                                        onUploadProgress: (ProgressEvent) => {
@@ -2295,32 +2303,32 @@ fetch(profInfoUrl)
                             sx: { m: "0.5rem 0", width: "100%" },
                             variant: "outlined",
                           }}
-                          enableEditing
+                          // enableEditing
                           // onEditingRowSave={handleSaveRowEdits}
                           // onEditingRowCancel={handleCancelRowEdits}
-                          renderRowActions={({ row, table }) => (
-                            <Box sx={{ display: "flex", gap: "1rem" }}>
-                              <Tooltip arrow placement="left" title="Edit">
-                                <IconButton
-                                  className="edit-btn"
-                                  // onClick={() => table.setEditingRow(row)}
-                                  disabled
-                                >
-                                  <FaRegEdit />
-                                </IconButton>
-                              </Tooltip>
-                              <Tooltip arrow placement="right" title="Delete">
-                                <IconButton
-                                  color="error"
-                                  // onClick={() => handleDeleteRow(row)}
-                                  disabled
+                          // renderRowActions={({ row, table }) => (
+                          //   <Box sx={{ display: "flex", gap: "1rem" }}>
+                          //     <Tooltip arrow placement="left" title="Edit">
+                          //       <IconButton
+                          //         className="edit-btn"
+                          //         // onClick={() => table.setEditingRow(row)}
+                          //         disabled
+                          //       >
+                          //         <FaRegEdit />
+                          //       </IconButton>
+                          //     </Tooltip>
+                          //     <Tooltip arrow placement="right" title="Delete">
+                          //       <IconButton
+                          //         color="error"
+                          //         // onClick={() => handleDeleteRow(row)}
+                          //         disabled
 
-                                >
-                                  <HiOutlineTrash />
-                                </IconButton>
-                              </Tooltip>
-                            </Box>
-                          )}
+                          //       >
+                          //         <HiOutlineTrash />
+                          //       </IconButton>
+                          //     </Tooltip>
+                          //   </Box>
+                          // )}
                           //   renderTopToolbarCustomActions={() => (
                           //     <>
                           //     <Button
@@ -2448,7 +2456,7 @@ fetch(profInfoUrl)
                                 <Row className="mt-2">
                                   <Col>
                                     <img
-                                      src="http://wallpaperaccess.com/full/1285952.jpg"
+                                      src="https://wallpaperaccess.com/full/1285952.jpg"
                                       alt="image"
                                       className="img-s mt-5"
                                       // style={{float:"left"}}
@@ -2525,7 +2533,7 @@ fetch(profInfoUrl)
                                 <Row className="mt-2">
                                   <Col>
                                     <img
-                                      src="http://wallpaperaccess.com/full/1285952.jpg"
+                                      src="https://wallpaperaccess.com/full/1285952.jpg"
                                       alt="image"
                                       className="img-s mt-4"
                                       // style={{float:"left"}}
@@ -2542,7 +2550,7 @@ fetch(profInfoUrl)
                           <Row className="mt-5 mb-0">
                             <Col lg={2}>
                               <Form.Group controlId="formFile" className="mb-3">
-                                <Form.Label style={{ whiteSpace: "nowrap" }}>
+                                <Form.Label>
                                   Indemnity Proof
                                 </Form.Label>
                               </Form.Group>
@@ -2604,7 +2612,7 @@ fetch(profInfoUrl)
                                 <Row className="mt-2">
                                   <Col>
                                     <img
-                                      src="http://wallpaperaccess.com/full/1285952.jpg"
+                                      src="https://wallpaperaccess.com/full/1285952.jpg"
                                       alt="image"
                                       className="img-s mt-4"
                                       // style={{float:"left"}}
@@ -2623,7 +2631,7 @@ fetch(profInfoUrl)
                           <Row>
                             <Col lg={2}>
                               <Form.Group controlId="formFile" className="mb-3">
-                                <Form.Label style={{ whiteSpace: "nowrap" }}>
+                                <Form.Label>
                                   Aadhaar Card
                                 </Form.Label>
                               </Form.Group>
@@ -2683,7 +2691,7 @@ fetch(profInfoUrl)
                                 )
                               ) : (
                                 <img
-                                  src="http://wallpaperaccess.com/full/1285952.jpg"
+                                  src="https://wallpaperaccess.com/full/1285952.jpg"
                                   alt="image"
                                   className="img-s mt-4"
                                   style={{ float: "right" }}
@@ -2755,7 +2763,7 @@ fetch(profInfoUrl)
                                 )
                               ) : (
                                 <img
-                                  src="http://wallpaperaccess.com/full/1285952.jpg"
+                                  src="https://wallpaperaccess.com/full/1285952.jpg"
                                   alt="image"
                                   className="img-s mt-4"
                                   style={{ float: "right" }}

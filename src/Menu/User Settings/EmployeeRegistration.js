@@ -182,7 +182,7 @@ function EmployeeRegistration(){
 
   const [getEmp, setGetEmp] = useState([]);
 
-  const getEmpUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetEmployeeDetails/0`;
+  const getEmpUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetEmployeeDetails/0`;
 useEffect(()=>{
   fetch(getEmpUrl)
   .then((res)=>res.json())
@@ -217,7 +217,7 @@ const [showModal, setShowModal] = useState(false);
             Cell:({cell})=>{
               let imurl=cell.getValue();
 
-              return <div>{<img src={imurl?imurl:"http://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
+              return <div>{<img src={imurl?imurl:"https://swargworld.com/wp-content/uploads/2017/01/No_image_available.jpg"} width={150} height={150}/>}</div>
             }
           },
           {
@@ -286,23 +286,23 @@ const [showModal, setShowModal] = useState(false);
        
           {
             srNo: 1,
-            photo: <img src="http://t4.ftcdn.net/jpg/03/17/85/49/360_F_317854905_2idSdvi2ds3yejmk8mhvxYr1OpdVTrSM.jpg" width={150} height={100}/>,
+            photo: <img src="https://t4.ftcdn.net/jpg/03/17/85/49/360_F_317854905_2idSdvi2ds3yejmk8mhvxYr1OpdVTrSM.jpg" width={150} height={100}/>,
             name:"Sneha Gaikwad",
             mobileNumber:"95261663263",
             emailID:"snehagaikwad@gmail.com",
             regDate:"16/02/2023",
-            // view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            // download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+            // view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            // download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
            
           },
           {
             srNo: 2,
-            photo: <img src="http://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?w=360" width={150} height={100}/>,
+            photo: <img src="https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?w=360" width={150} height={100}/>,
             name:"Sayali Palshetkar",
             mobileNumber:"95261663263",
             emailID:"sayalipalshetkar@gmail.com",
             regDate:"16/02/2023",
-            // view:<img src="http://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+            // view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
             // download:"unChecked"
             
           },
@@ -331,7 +331,7 @@ const [showModal, setShowModal] = useState(false);
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -502,7 +502,7 @@ const [showModal, setShowModal] = useState(false);
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -519,6 +519,9 @@ const [showModal, setShowModal] = useState(false);
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -541,7 +544,9 @@ const [showModal, setShowModal] = useState(false);
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -826,7 +831,7 @@ const [showModal, setShowModal] = useState(false);
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -844,6 +849,9 @@ const [showModal, setShowModal] = useState(false);
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1025,7 +1033,7 @@ const [showModal, setShowModal] = useState(false);
           <Button variant="primary" onClick={(e)=>{
             e.preventDefault();
 
-            const url=`http://reviveapplication.com/ReviveAPI/Revive.svc/DeleteUser`;
+            const url=`https://reviveapplication.com/ReviveAPI/Revive.svc/DeleteUser`;
 
             fetch(url,{
               method:"POST",

@@ -306,7 +306,7 @@ const [profile, setProfile] = useState(null);
 
     await axios
       .post(
-        "http://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
+        "https://reviveapplication.com/ReviveAPI/Revive.svc/UploadMultiplePhotos",
         fd,
         {
           onUploadProgress: (ProgressEvent) => {
@@ -362,7 +362,7 @@ const [profile, setProfile] = useState(null);
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -479,7 +479,7 @@ const [profile, setProfile] = useState(null);
 
 
   const getStates = async (countryId, cORp) => {
-    let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
+    let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetStateList/${countryId}`;
     let state = await (await fetch(url)).json();
     console.log(state.Data);
     if (cORp === "current") {
@@ -491,7 +491,7 @@ const [profile, setProfile] = useState(null);
   };
   
   const getCities = async (stateId, cORp) => {
-    let url = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
+    let url = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetCityList/${stateId}`;
     let city = await (await fetch(url)).json();
     console.log(city.Data);
     if (cORp === "current") {
@@ -503,7 +503,7 @@ const [profile, setProfile] = useState(null);
   };
   
   const getCountries = async () => {
-    let url = "http://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
+    let url = "https://reviveapplication.com/ReviveAPI/Revive.svc/GetCountryList";
     let country = await (await fetch(url)).json();
     console.log(country.Data.slice(0, 2));
     setCountries({
@@ -540,7 +540,7 @@ const [profile, setProfile] = useState(null);
 
 
   const [branch, setBranch] = useState([]);
-  const branchUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
+  const branchUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetClinicList/0/0`;
 
   useEffect(() => {
     fetch(branchUrl)
@@ -555,7 +555,7 @@ const [profile, setProfile] = useState(null);
 
   const [enqSource, setEnqSource] = useState([]);
 
-const enqSourceUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
+const enqSourceUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadSourceList`;
 useEffect(()=>{
 fetch(enqSourceUrl)
 .then((res)=>res.json())
@@ -673,7 +673,7 @@ const handleTab1=(e)=>{
 const handleSubmitPatient=(e)=>{
   e.preventDefault();
 
-  const addPUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewPatient`;
+  const addPUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewPatient`;
 
 
   if(data.SufferingFrom===[]){
@@ -877,7 +877,7 @@ const handleSubmitPatient=(e)=>{
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -894,6 +894,9 @@ const handleSubmitPatient=(e)=>{
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -916,7 +919,9 @@ const handleSubmitPatient=(e)=>{
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1201,7 +1206,7 @@ const handleSubmitPatient=(e)=>{
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1219,6 +1224,9 @@ const handleSubmitPatient=(e)=>{
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1827,11 +1835,11 @@ enqSource && enqSource.map((enqs)=>{
 
 
           <Row>
-                              <Col lg={1}>
-        <Form.Label className="mt-2">Meal:</Form.Label>
+                              {/* <Col lg={1}> */}
                               
-                              </Col>
-                              <Col lg={8}>
+                              {/* </Col> */}
+                              <Col>
+        <Form.Label className="mt-2">Meal</Form.Label>
         <Form.Control as="textarea" rows={2}  name="Meal"
               placeholder=""
               value={x.Meal}
@@ -1846,11 +1854,11 @@ enqSource && enqSource.map((enqs)=>{
           <Col xs={12} md={6}>
 
           <Row>
-                              <Col lg={3}>
-        <Form.Label style={{whiteSpace:"nowrap"}} className="mx-0 mx-lg-5 px-0 px-lg-5 mt-2">Diet Details:</Form.Label>
+                              {/* <Col lg={3}> */}
                               
-                              </Col>
-                              <Col lg={8}>
+                              {/* </Col> */}
+                              <Col>
+        <Form.Label style={{whiteSpace:"nowrap"}} className="mt-2">Diet Details</Form.Label>
         <Form.Control as="textarea" rows={2} className="ml10"
               name="DietDetails"
               placeholder=""

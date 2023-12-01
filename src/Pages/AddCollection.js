@@ -169,7 +169,7 @@ const AddCollection = () => {
 
     const [patients, setPatients] = useState([]);
 
-    const pUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientList`;
+    const pUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPatientList`;
     
     useEffect(()=>{
        fetch(pUrl)
@@ -189,7 +189,7 @@ let pId=sessionStorage.getItem("collectionPatient");
 
     const [invoiceData, setInvoiceData] = useState([])
 
-    const invoiceUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetInvoiceData/${pId}`;
+    const invoiceUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetInvoiceData/${pId}`;
 
     useEffect(()=>{
       fetch(invoiceUrl)
@@ -199,30 +199,20 @@ let pId=sessionStorage.getItem("collectionPatient");
        setInvoiceData(inv?.Data);
 
       })
-   })
+   },[])
+
+
 
 
    const [invoiceNo, setInvoiceNo] = useState([]);
 
-   const inNoUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetInvoiceData/${pId}`;
-
    
-    useEffect(()=>{
-      fetch(inNoUrl)
-      .then((res)=>res.json())
-      .then((inNo)=>{
-        console.log("Nos");
-       console.log(inNo?.Data);
-       setInvoiceNo(inNo?.Data);
-
-      })
-   },[pId])
 
 
 
    const [paymentMode, setPaymentMode] = useState([]);
 
-   const pmodeurl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetPaymentMode`;
+   const pmodeurl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetPaymentMode`;
 
    
    useEffect(()=>{
@@ -317,7 +307,7 @@ let pId=sessionStorage.getItem("collectionPatient");
         //     Cell:({cell})=>{
         //         let a=cell.getValue();
         //         return(
-        //         a==="unChecked"?<img src="http://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+        //         a==="unChecked"?<img src="https://png.pngtree.com/png-vector/20191017/ourlarge/pngtree-cross-icon-flat-style-png-image_1811243.jpg" alt="" srcset="" width={50}/>:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
         //       )          }
         //   },
         //   {
@@ -367,21 +357,21 @@ let pId=sessionStorage.getItem("collectionPatient");
             srNo: 1,
             role: "Admin",
             menu:"Clinic Settings",
-            add:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            edit:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            delete:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            view:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            download:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
+            add:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            edit:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            delete:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            view:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            download:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>
            
           },
           {
             srNo: 2,
             role: "Doctor",
             menu:"User Settings",
-            add:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            edit:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            delete:<img src="http://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
-            view:<img src="http://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
+            add:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            edit:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            delete:<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png" width={50}/>,
+            view:<img src="https://flyclipart.com/thumb2/x-button-327024.png" width={50}/>,
             download:"unChecked"
             
           },
@@ -400,7 +390,7 @@ let pId=sessionStorage.getItem("collectionPatient");
       let User=Role==="1"?0:sessionStorage.getItem("UserId")
 
 
-      const tfUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetTodaysFollowupList/${User}`
+      const tfUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetTodaysFollowupList/${User}`
 
 
       useEffect(()=>{
@@ -434,7 +424,7 @@ let pId=sessionStorage.getItem("collectionPatient");
   const [menuList, setMenuList] = useState([]);
 
   //  let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -538,25 +528,37 @@ let pId=sessionStorage.getItem("collectionPatient");
     setCollection(newdata);
     console.log(newdata);
 
-    let selectedTreatmentObj = invoiceNo.find(treatment => treatment?.InvoiceNo===collection?.InvoiceNo);
-        console.log(selectedTreatmentObj);
-        if (selectedTreatmentObj) {
-          setCollection((pre)=>{
-            return{
-              ...pre,
-  
-              TotalAmount:selectedTreatmentObj?.TotalAmount,
-              TotalDiscountAmount:selectedTreatmentObj?.TotalDiscountAmount,
-              TotalTax:selectedTreatmentObj?.TotalTax,
-              TotalCost:selectedTreatmentObj?.TotalCost
-            }
-          })
-        } else {
-          console.log('not found');
-        }
-    
+   
 
    
+}
+
+
+const handleInvoice=()=>{
+
+let invN=document.getElementById("invNo").value;
+
+
+  let selectedTreatmentObj = invoiceNo?.find(treatment => treatment?.InvoiceNo==invN);
+  console.log(selectedTreatmentObj);
+  if (selectedTreatmentObj) {
+    setCollection((pre)=>{
+      return{
+        ...pre,
+       InvoiceNo:selectedTreatmentObj?.InvoiceNo,
+        TotalAmount:selectedTreatmentObj?.TotalAmount,
+        TotalDiscountAmount:selectedTreatmentObj?.TotalDiscountAmount,
+        TotalTax:selectedTreatmentObj?.TotalTax,
+        TotalCost:selectedTreatmentObj?.TotalCost
+      }
+    })
+  } else {
+    console.log('not found');
+  }
+
+
+  console.log(collection);
+
 }
 
 
@@ -564,7 +566,9 @@ const handleSubmitCollection=(e)=>{
   e.preventDefault();
 
 
-  const colnUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewCollection`;
+  sessionStorage.setItem("InvNo",collection?.InvoiceNo)
+
+  const colnUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewCollection`;
 
   fetch(colnUrl,{
     method:"POST",
@@ -582,6 +586,10 @@ const handleSubmitCollection=(e)=>{
         icon:"success",
         title:"Added successfully!"
       })
+
+      let prntBtn=document.getElementById("prnt");
+
+      prntBtn.style.display="block";
     }
   })
 }
@@ -603,6 +611,23 @@ const handleOnSelect = (item) => {
   // the item selected
   console.log(item)
   sessionStorage.setItem("collectionPatient",item.PatientID);
+
+
+  const inNoUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetInvoiceData/${item.PatientID}`;
+
+   
+
+   
+  
+      fetch(inNoUrl)
+      .then((res)=>res.json())
+      .then((inNo)=>{
+        console.log("Nos");
+       console.log(inNo?.Data);
+       setInvoiceNo(inNo?.Data);
+
+      })
+  
   setCollection((pre)=>{
     return{
       ...pre,
@@ -723,7 +748,7 @@ const formatResult = (item) => {
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -740,6 +765,9 @@ const formatResult = (item) => {
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -762,7 +790,9 @@ const formatResult = (item) => {
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -1047,7 +1077,7 @@ const formatResult = (item) => {
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -1065,6 +1095,9 @@ const formatResult = (item) => {
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -1155,7 +1188,7 @@ resultStringKeyName="Name"
                     <Col md={2}>
                     <Form.Group>
                         <Form.Label>Invoice No.</Form.Label>
-                        <Form.Select aria-label="Default select example" name='InvoiceNo' onChange={handleChange}>
+                        <Form.Select aria-label="Default select example" name='InvoiceNo' id='invNo' onChange={handleInvoice}>
       <option></option>
      {
      invoiceNo?.map((nos,i)=>{
@@ -1462,7 +1495,9 @@ collection?.PaymentModeID==="3"?    <Row className='mt-3' id='upi' >
     <Button variant='' className='genIn p-2' onClick={handleSubmitCollection}>Save</Button>
     </Col>
     <Col>
-    <Button variant=''  className='addColl p-2'>Print</Button>
+    <Button variant=''  className='addColl p-2' id='prnt' style={{display:"none"}} onClick={()=>{
+      navigate("/view-inv");
+    }}>Print</Button>
     </Col>
 </Row>
 

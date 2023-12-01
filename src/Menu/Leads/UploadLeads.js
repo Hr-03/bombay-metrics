@@ -64,7 +64,7 @@ import calendarap from "../../Assets/calendar.png";
 
 import * as xlsx from "xlsx";
 import Swal from "sweetalert2";
-import ExampleDoc from "../../Assets/leadFormat.xlsx";
+import ExampleDoc from "../../Assets/Upload Leads.xlsx";
 import {HiDownload} from "react-icons/hi";
 import invoice from "../../Assets/invoice.png";
 import addTmnt from "../../Assets/addtmt.png";
@@ -189,13 +189,16 @@ const xlInput=useRef(null);
     const handleClose = () => {
       setAnchorEl(null);
     };
+    let UserId=sessionStorage.getItem("UserId");
+
 
     const [xlFileName, setxlFileName] = useState("");
 
 
     const readUploadFile = (e) => {
      let newob={
-      ObjLeads:[]
+      ObjLeads:[],
+      CreatedBy:UserId
      }
     //  let flatar=flatob
      
@@ -210,7 +213,7 @@ const xlInput=useRef(null);
               const workbook = xlsx.read(data, { type: "array" });
               const sheetName = workbook.SheetNames[0];
               const worksheet = workbook.Sheets[sheetName];
-              const json = xlsx.utils.sheet_to_json(worksheet);
+              const json = xlsx.utils.sheet_to_json(worksheet, { raw: false, dateNF: 'mm-dd-yyyy' });
             //  setnewObj((pre)=>{
             //   return{
             //     ...pre,
@@ -257,7 +260,7 @@ const xlInput=useRef(null);
   const [menuList, setMenuList] = useState([]);
 
    let Role=sessionStorage.getItem("RoleId");
-  const menuUrl = `http://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
+  const menuUrl = `https://reviveapplication.com/ReviveAPI/Revive.svc/GetMenuAccess/${Role}`;
   useEffect(() => {
     fetch(menuUrl)
       .then((res) => res.json())
@@ -333,7 +336,7 @@ const xlInput=useRef(null);
   const [leads, setLeads] = useState([]);
 
   useEffect(()=>{
-    const leadsUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadsList`;
+    const leadsUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/GetLeadsList/${UserId}`;
 
     fetch(leadsUrl)
     .then((res)=>res.json())
@@ -347,97 +350,54 @@ const xlInput=useRef(null);
   const columns=useMemo(
     () => [
       {
-        accessorKey: "EnquiryID",
-        header: "Enquiry ID",
+        accessorKey: "SerialNumber",
+        header: "Serial Number",
       },
+      {
+        accessorKey: "Centre",
+        header: "Centre",
+      },
+      {
+        accessorKey: "Source",
+        header: "Source",
+      },
+      {
+        accessorKey: "Name",
+        header: "Name",
+      },
+      {
+        accessorKey: "Inquiry",
+        header: "Inquiry",
+      },
+      {
+        accessorKey: "MobileNumber",
+        header: "Mobile Number",
+      },
+      {
+        accessorKey: "EmailID",
+        header: "Email ID",
+      },
+      {
+        accessorKey: "Comments",
+        header: "Comments",
+      },
+      {
+        accessorKey: "LastFollowupDate",
+        header: "Last Followup Date",
+      },
+      {
+        accessorKey: "FollowupDate",
+        header: "Followup Date",
+      },
+      // {
+      //   accessorKey: "CreatedBy",
+      //   header: "Created By",
+      // },
       {
         accessorKey: "EnquiryDate",
         header: "Enquiry Date",
       },
-      {
-        accessorKey: "IsOrganic",
-        header: "Is Organic",
-      },
-      {
-        accessorKey: "ad_id",
-        header: "Ad id",
-      },
-      {
-        accessorKey: "ad_name",
-        header: "Ad Name",
-      },
-      {
-        accessorKey: "adset_id",
-        header: "Adset id",
-      },
-      {
-        accessorKey: "adset_name",
-        header: "Adset Name",
-      },
-      {
-        accessorKey: "campaign_id",
-        header: "Campaign id",
-      },
-      {
-        accessorKey: "campaign_name",
-        header: "Campaign Name",
-      },
-      {
-        accessorKey: "form_id",
-        header: "Form id",
-      },
-      {
-        accessorKey: "form_name",
-        header: "form name",
-      },
-      {
-        accessorKey: "platform",
-        header: "platform",
-      },
-      {
-        accessorKey: "FirstName",
-        header: "FirstName",
-      },
-      {
-        accessorKey: "LastName",
-        header: "LastName",
-      },
-      {
-        accessorKey: "Email_id",
-        header: "Email",
-      },
-      {
-        accessorKey: "Mobile",
-        header: "Mobile",
-      },
-      {
-        accessorKey: "Region",
-        header: "Region",
-      },
-      {
-        accessorKey: "City",
-        header: "City",
-      },
-      {
-        accessorKey: "Clinic",
-        header: "Clinic",
-      },
-      {
-        accessorKey: "Status",
-        header: "Status",
-      },
-      {
-        accessorKey: "post_code",
-        header: "post_code",
-      },
-      {
-        accessorKey: "retailer_item_id",
-        header: "retailer item_id",
-      },
-      {
-        accessorKey: "Comment",
-        header: "Comment",
-      },
+      
       
       
     ])
@@ -543,7 +503,7 @@ const xlInput=useRef(null);
                     <ListItemButton
                       key={i}
                       onClick={() => {
-                        if (parent?.MenuName === "Menu") {
+                         if (parent?.MenuName === "Menu") {
                           handleMenuClick();
                         } else if (parent?.MenuName === "Leads/Patients") {
                           handleLpClick();
@@ -560,6 +520,9 @@ const xlInput=useRef(null);
                         }
                         else if(parent?.MenuName === "Add Collection"){
                           navigate("/add-collection")
+                        }
+                        else if(parent?.MenuName === "Consultation Invoice"){
+                          navigate("/add-consult-inv")
                         }
                       }}
                     >
@@ -582,7 +545,9 @@ const xlInput=useRef(null);
                               ? addTmnt
                               : parent?.MenuName === "Add Collection"
                               ? addColl
-                              : ""
+                              : parent?.MenuName === "Consultation Invoice"
+                              ? invoice
+                              :""
                           }`}
                         />
                       </ListItemIcon>
@@ -867,7 +832,7 @@ const xlInput=useRef(null);
                             ? reportMenu?.map((rpt, i) => {
                                 return (
                                   <>
-                                    <ListItemButton sx={{ pl: 3 }} onClick={()=>{
+                                     <ListItemButton sx={{ pl: 3 }} onClick={()=>{
                                       if(rpt?.MenuName==="Enquiry To Patient Conversions"){
                                         navigate("/e2p")
                                       }
@@ -885,6 +850,9 @@ const xlInput=useRef(null);
                                       }
                                       else if(rpt?.MenuName==="Leadsource Wise Enquiries"){
                                         navigate("/lsrc")
+                                      }
+                                      else if(rpt?.MenuName==="Consultation Report"){
+                                        navigate("/consult-rpt")
                                       }
                                     }}>
                                       <ListItemIcon>
@@ -987,7 +955,7 @@ const xlInput=useRef(null);
                 <Col md={2}>
                 <Button className="conf-up" onClick={(e)=>{
                   e.preventDefault();
-                  const excelUrl=`http://reviveapplication.com/ReviveAPI/Revive.svc/AddNewLeads`;
+                  const excelUrl=`https://reviveapplication.com/ReviveAPI/Revive.svc/AddNewLeads`;
 let getxl=sessionStorage.getItem("excel");
 let data=JSON.parse(getxl);
 
